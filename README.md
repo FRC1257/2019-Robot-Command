@@ -3,11 +3,15 @@
 ## Structure
 
 Robot.java - Creates all of the subsystem objects and updates them
+
 OI.java - Binds the operator controls to the commands for the subsystems
+
 RobotMap.java - Contains all constants for the robot code
 
 /util - Utility classes for controllers, PIDF, and Gyro
+
 /subsystems - All subsystems on our robot
+
 /commands - All commands to control the various subsystems
 
 ### Subsystems
