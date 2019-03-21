@@ -3,11 +3,11 @@ package frc.robot.commands.intakearm;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.IntakeArm;;
 
-public class MoveCargoTimedCommand extends Command {
+public class MoveCargoWaitCommand extends Command {
 
     private IntakeArm intakeArm;
 
-    public MoveCargoTimedCommand() {
+    public MoveCargoWaitCommand() {
         super();
         
         intakeArm = IntakeArm.getInstance();

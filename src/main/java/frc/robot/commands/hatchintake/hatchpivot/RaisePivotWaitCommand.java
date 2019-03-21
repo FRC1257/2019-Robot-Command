@@ -3,11 +3,11 @@ package frc.robot.commands.hatchintake.hatchpivot;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.hatchintake.HatchPivot;
 
-public class LowerPivotTimedCommand extends Command {
+public class RaisePivotWaitCommand extends Command {
 
     private HatchPivot hatchPivot;
 
-    public LowerPivotTimedCommand() {
+    public RaisePivotWaitCommand() {
         super();
         
         hatchPivot = HatchPivot.getInstance();
@@ -16,7 +16,7 @@ public class LowerPivotTimedCommand extends Command {
 
     @Override
     protected void initialize() {
-        hatchPivot.lowerPivot();
+        hatchPivot.raisePivot();
     }
 
     @Override

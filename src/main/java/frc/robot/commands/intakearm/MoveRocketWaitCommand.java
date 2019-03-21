@@ -3,11 +3,11 @@ package frc.robot.commands.intakearm;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.IntakeArm;;
 
-public class MoveRocketTimedCommand extends Command {
+public class MoveRocketWaitCommand extends Command {
 
     private IntakeArm intakeArm;
 
-    public MoveRocketTimedCommand() {
+    public MoveRocketWaitCommand() {
         super();
         
         intakeArm = IntakeArm.getInstance();

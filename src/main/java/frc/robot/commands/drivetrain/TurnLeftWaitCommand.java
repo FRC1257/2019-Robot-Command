@@ -3,11 +3,11 @@ package frc.robot.commands.drivetrain;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Drivetrain;
 
-public class TurnRightTimedCommand extends Command {
+public class TurnLeftWaitCommand extends Command {
     
     private Drivetrain drivetrain;
 
-    public TurnRightTimedCommand() {
+    public TurnLeftWaitCommand() {
         super();
         
         drivetrain = Drivetrain.getInstance();
@@ -16,7 +16,7 @@ public class TurnRightTimedCommand extends Command {
 
     @Override
     protected void initialize() {
-        drivetrain.turnRight();
+        drivetrain.turnLeft();
     }
 
     @Override
