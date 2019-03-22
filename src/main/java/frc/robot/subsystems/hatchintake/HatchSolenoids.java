@@ -22,13 +22,13 @@ public class HatchSolenoids extends Subsystem {
     public static enum State {
         NEUTRAL, PICKUP, EJECT
     }
-    private State state;
+    private State state = State.NEUTRAL;
 
     private HatchSolenoids() {
-        pickupSolenoid = new DoubleSolenoid(RobotMap.HATCH_PICKUP_SOLENOID_ID_FORWARD, RobotMap.HATCH_PICKUP_SOLENOID_ID_REVERSED);
-        ejectSolenoid = new Solenoid(RobotMap.HATCH_EJECT_SOLENOID_ID);
+        pickupSolenoid = new DoubleSolenoid(RobotMap.HATCH_SOLENOIDS_PICKUP_FORWARD_ID, RobotMap.HATCH_SOLENOIDS_PICKUP_REVERSE_ID);
+        ejectSolenoid = new Solenoid(RobotMap.HATCH_SOLENOIDS_EJECT_ID);
 
-        limitSwitch = new DigitalInput(RobotMap.HATCH_LIMIT_SWITCH_HATCH_ID);
+        limitSwitch = new DigitalInput(RobotMap.HATCH_SOLENOIDS_LIMIT_SWITCH_ID);
 
         setConstantTuning();
         reset();

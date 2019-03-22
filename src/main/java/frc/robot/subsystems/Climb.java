@@ -28,14 +28,14 @@ public class Climb extends Subsystem {
     public static enum State {
         GROUND, EXTENDED, HALF, MANUAL
     }
-    private State state;
+    private State state = State.GROUND;
 
     private Climb() {
-        frontSolenoid = new DoubleSolenoid(RobotMap.PCM_SECONDARY_ID, RobotMap.CLIMB_FRONT_SOLENOID_FORWARD, RobotMap.CLIMB_FRONT_SOLENOID_REVERSE);
-        backSolenoid = new DoubleSolenoid(RobotMap.PCM_SECONDARY_ID, RobotMap.CLIMB_BACK_SOLENOID_FORWARD, RobotMap.CLIMB_BACK_SOLENOID_REVERSE);
+        frontSolenoid = new DoubleSolenoid(RobotMap.PCM_SECONDARY_ID, RobotMap.CLIMB_FRONT_SOLENOID_FORWARD_ID, RobotMap.CLIMB_FRONT_SOLENOID_REVERSE_ID);
+        backSolenoid = new DoubleSolenoid(RobotMap.PCM_SECONDARY_ID, RobotMap.CLIMB_BACK_SOLENOID_FORWARD_ID, RobotMap.CLIMB_BACK_SOLENOID_REVERSE_ID);
 
-        frontMotor = new WPI_VictorSPX(RobotMap.CLIMB_FRONT_MOTOR);
-        backMotor = new WPI_VictorSPX(RobotMap.CLIMB_BACK_MOTOR);
+        frontMotor = new WPI_VictorSPX(RobotMap.CLIMB_FRONT_MOTOR_ID);
+        backMotor = new WPI_VictorSPX(RobotMap.CLIMB_BACK_MOTOR_ID);
         frontMotor.setNeutralMode(NeutralMode.Brake);
         backMotor.setNeutralMode(NeutralMode.Brake);
 
@@ -185,7 +185,7 @@ public class Climb extends Subsystem {
     }
 
     public void climbDrive(double speed) {
-        double adjustedSpeed = speed * RobotMap.CLIMB_MOTOR_MAX_SPEED;
+        double adjustedSpeed = speed * RobotMap.CLIMB_DRIVE_MAX_SPEED;
         frontSpeed = adjustedSpeed;
         backSpeed = adjustedSpeed;
     }

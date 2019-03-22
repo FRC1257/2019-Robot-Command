@@ -31,23 +31,23 @@ public class CargoArm extends Subsystem {
     public static enum State {
         MANUAL, PID
     }
-    private State state;
+    private State state = State.MANUAL;
 
     private CargoArm() {
-        cargoArmMotor = new CANSparkMax(RobotMap.INTAKE_ARM_MOTOR_ID, MotorType.kBrushless);
+        cargoArmMotor = new CANSparkMax(RobotMap.CARGO_ARM_MOTOR_ID, MotorType.kBrushless);
         cargoArmMotor.restoreFactoryDefaults();
         cargoArmMotor.setIdleMode(IdleMode.kBrake);
         cargoArmMotor.setSmartCurrentLimit(RobotMap.NEO_CURRENT_LIMIT);
         cargoArmEncoder = cargoArmMotor.getEncoder();
         cargoArmPID = cargoArmMotor.getPIDController();
-        cargoArmPID.setP(RobotMap.INTAKE_ARM_PIDF[0]);
-        cargoArmPID.setI(RobotMap.INTAKE_ARM_PIDF[1]);
-        cargoArmPID.setD(RobotMap.INTAKE_ARM_PIDF[2]);
-        cargoArmPID.setFF(RobotMap.INTAKE_ARM_PIDF[3]);
+        cargoArmPID.setP(RobotMap.CARGO_ARM_PIDF[0]);
+        cargoArmPID.setI(RobotMap.CARGO_ARM_PIDF[1]);
+        cargoArmPID.setD(RobotMap.CARGO_ARM_PIDF[2]);
+        cargoArmPID.setFF(RobotMap.CARGO_ARM_PIDF[3]);
         cargoArmPID.setIZone(0.0);
-        cargoArmPID.setOutputRange(RobotMap.INTAKE_ARM_PID_MIN_OUTPUT, RobotMap.INTAKE_ARM_PID_MAX_OUTPUT);
+        cargoArmPID.setOutputRange(RobotMap.CARGO_ARM_PID_MIN_OUTPUT, RobotMap.CARGO_ARM_PID_MAX_OUTPUT);
         
-        limitSwitch = new DigitalInput(RobotMap.INTAKE_ARM_LIMIT_SWITCH_ID);
+        limitSwitch = new DigitalInput(RobotMap.CARGO_ARM_LIMIT_SWITCH_ID);
         lastLimit = getLimitSwitch();
 
         setConstantTuning();
@@ -82,7 +82,7 @@ public class CargoArm extends Subsystem {
                     cargoArmPID.setReference(currentPIDSetpoint, ControlType.kPosition);
 
                     double error = Math.abs(getEncoderPosition() - currentPIDSetpoint);
-                    if(error < RobotMap.INTAKE_ARM_TOLERANCE) {
+                    if(error < RobotMap.CARGO_ARM_PID_TOLERANCE) {
                         state = State.MANUAL;
                     }
                 }   
@@ -106,7 +106,7 @@ public class CargoArm extends Subsystem {
     }
 
     public void setSpeed(double value) {
-        speed = value * RobotMap.INTAKE_ARM_MOTOR_MAX_SPEED;
+        speed = value * RobotMap.CARGO_ARM_MAX_SPEED;
 
         if(speed != 0) {
             state = State.MANUAL;
@@ -114,11 +114,11 @@ public class CargoArm extends Subsystem {
     }
 
     public void moveRocket() {
-        setPIDPosition(RobotMap.INTAKE_ARM_PID_ROCKET);
+        setPIDPosition(RobotMap.CARGO_ARM_PID_ROCKET);
     }
 
     public void moveCargo() {
-        setPIDPosition(RobotMap.INTAKE_ARM_PID_CARGO);
+        setPIDPosition(RobotMap.CARGO_ARM_PID_CARGO);
     }
 
     public void setPIDPosition(double value) {
@@ -138,7 +138,7 @@ public class CargoArm extends Subsystem {
      * Resets the encoder to the top position
      */
     public void resetEncoderTop() {
-        cargoArmEncoder.setPosition(RobotMap.INTAKE_ARM_PID_RAISED);
+        cargoArmEncoder.setPosition(RobotMap.CARGO_ARM_PID_RAISED);
     }
 
     public double getEncoderPosition() {
@@ -161,33 +161,33 @@ public class CargoArm extends Subsystem {
     }
     
     public void setConstantTuning() {
-        SmartDashboard.putNumber("Intake Arm Max Speed", RobotMap.INTAKE_ARM_MOTOR_MAX_SPEED);
+        SmartDashboard.putNumber("Intake Arm Max Speed", RobotMap.CARGO_ARM_MAX_SPEED);
 
-        SmartDashboard.putNumber("Intake Arm P", RobotMap.INTAKE_ARM_PIDF[0]);
-        SmartDashboard.putNumber("Intake Arm I", RobotMap.INTAKE_ARM_PIDF[1]);
-        SmartDashboard.putNumber("Intake Arm D", RobotMap.INTAKE_ARM_PIDF[2]);
-        SmartDashboard.putNumber("Intake Arm F", RobotMap.INTAKE_ARM_PIDF[3]);
+        SmartDashboard.putNumber("Intake Arm P", RobotMap.CARGO_ARM_PIDF[0]);
+        SmartDashboard.putNumber("Intake Arm I", RobotMap.CARGO_ARM_PIDF[1]);
+        SmartDashboard.putNumber("Intake Arm D", RobotMap.CARGO_ARM_PIDF[2]);
+        SmartDashboard.putNumber("Intake Arm F", RobotMap.CARGO_ARM_PIDF[3]);
     }
 
     public void getConstantTuning() {
-        RobotMap.INTAKE_ARM_MOTOR_MAX_SPEED = SmartDashboard.getNumber("Intake Arm Max Speed",
-                RobotMap.INTAKE_ARM_MOTOR_MAX_SPEED);
+        RobotMap.CARGO_ARM_MAX_SPEED = SmartDashboard.getNumber("Intake Arm Max Speed",
+                RobotMap.CARGO_ARM_MAX_SPEED);
 
-        if(RobotMap.INTAKE_ARM_PIDF[0] != SmartDashboard.getNumber("Intake Arm P", RobotMap.INTAKE_ARM_PIDF[0])) {
-            RobotMap.INTAKE_ARM_PIDF[0] = SmartDashboard.getNumber("Intake Arm P", RobotMap.INTAKE_ARM_PIDF[0]);
-            cargoArmPID.setP(RobotMap.INTAKE_ARM_PIDF[0]);
+        if(RobotMap.CARGO_ARM_PIDF[0] != SmartDashboard.getNumber("Intake Arm P", RobotMap.CARGO_ARM_PIDF[0])) {
+            RobotMap.CARGO_ARM_PIDF[0] = SmartDashboard.getNumber("Intake Arm P", RobotMap.CARGO_ARM_PIDF[0]);
+            cargoArmPID.setP(RobotMap.CARGO_ARM_PIDF[0]);
         }
-        if(RobotMap.INTAKE_ARM_PIDF[1] != SmartDashboard.getNumber("Intake Arm I", RobotMap.INTAKE_ARM_PIDF[1])) {
-            RobotMap.INTAKE_ARM_PIDF[1] = SmartDashboard.getNumber("Intake Arm I", RobotMap.INTAKE_ARM_PIDF[1]);
-            cargoArmPID.setP(RobotMap.INTAKE_ARM_PIDF[1]);
+        if(RobotMap.CARGO_ARM_PIDF[1] != SmartDashboard.getNumber("Intake Arm I", RobotMap.CARGO_ARM_PIDF[1])) {
+            RobotMap.CARGO_ARM_PIDF[1] = SmartDashboard.getNumber("Intake Arm I", RobotMap.CARGO_ARM_PIDF[1]);
+            cargoArmPID.setP(RobotMap.CARGO_ARM_PIDF[1]);
         }
-        if(RobotMap.INTAKE_ARM_PIDF[2] != SmartDashboard.getNumber("Intake Arm D", RobotMap.INTAKE_ARM_PIDF[2])) {
-            RobotMap.INTAKE_ARM_PIDF[2] = SmartDashboard.getNumber("Intake Arm D", RobotMap.INTAKE_ARM_PIDF[2]);
-            cargoArmPID.setP(RobotMap.INTAKE_ARM_PIDF[2]);
+        if(RobotMap.CARGO_ARM_PIDF[2] != SmartDashboard.getNumber("Intake Arm D", RobotMap.CARGO_ARM_PIDF[2])) {
+            RobotMap.CARGO_ARM_PIDF[2] = SmartDashboard.getNumber("Intake Arm D", RobotMap.CARGO_ARM_PIDF[2]);
+            cargoArmPID.setP(RobotMap.CARGO_ARM_PIDF[2]);
         }
-        if(RobotMap.INTAKE_ARM_PIDF[3] != SmartDashboard.getNumber("Intake Arm F", RobotMap.INTAKE_ARM_PIDF[3])) {
-            RobotMap.INTAKE_ARM_PIDF[3] = SmartDashboard.getNumber("Intake Arm F", RobotMap.INTAKE_ARM_PIDF[3]);
-            cargoArmPID.setP(RobotMap.INTAKE_ARM_PIDF[3]);
+        if(RobotMap.CARGO_ARM_PIDF[3] != SmartDashboard.getNumber("Intake Arm F", RobotMap.CARGO_ARM_PIDF[3])) {
+            RobotMap.CARGO_ARM_PIDF[3] = SmartDashboard.getNumber("Intake Arm F", RobotMap.CARGO_ARM_PIDF[3]);
+            cargoArmPID.setP(RobotMap.CARGO_ARM_PIDF[3]);
         }
     }
 

@@ -18,10 +18,10 @@ public class CargoRoller extends Subsystem {
     public static enum State {
         INTAKING, EJECTING, NEUTRAL
     }
-    private State state;
+    private State state = State.NEUTRAL;
 
     private CargoRoller() {
-        intakeMotor = new WPI_VictorSPX(RobotMap.CARGO_INTAKE_MOTOR_ID);
+        intakeMotor = new WPI_VictorSPX(RobotMap.CARGO_ROLLER_MOTOR_ID);
         intakeMotor.setNeutralMode(NeutralMode.Brake);
 
         setConstantTuning();
@@ -53,25 +53,25 @@ public class CargoRoller extends Subsystem {
     public void update() {
         switch(state) {
             case INTAKING:
-                intakeMotor.set(RobotMap.CARGO_INTAKE_SPEED);
+                intakeMotor.set(RobotMap.CARGO_ROLLER_INTAKE_SPEED);
             break;
             case EJECTING:
-                intakeMotor.set(RobotMap.CARGO_EJECT_SPEED);
+                intakeMotor.set(RobotMap.CARGO_ROLLER_EJECT_SPEED);
             break;
             case NEUTRAL:
-                intakeMotor.set(RobotMap.CARGO_CONSTANT_INTAKE_SPEED);
+                intakeMotor.set(RobotMap.CARGO_ROLLER_CONSTANT_INTAKE_SPEED);
             break;
         }
     }
 
     public void setConstantTuning() {
-        SmartDashboard.putNumber("Cargo Intake Speed", RobotMap.CARGO_INTAKE_SPEED);
-        SmartDashboard.putNumber("Cargo Eject Speed", RobotMap.CARGO_EJECT_SPEED);
+        SmartDashboard.putNumber("Cargo Intake Speed", RobotMap.CARGO_ROLLER_INTAKE_SPEED);
+        SmartDashboard.putNumber("Cargo Eject Speed", RobotMap.CARGO_ROLLER_EJECT_SPEED);
     }
 
     public void getConstantTuning() {
-        RobotMap.CARGO_INTAKE_SPEED = SmartDashboard.getNumber("Cargo Intake Speed", RobotMap.CARGO_INTAKE_SPEED);
-        RobotMap.CARGO_EJECT_SPEED = SmartDashboard.getNumber("Cargo Eject Speed", RobotMap.CARGO_EJECT_SPEED);
+        RobotMap.CARGO_ROLLER_INTAKE_SPEED = SmartDashboard.getNumber("Cargo Intake Speed", RobotMap.CARGO_ROLLER_INTAKE_SPEED);
+        RobotMap.CARGO_ROLLER_EJECT_SPEED = SmartDashboard.getNumber("Cargo Eject Speed", RobotMap.CARGO_ROLLER_EJECT_SPEED);
     }
 
     public State getState() {
