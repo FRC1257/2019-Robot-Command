@@ -6,14 +6,15 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.hatchintake.*;
+import frc.robot.subsystems.cargointake.*;
 import frc.robot.util.*;
 
 public class Robot extends TimedRobot {
 
     private Drivetrain drivetrain;
-    private CargoIntake cargoIntake;
     private Climb climb;
-    private IntakeArm intakeArm;
+    private CargoArm cargoArm;
+    private CargoRoller cargoIntake;
     private HatchPivot hatchPivot;
     private HatchSolenoids hatchSolenoids;
 
@@ -25,9 +26,9 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         drivetrain = Drivetrain.getInstance();
-        cargoIntake = CargoIntake.getInstance();
         climb = Climb.getInstance();
-        intakeArm = IntakeArm.getInstance();
+        cargoArm = CargoArm.getInstance();
+        cargoIntake = CargoRoller.getInstance();
         hatchPivot = HatchPivot.getInstance();
         hatchSolenoids = HatchSolenoids.getInstance();
 
@@ -68,9 +69,9 @@ public class Robot extends TimedRobot {
 
     public void updateSubsystems() {
         drivetrain.update(Timer.getFPGATimestamp() - lastTimeStamp);
-        cargoIntake.update();
         climb.update();
-        intakeArm.update();
+        cargoArm.update();
+        cargoIntake.update();
         hatchPivot.update();
         hatchSolenoids.update();
 
@@ -81,9 +82,9 @@ public class Robot extends TimedRobot {
 
     public void getSubsystemConstants() {
         drivetrain.getConstantTuning();
-        cargoIntake.getConstantTuning();
         climb.getConstantTuning();
-        intakeArm.getConstantTuning();
+        cargoArm.getConstantTuning();
+        cargoIntake.getConstantTuning();
         hatchPivot.getConstantTuning();
         hatchSolenoids.getConstantTuning();
     }

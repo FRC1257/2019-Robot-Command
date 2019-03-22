@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.cargointake;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,15 +12,15 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.RobotMap;
-import frc.robot.commands.intakearm.*;
+import frc.robot.commands.cargointake.cargoarm.*;
 
-public class IntakeArm extends Subsystem {
+public class CargoArm extends Subsystem {
 
-    private static IntakeArm instance = null;
+    private static CargoArm instance = null;
 
-    private CANSparkMax intakeArmMotor;
-    private CANEncoder intakeArmEncoder;
-    private CANPIDController intakeArmPID;
+    private CANSparkMax cargoArmMotor;
+    private CANEncoder cargoArmEncoder;
+    private CANPIDController cargoArmPID;
 
     private DigitalInput limitSwitch;
     private boolean lastLimit;
@@ -33,19 +33,19 @@ public class IntakeArm extends Subsystem {
     }
     private State state;
 
-    private IntakeArm() {
-        intakeArmMotor = new CANSparkMax(RobotMap.INTAKE_ARM_MOTOR_ID, MotorType.kBrushless);
-        intakeArmMotor.restoreFactoryDefaults();
-        intakeArmMotor.setIdleMode(IdleMode.kBrake);
-        intakeArmMotor.setSmartCurrentLimit(RobotMap.NEO_CURRENT_LIMIT);
-        intakeArmEncoder = intakeArmMotor.getEncoder();
-        intakeArmPID = intakeArmMotor.getPIDController();
-        intakeArmPID.setP(RobotMap.INTAKE_ARM_PIDF[0]);
-        intakeArmPID.setI(RobotMap.INTAKE_ARM_PIDF[1]);
-        intakeArmPID.setD(RobotMap.INTAKE_ARM_PIDF[2]);
-        intakeArmPID.setFF(RobotMap.INTAKE_ARM_PIDF[3]);
-        intakeArmPID.setIZone(0.0);
-        intakeArmPID.setOutputRange(RobotMap.INTAKE_ARM_PID_MIN_OUTPUT, RobotMap.INTAKE_ARM_PID_MAX_OUTPUT);
+    private CargoArm() {
+        cargoArmMotor = new CANSparkMax(RobotMap.INTAKE_ARM_MOTOR_ID, MotorType.kBrushless);
+        cargoArmMotor.restoreFactoryDefaults();
+        cargoArmMotor.setIdleMode(IdleMode.kBrake);
+        cargoArmMotor.setSmartCurrentLimit(RobotMap.NEO_CURRENT_LIMIT);
+        cargoArmEncoder = cargoArmMotor.getEncoder();
+        cargoArmPID = cargoArmMotor.getPIDController();
+        cargoArmPID.setP(RobotMap.INTAKE_ARM_PIDF[0]);
+        cargoArmPID.setI(RobotMap.INTAKE_ARM_PIDF[1]);
+        cargoArmPID.setD(RobotMap.INTAKE_ARM_PIDF[2]);
+        cargoArmPID.setFF(RobotMap.INTAKE_ARM_PIDF[3]);
+        cargoArmPID.setIZone(0.0);
+        cargoArmPID.setOutputRange(RobotMap.INTAKE_ARM_PID_MIN_OUTPUT, RobotMap.INTAKE_ARM_PID_MAX_OUTPUT);
         
         limitSwitch = new DigitalInput(RobotMap.INTAKE_ARM_LIMIT_SWITCH_ID);
         lastLimit = getLimitSwitch();
@@ -56,11 +56,11 @@ public class IntakeArm extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new IntakeArmCommand());
+        setDefaultCommand(new CargoArmCommand());
     }
     
     public void reset() {
-        intakeArmMotor.set(0);
+        cargoArmMotor.set(0);
 
         currentPIDSetpoint = -1257;
         resetEncoderTop();
@@ -71,7 +71,7 @@ public class IntakeArm extends Subsystem {
     public void update() {
         switch(state) {
             case MANUAL:
-                intakeArmMotor.set(speed);
+                cargoArmMotor.set(speed);
                 currentPIDSetpoint = -1257;
             break;
             case PID:
@@ -79,7 +79,7 @@ public class IntakeArm extends Subsystem {
                     state = State.MANUAL;
                 }
                 else {
-                    intakeArmPID.setReference(currentPIDSetpoint, ControlType.kPosition);
+                    cargoArmPID.setReference(currentPIDSetpoint, ControlType.kPosition);
 
                     double error = Math.abs(getEncoderPosition() - currentPIDSetpoint);
                     if(error < RobotMap.INTAKE_ARM_TOLERANCE) {
@@ -101,8 +101,8 @@ public class IntakeArm extends Subsystem {
         SmartDashboard.putNumber("Intake Arm Position", getEncoderPosition());
         SmartDashboard.putNumber("Intake Arm Velocity", getEncoderVelocity());
 
-        SmartDashboard.putNumber("Intake Arm Current", intakeArmMotor.getOutputCurrent());
-        SmartDashboard.putNumber("Intake Arm Temperature (C)", intakeArmMotor.getMotorTemperature());
+        SmartDashboard.putNumber("Intake Arm Current", cargoArmMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Intake Arm Temperature (C)", cargoArmMotor.getMotorTemperature());
     }
 
     public void setSpeed(double value) {
@@ -122,7 +122,7 @@ public class IntakeArm extends Subsystem {
     }
 
     public void setPIDPosition(double value) {
-        intakeArmPID.setIAccum(0);
+        cargoArmPID.setIAccum(0);
         currentPIDSetpoint = value;
         state = State.PID;
     }
@@ -131,23 +131,23 @@ public class IntakeArm extends Subsystem {
      * Resets the encoder to the bottom position
      */
     public void resetEncoder() {
-        intakeArmEncoder.setPosition(0.0);
+        cargoArmEncoder.setPosition(0.0);
     }
     
     /* 
      * Resets the encoder to the top position
      */
     public void resetEncoderTop() {
-        intakeArmEncoder.setPosition(RobotMap.INTAKE_ARM_PID_RAISED);
+        cargoArmEncoder.setPosition(RobotMap.INTAKE_ARM_PID_RAISED);
     }
 
     public double getEncoderPosition() {
         
-        return intakeArmEncoder.getPosition();
+        return cargoArmEncoder.getPosition();
     }
 
     public double getEncoderVelocity() {
-        return intakeArmEncoder.getVelocity();
+        return cargoArmEncoder.getVelocity();
     }
 
     // Whether or not the bottom limit switch is pressed
@@ -175,19 +175,19 @@ public class IntakeArm extends Subsystem {
 
         if(RobotMap.INTAKE_ARM_PIDF[0] != SmartDashboard.getNumber("Intake Arm P", RobotMap.INTAKE_ARM_PIDF[0])) {
             RobotMap.INTAKE_ARM_PIDF[0] = SmartDashboard.getNumber("Intake Arm P", RobotMap.INTAKE_ARM_PIDF[0]);
-            intakeArmPID.setP(RobotMap.INTAKE_ARM_PIDF[0]);
+            cargoArmPID.setP(RobotMap.INTAKE_ARM_PIDF[0]);
         }
         if(RobotMap.INTAKE_ARM_PIDF[1] != SmartDashboard.getNumber("Intake Arm I", RobotMap.INTAKE_ARM_PIDF[1])) {
             RobotMap.INTAKE_ARM_PIDF[1] = SmartDashboard.getNumber("Intake Arm I", RobotMap.INTAKE_ARM_PIDF[1]);
-            intakeArmPID.setP(RobotMap.INTAKE_ARM_PIDF[1]);
+            cargoArmPID.setP(RobotMap.INTAKE_ARM_PIDF[1]);
         }
         if(RobotMap.INTAKE_ARM_PIDF[2] != SmartDashboard.getNumber("Intake Arm D", RobotMap.INTAKE_ARM_PIDF[2])) {
             RobotMap.INTAKE_ARM_PIDF[2] = SmartDashboard.getNumber("Intake Arm D", RobotMap.INTAKE_ARM_PIDF[2]);
-            intakeArmPID.setP(RobotMap.INTAKE_ARM_PIDF[2]);
+            cargoArmPID.setP(RobotMap.INTAKE_ARM_PIDF[2]);
         }
         if(RobotMap.INTAKE_ARM_PIDF[3] != SmartDashboard.getNumber("Intake Arm F", RobotMap.INTAKE_ARM_PIDF[3])) {
             RobotMap.INTAKE_ARM_PIDF[3] = SmartDashboard.getNumber("Intake Arm F", RobotMap.INTAKE_ARM_PIDF[3]);
-            intakeArmPID.setP(RobotMap.INTAKE_ARM_PIDF[3]);
+            cargoArmPID.setP(RobotMap.INTAKE_ARM_PIDF[3]);
         }
     }
 
@@ -195,9 +195,9 @@ public class IntakeArm extends Subsystem {
         return state;
     }
 
-    public static IntakeArm getInstance() {
+    public static CargoArm getInstance() {
         if (instance == null) {
-            instance = new IntakeArm();
+            instance = new CargoArm();
         }
         return instance;
     }

@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.cargointake;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -7,11 +7,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import frc.robot.RobotMap;
-import frc.robot.commands.cargointake.*;
+import frc.robot.commands.cargointake.cargoroller.*;
 
-public class CargoIntake extends Subsystem {
+public class CargoRoller extends Subsystem {
 
-    private static CargoIntake instance = null;
+    private static CargoRoller instance = null;
 
     private WPI_VictorSPX intakeMotor;
 
@@ -20,7 +20,7 @@ public class CargoIntake extends Subsystem {
     }
     private State state;
 
-    private CargoIntake() {
+    private CargoRoller() {
         intakeMotor = new WPI_VictorSPX(RobotMap.CARGO_INTAKE_MOTOR_ID);
         intakeMotor.setNeutralMode(NeutralMode.Brake);
 
@@ -78,9 +78,9 @@ public class CargoIntake extends Subsystem {
         return state;
     }
 
-    public static CargoIntake getInstance() {
+    public static CargoRoller getInstance() {
         if (instance == null) {
-            instance = new CargoIntake();
+            instance = new CargoRoller();
         }
         return instance;
     }

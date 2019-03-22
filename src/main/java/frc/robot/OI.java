@@ -1,8 +1,8 @@
 package frc.robot;
 
 import frc.robot.commands.drivetrain.*;
-import frc.robot.commands.intakearm.*;
-import frc.robot.commands.cargointake.*;
+import frc.robot.commands.cargointake.cargoarm.*;
+import frc.robot.commands.cargointake.cargoroller.*;
 import frc.robot.commands.climb.*;
 import frc.robot.commands.hatchintake.hatchpivot.*;
 import frc.robot.commands.hatchintake.hatchsolenoids.*;
@@ -66,8 +66,8 @@ public class OI {
         return squareInput(driveController.getForwardSpeed());
     }
 
-    // Intake Arm
-    public double getIntakeArmSpeed() {
+    // Cargo Arm
+    public double getCargoArmSpeed() {
         return squareInput(operatorController.getY(Hand.kRight));
     }
 

@@ -1,22 +1,22 @@
-package frc.robot.commands.intakearm;
+package frc.robot.commands.cargointake.cargoarm;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.IntakeArm;;
+import frc.robot.subsystems.cargointake.CargoArm;;
 
 public class MoveRocketWaitCommand extends Command {
 
-    private IntakeArm intakeArm;
+    private CargoArm cargoArm;
 
     public MoveRocketWaitCommand() {
         super();
         
-        intakeArm = IntakeArm.getInstance();
-        requires(intakeArm);
+        cargoArm = CargoArm.getInstance();
+        requires(cargoArm);
     }
 
     @Override
     protected void initialize() {
-        intakeArm.moveRocket();
+        cargoArm.moveRocket();
     }
 
     @Override
@@ -26,6 +26,6 @@ public class MoveRocketWaitCommand extends Command {
 
     @Override
     protected boolean isFinished() {
-        return intakeArm.getState() == IntakeArm.State.MANUAL;
+        return cargoArm.getState() == CargoArm.State.MANUAL;
     }
 }
