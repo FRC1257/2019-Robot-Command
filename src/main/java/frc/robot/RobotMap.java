@@ -10,6 +10,12 @@ public class RobotMap {
      * The units of each measurement should be specified in a comment
      */
 
+    /**
+     * Needed Measurements:
+     * Drive turn PIDF constants
+     * Cargo arm positions and PIDF constants (something changed in the gearbox, not sure what)
+     */
+
     // General
     public static final int NEO_CURRENT_LIMIT = 50; // amps
     public static final int PCM_SECONDARY_ID = 10;
@@ -33,26 +39,11 @@ public class RobotMap {
     public static double DRIVE_TURN_PID_MAX_OUTPUT = 0.8;
     public static double DRIVE_TURN_PID_MIN_OUTPUT = -0.8;
 
-    // Hatch Pivot
-    public static final int HATCH_PIVOT_MOTOR_ID = 5;
-    public static final int HATCH_PIVOT_LIMIT_SWITCH_ID = 2;
-
-    // Hatch Pivot: 0 is at top, positive means lower
-    public static final double HATCH_PIVOT_PID_LOWERED = 11.0; // Position of the hatch intake when lowered
-    public static final double HATCH_PIVOT_PID_RAISED = -0.7; // Position of the hatch intake when raised
-    public static double HATCH_PIVOT_MAX_SPEED = 1.0;
-
-    public static double[] HATCH_PIVOT_PIDF = { 0.045, 0.0, 0.0, 0.0 };
-    public static final double HATCH_PIVOT_PID_TOLERANCE = 1.0;
-    public static final double HATCH_PIVOT_PID_WAIT = 2.0;
-    public static final double HATCH_PIVOT_PID_MAX_OUTPUT = 0.8;
-    public static final double HATCH_PIVOT_PID_MIN_OUTPUT = -0.8;
-
-    // Hatch Solenoids
-    public static final int HATCH_SOLENOIDS_PICKUP_FORWARD_ID = 4;
-    public static final int HATCH_SOLENOIDS_PICKUP_REVERSE_ID = 6;
-    public static final int HATCH_SOLENOIDS_EJECT_ID = 5;
-    public static final int HATCH_SOLENOIDS_LIMIT_SWITCH_ID = 0;
+    // Hatch Intake
+    public static final int HATCH_INTAKE_MOTOR_ID = 11;
+    public static double HATCH_INTAKE_EJECT_SPEED = -1.0; // percentage
+    public static double HATCH_INTAKE_INTAKE_SPEED = 1.0; // percentage
+    public static double HATCH_INTAKE_CONSTANT_INTAKE_SPEED = 0.2; // percentage
 
     // Cargo Arm
     public static final int CARGO_ARM_MOTOR_ID = 6;
@@ -61,10 +52,12 @@ public class RobotMap {
     // Cargo Arm: 0 is at bottom, positive means higher
     public static final double CARGO_ARM_PID_ROCKET = 11.0; // Target position for rocket
     public static final double CARGO_ARM_PID_CARGO = 18.5; // Target position for cargo ship
-    public static final double CARGO_ARM_PID_RAISED = 29.5; // Initial position of arm
+    public static final double CARGO_ARM_PID_RAISED = 28.0; // Initial position of arm
     public static double CARGO_ARM_MAX_SPEED = 1.0;
 
     public static final double[] CARGO_ARM_PIDF = { 0.1, 0.0, 0.0, 0.0 };
+    public static final double CARGO_ARM_ARB_F = 0.0;
+    public static final double CARGO_ARM_ANGLE_CONV_FACTOR = 90.0 / CARGO_ARM_PID_RAISED; // conversion factor from motor rev to angle
     public static final double CARGO_ARM_PID_TOLERANCE = 1.0;
     public static final double CARGO_ARM_PID_WAIT = 2.0;
     public static final double CARGO_ARM_PID_MAX_OUTPUT = 1.0;

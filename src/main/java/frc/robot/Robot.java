@@ -5,18 +5,16 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.hatchintake.*;
 import frc.robot.subsystems.cargointake.*;
 import frc.robot.util.*;
 
 public class Robot extends TimedRobot {
 
-    private Drivetrain drivetrain;
-    private Climb climb;
-    private CargoArm cargoArm;
-    private CargoRoller cargoIntake;
-    private HatchPivot hatchPivot;
-    private HatchSolenoids hatchSolenoids;
+    public static Drivetrain drivetrain;
+    public static Climb climb;
+    public static CargoArm cargoArm;
+    public static CargoRoller cargoRoller;
+    public static HatchIntake hatchIntake;
 
     private OI oi;
     private Gyro gyro;
@@ -25,12 +23,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        drivetrain = Drivetrain.getInstance();
-        climb = Climb.getInstance();
-        cargoArm = CargoArm.getInstance();
-        cargoIntake = CargoRoller.getInstance();
-        hatchPivot = HatchPivot.getInstance();
-        hatchSolenoids = HatchSolenoids.getInstance();
+        drivetrain = new Drivetrain();
+        climb = new Climb();
+        cargoArm = new CargoArm();
+        cargoRoller = new CargoRoller();
+        hatchIntake = new HatchIntake();
 
         oi = OI.getInstance();
         gyro = Gyro.getInstance();
@@ -71,9 +68,8 @@ public class Robot extends TimedRobot {
         drivetrain.update(Timer.getFPGATimestamp() - lastTimeStamp);
         climb.update();
         cargoArm.update();
-        cargoIntake.update();
-        hatchPivot.update();
-        hatchSolenoids.update();
+        cargoRoller.update();
+        hatchIntake.update();
 
         gyro.outputValues();
 
@@ -84,8 +80,7 @@ public class Robot extends TimedRobot {
         drivetrain.getConstantTuning();
         climb.getConstantTuning();
         cargoArm.getConstantTuning();
-        cargoIntake.getConstantTuning();
-        hatchPivot.getConstantTuning();
-        hatchSolenoids.getConstantTuning();
+        cargoRoller.getConstantTuning();
+        hatchIntake.getConstantTuning();
     }
 }

@@ -2,6 +2,7 @@ package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import frc.robot.Robot;
 import frc.robot.OI;
 import frc.robot.subsystems.Drivetrain;
 
@@ -11,7 +12,7 @@ public class DriveCommand extends Command {
     private OI oi;
 
     public DriveCommand() {
-        drivetrain = Drivetrain.getInstance();
+        drivetrain = Robot.drivetrain;
         oi = OI.getInstance();
 
         requires(drivetrain);

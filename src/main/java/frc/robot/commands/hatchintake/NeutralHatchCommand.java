@@ -1,22 +1,23 @@
-package frc.robot.commands.hatchintake.hatchsolenoids;
+package frc.robot.commands.hatchintake;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import frc.robot.subsystems.hatchintake.HatchSolenoids;
+import frc.robot.Robot;
+import frc.robot.subsystems.HatchIntake;
 
 public class NeutralHatchCommand extends Command {
 
-    private HatchSolenoids hatchSolenoids;
+    private HatchIntake hatchIntake;
 
     public NeutralHatchCommand() {
-        hatchSolenoids = HatchSolenoids.getInstance();
+        hatchIntake = Robot.hatchIntake;
 
-        requires(hatchSolenoids);
+        requires(hatchIntake);
     }
 
     @Override
     protected void execute() {
-        hatchSolenoids.neutral();
+        hatchIntake.neutral();
     }
 
     @Override

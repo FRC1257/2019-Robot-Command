@@ -16,8 +16,6 @@ import frc.robot.commands.cargointake.cargoarm.*;
 
 public class CargoArm extends Subsystem {
 
-    private static CargoArm instance = null;
-
     private CANSparkMax cargoArmMotor;
     private CANEncoder cargoArmEncoder;
     private CANPIDController cargoArmPID;
@@ -33,7 +31,7 @@ public class CargoArm extends Subsystem {
     }
     private State state = State.MANUAL;
 
-    private CargoArm() {
+    public CargoArm() {
         cargoArmMotor = new CANSparkMax(RobotMap.CARGO_ARM_MOTOR_ID, MotorType.kBrushless);
         cargoArmMotor.restoreFactoryDefaults();
         cargoArmMotor.setIdleMode(IdleMode.kBrake);
@@ -79,7 +77,8 @@ public class CargoArm extends Subsystem {
                     state = State.MANUAL;
                 }
                 else {
-                    cargoArmPID.setReference(currentPIDSetpoint, ControlType.kPosition);
+                    cargoArmPID.setReference(currentPIDSetpoint, ControlType.kPosition, 0,
+                        RobotMap.CARGO_ARM_ARB_F * Math.cos(getArmAngle()));
 
                     double error = Math.abs(getEncoderPosition() - currentPIDSetpoint);
                     if(error < RobotMap.CARGO_ARM_PID_TOLERANCE) {
@@ -142,12 +141,18 @@ public class CargoArm extends Subsystem {
     }
 
     public double getEncoderPosition() {
-        
         return cargoArmEncoder.getPosition();
     }
 
     public double getEncoderVelocity() {
         return cargoArmEncoder.getVelocity();
+    }
+
+    /**
+     * Returns the current angle of the arm in degrees
+     */
+    public double getArmAngle() {
+        return getEncoderPosition() * RobotMap.CARGO_ARM_ANGLE_CONV_FACTOR;
     }
 
     // Whether or not the bottom limit switch is pressed
@@ -193,12 +198,5 @@ public class CargoArm extends Subsystem {
 
     public State getState() {
         return state;
-    }
-
-    public static CargoArm getInstance() {
-        if (instance == null) {
-            instance = new CargoArm();
-        }
-        return instance;
     }
 }

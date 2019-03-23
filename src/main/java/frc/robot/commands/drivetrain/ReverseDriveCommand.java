@@ -1,6 +1,8 @@
 package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
+
+import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
 
 public class ReverseDriveCommand extends InstantCommand {
@@ -10,7 +12,7 @@ public class ReverseDriveCommand extends InstantCommand {
     public ReverseDriveCommand() {
         super();
         
-        drivetrain = Drivetrain.getInstance();
+        drivetrain = Robot.drivetrain;
         requires(drivetrain);
     }
 

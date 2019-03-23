@@ -14,8 +14,6 @@ import frc.robot.util.Gyro;
 
 public class Climb extends Subsystem {
 
-    private static Climb instance = null;
-
     private DoubleSolenoid frontSolenoid;
     private DoubleSolenoid backSolenoid;
 
@@ -30,7 +28,7 @@ public class Climb extends Subsystem {
     }
     private State state = State.GROUND;
 
-    private Climb() {
+    public Climb() {
         frontSolenoid = new DoubleSolenoid(RobotMap.PCM_SECONDARY_ID, RobotMap.CLIMB_FRONT_SOLENOID_FORWARD_ID, RobotMap.CLIMB_FRONT_SOLENOID_REVERSE_ID);
         backSolenoid = new DoubleSolenoid(RobotMap.PCM_SECONDARY_ID, RobotMap.CLIMB_BACK_SOLENOID_FORWARD_ID, RobotMap.CLIMB_BACK_SOLENOID_REVERSE_ID);
 
@@ -210,12 +208,5 @@ public class Climb extends Subsystem {
 
     public State getState() {
         return state;
-    }
-
-    public static Climb getInstance() {
-        if (instance == null) {
-            instance = new Climb();
-        }
-        return instance;
     }
 }

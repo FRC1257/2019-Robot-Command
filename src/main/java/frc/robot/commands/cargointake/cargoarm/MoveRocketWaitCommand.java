@@ -3,6 +3,7 @@ package frc.robot.commands.cargointake.cargoarm;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.cargointake.CargoArm;;
 
@@ -15,7 +16,7 @@ public class MoveRocketWaitCommand extends Command {
     public MoveRocketWaitCommand() {
         super();
         
-        cargoArm = CargoArm.getInstance();
+        cargoArm = Robot.cargoArm;
         requires(cargoArm);
     }
 

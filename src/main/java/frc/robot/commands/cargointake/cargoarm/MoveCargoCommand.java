@@ -1,6 +1,8 @@
 package frc.robot.commands.cargointake.cargoarm;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
+
+import frc.robot.Robot;
 import frc.robot.subsystems.cargointake.CargoArm;;
 
 public class MoveCargoCommand extends InstantCommand {
@@ -10,7 +12,7 @@ public class MoveCargoCommand extends InstantCommand {
     public MoveCargoCommand() {
         super();
         
-        cargoArm = CargoArm.getInstance();
+        cargoArm = Robot.cargoArm;
         requires(cargoArm);
     }
 

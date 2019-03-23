@@ -4,8 +4,7 @@ import frc.robot.commands.drivetrain.*;
 import frc.robot.commands.cargointake.cargoarm.*;
 import frc.robot.commands.cargointake.cargoroller.*;
 import frc.robot.commands.climb.*;
-import frc.robot.commands.hatchintake.hatchpivot.*;
-import frc.robot.commands.hatchintake.hatchsolenoids.*;
+import frc.robot.commands.hatchintake.*;
 import frc.robot.util.SnailController;
 import static frc.robot.util.SnailController.*;
 
@@ -43,13 +42,9 @@ public class OI {
         operatorController.leftBumper.whenPressed(new MoveCargoCommand());
         operatorController.rightBumper.whenPressed(new MoveCargoCommand());
 
-        // Hatch Pivot
-        operatorController.leftTrigger.whenActive(new RaisePivotCommand());
-        operatorController.rightTrigger.whenActive(new LowerPivotCommand());
-
-        // Hatch Solenoids
+        // Hatch Intake
         operatorController.xButton.whileHeld(new EjectHatchCommand());
-        operatorController.yButton.whileHeld(new PickupHatchCommand());
+        operatorController.yButton.whileHeld(new IntakeHatchCommand());
     }
 
     // Drive
@@ -69,11 +64,6 @@ public class OI {
     // Cargo Arm
     public double getCargoArmSpeed() {
         return squareInput(operatorController.getY(Hand.kRight));
-    }
-
-    // Hatch Pivot
-    public double getHatchPivotSpeed() {
-        return squareInput(operatorController.getY(Hand.kLeft));
     }
 
     public static OI getInstance() {

@@ -15,8 +15,6 @@ import frc.robot.util.SynchronousPIDF;
 
 public class Drivetrain extends Subsystem {
 
-    private static Drivetrain instance = null;
-
     public CANSparkMax flDrive;
     public CANSparkMax frDrive;
     public CANSparkMax blDrive;
@@ -35,7 +33,7 @@ public class Drivetrain extends Subsystem {
     }
     private State state = State.DRIVER;
 
-    private Drivetrain() {
+    public Drivetrain() {
         flDrive = new CANSparkMax(RobotMap.DRIVE_FRONT_LEFT_ID, MotorType.kBrushless);
         frDrive = new CANSparkMax(RobotMap.DRIVE_FRONT_RIGHT_ID, MotorType.kBrushless);
         blDrive = new CANSparkMax(RobotMap.DRIVE_BACK_LEFT_ID, MotorType.kBrushless);
@@ -170,12 +168,5 @@ public class Drivetrain extends Subsystem {
 
     public State getState() {
         return state;
-    }
-
-    public static Drivetrain getInstance() {
-        if (instance == null) {
-            instance = new Drivetrain();
-        }
-        return instance;
     }
 }
