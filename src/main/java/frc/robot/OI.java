@@ -66,6 +66,11 @@ public class OI {
         return squareInput(operatorController.getY(Hand.kRight));
     }
 
+    // Vision
+    public double getTurnCorrect() {
+        return driveController.getLeftTrigger();
+    }
+
     public static OI getInstance() {
         if (instance == null) {
             instance = new OI();

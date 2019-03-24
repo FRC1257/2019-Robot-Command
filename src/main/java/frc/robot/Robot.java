@@ -3,6 +3,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.cameraserver.CameraServer;
 
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.cargointake.*;
@@ -16,8 +19,11 @@ public class Robot extends TimedRobot {
     public static CargoRoller cargoRoller;
     public static HatchIntake hatchIntake;
 
+    private Vision vision;
     private OI oi;
     private Gyro gyro;
+
+    private PowerDistributionPanel pdp;
     
     private double lastTimeStamp;
 
@@ -29,8 +35,13 @@ public class Robot extends TimedRobot {
         cargoRoller = new CargoRoller();
         hatchIntake = new HatchIntake();
 
+        vision = Vision.getInstance();
         oi = OI.getInstance();
         gyro = Gyro.getInstance();
+
+        pdp = new PowerDistributionPanel();
+
+        CameraServer.getInstance().startAutomaticCapture(0);
 
         lastTimeStamp = Timer.getFPGATimestamp();
     }
@@ -65,13 +76,17 @@ public class Robot extends TimedRobot {
     }
 
     public void updateSubsystems() {
+        vision.update();
+        
         drivetrain.update(Timer.getFPGATimestamp() - lastTimeStamp);
         climb.update();
         cargoArm.update();
         cargoRoller.update();
         hatchIntake.update();
-
         gyro.outputValues();
+
+        SmartDashboard.putNumber("PDP Temperature (C)", pdp.getTemperature());
+        SmartDashboard.putData(pdp);
 
         lastTimeStamp = Timer.getFPGATimestamp();
     }
@@ -82,5 +97,7 @@ public class Robot extends TimedRobot {
         cargoArm.getConstantTuning();
         cargoRoller.getConstantTuning();
         hatchIntake.getConstantTuning();
+
+        vision.getConstantTuning();
     }
 }
