@@ -39,12 +39,12 @@ public class Vision {
 
         if(oi.getTurnCorrect() > 0) {
             if (vision.currentPipeline.get(0) != 0) {
-                SnailVision.changePipeline(NetworkTableInstance.getDefault().getTable("limelight"), 0); // Dual Target
+                SnailVision.changePipeline(limelightNetworkTable, 0); // Dual Target
             }
             turnSpeed -= vision.angleCorrect();
         }
         else if (vision.currentPipeline.get(0) != 2) {
-            SnailVision.changePipeline(NetworkTableInstance.getDefault().getTable("limelight"), 2); // Default driver
+            SnailVision.changePipeline(limelightNetworkTable, 2); // Default driver
         }
     }
 
