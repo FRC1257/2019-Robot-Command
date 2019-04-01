@@ -4,7 +4,7 @@ import com.kauailabs.navx.frc.*;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.SPI.Port;
 
 /**
  * Wrapper class for the navX-MXP and ADXRS450_Gyro
