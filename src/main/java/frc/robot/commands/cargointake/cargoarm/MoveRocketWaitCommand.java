@@ -21,19 +21,29 @@ public class MoveRocketWaitCommand extends Command {
     }
 
     @Override
-    protected void initialize() {
+    public void initialize() {
         cargoArm.moveRocket();
         start = Timer.getFPGATimestamp();
     }
 
     @Override
-    protected void execute() {
+    public void execute() {
         
     }
 
     @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return cargoArm.getState() == CargoArm.State.MANUAL || 
             Timer.getFPGATimestamp() - start > RobotMap.CARGO_ARM_PID_WAIT;
+    }
+
+    @Override
+    public void end() {
+        cargoArm.endPID();
+    }
+
+    @Override
+    public void interrupted() {
+        end();
     }
 }

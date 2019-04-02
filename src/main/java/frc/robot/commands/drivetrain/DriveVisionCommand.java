@@ -13,18 +13,28 @@ public class DriveVisionCommand extends Command {
 
     public DriveVisionCommand() {
         drivetrain = Robot.drivetrain;
-        vision = Vision.getInstance();
+        vision = Robot.vision;
 
         requires(drivetrain);
     }
 
     @Override
-    protected void execute() {
+    public void execute() {
         drivetrain.drive(vision.getForwardSpeed(), vision.getTurnSpeed());
     }
 
     @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return false;
+    }
+
+    @Override
+    public void end() {
+        
+    }
+
+    @Override
+    public void interrupted() {
+        end();
     }
 }

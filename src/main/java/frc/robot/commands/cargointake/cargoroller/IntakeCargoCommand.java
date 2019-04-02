@@ -16,12 +16,22 @@ public class IntakeCargoCommand extends Command {
     }
 
     @Override
-    protected void execute() {
+    public void execute() {
         cargoIntake.intake();
     }
 
     @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return false;
+    }
+
+    @Override
+    public void end() {
+        cargoIntake.neutral();
+    }
+
+    @Override
+    public void interrupted() {
+        end();
     }
 }

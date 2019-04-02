@@ -21,19 +21,29 @@ public class TurnLeftWaitCommand extends Command {
     }
 
     @Override
-    protected void initialize() {
+    public void initialize() {
         drivetrain.turnLeft();
         start = Timer.getFPGATimestamp();
     }
 
     @Override
-    protected void execute() {
+    public void execute() {
         
     }
 
     @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return drivetrain.getState() == Drivetrain.State.DRIVER || 
             Timer.getFPGATimestamp() - start > RobotMap.DRIVE_TURN_PID_WAIT;
+    }
+
+    @Override
+    public void end() {
+        drivetrain.endTurn();
+    }
+
+    @Override
+    public void interrupted() {
+        end();
     }
 }

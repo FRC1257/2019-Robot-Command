@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.drivetrain.*;
 import frc.robot.util.Gyro;
@@ -15,10 +16,10 @@ import frc.robot.util.SynchronousPIDF;
 
 public class Drivetrain extends Subsystem {
 
-    public CANSparkMax flDrive;
-    public CANSparkMax frDrive;
-    public CANSparkMax blDrive;
-    public CANSparkMax brDrive;
+    private CANSparkMax flDrive;
+    private CANSparkMax frDrive;
+    private CANSparkMax blDrive;
+    private CANSparkMax brDrive;
 
     private DifferentialDrive drivetrain;
     private Gyro gyro;
@@ -58,7 +59,7 @@ public class Drivetrain extends Subsystem {
         brDrive.follow(frDrive);
 
         drivetrain = new DifferentialDrive(flDrive, frDrive);
-        gyro = Gyro.getInstance();
+        gyro = Robot.gyro;
         pidController = new SynchronousPIDF(RobotMap.DRIVE_TURN_PIDF[0], RobotMap.DRIVE_TURN_PIDF[1], 
             RobotMap.DRIVE_TURN_PIDF[2], RobotMap.DRIVE_TURN_PIDF[3]);
 
@@ -143,6 +144,10 @@ public class Drivetrain extends Subsystem {
         pidController.reset();
         pidController.setSetpoint(90);
         state = State.PID_TURN;
+    }
+
+    public void endTurn() {
+        state = State.DRIVER;
     }
 
     public void toggleReverse() {

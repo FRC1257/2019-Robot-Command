@@ -8,9 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-import frc.robot.OI;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.util.Gyro;
 
 public class Climb extends Subsystem {
 
@@ -56,7 +55,7 @@ public class Climb extends Subsystem {
         retractFront();
         retractBack();
 
-        Gyro.getInstance().zeroClimbTiltAngle();
+        Robot.gyro.zeroClimbTiltAngle();
         state = State.GROUND;
     }
 
@@ -67,7 +66,7 @@ public class Climb extends Subsystem {
                 retractFront();
             break;
             case EXTENDED: // Climb Stabilizer
-                double angle = Gyro.getInstance().getClimbTiltAngle();
+                double angle = Robot.gyro.getClimbTiltAngle();
                 // Robot is tilted forwards, so stop back
                 if(angle > RobotMap.CLIMB_CRITICAL_ANGLE) {
                     turnOffBack();
@@ -91,7 +90,7 @@ public class Climb extends Subsystem {
                 break;
         }
 
-        climbDrive(OI.getInstance().getClimbDriveSpeed());
+        climbDrive(Robot.oi.getClimbDriveSpeed());
 
         frontMotor.set(frontSpeed);
         backMotor.set(backSpeed);
@@ -149,7 +148,7 @@ public class Climb extends Subsystem {
     public void advanceClimb() {
         switch(state) {
             case GROUND:
-                Gyro.getInstance().zeroClimbTiltAngle();
+                Robot.gyro.zeroClimbTiltAngle();
                 state = State.EXTENDED;
             break;
             case EXTENDED:

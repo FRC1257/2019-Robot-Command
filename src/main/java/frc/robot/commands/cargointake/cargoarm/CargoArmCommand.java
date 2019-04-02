@@ -13,18 +13,28 @@ public class CargoArmCommand extends Command {
 
     public CargoArmCommand() {
         cargoArm = Robot.cargoArm;
-        oi = OI.getInstance();
+        oi = Robot.oi;
 
         requires(cargoArm);
     }
 
     @Override
-    protected void execute() {
+    public void execute() {
         cargoArm.setSpeed(oi.getCargoArmSpeed());
     }
 
     @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return false;
+    }
+
+    @Override
+    public void end() {
+        
+    }
+
+    @Override
+    public void interrupted() {
+        end();
     }
 }

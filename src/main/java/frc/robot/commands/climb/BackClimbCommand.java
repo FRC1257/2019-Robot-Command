@@ -17,7 +17,17 @@ public class BackClimbCommand extends InstantCommand {
     }
 
     @Override
-    protected void initialize() {
+    public void initialize() {
         climb.backClimb();
+    }
+
+    @Override
+    public void end() {
+        
+    }
+
+    @Override
+    public void interrupted() {
+        end();
     }
 }

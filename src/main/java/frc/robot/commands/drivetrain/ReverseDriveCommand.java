@@ -17,7 +17,17 @@ public class ReverseDriveCommand extends InstantCommand {
     }
 
     @Override
-    protected void initialize() {
+    public void initialize() {
         drivetrain.toggleReverse();
+    }
+
+    @Override
+    public void end() {
+        
+    }
+
+    @Override
+    public void interrupted() {
+        end();
     }
 }

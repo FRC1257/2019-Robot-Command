@@ -16,12 +16,22 @@ public class EjectHatchCommand extends Command {
     }
 
     @Override
-    protected void execute() {
+    public void execute() {
         hatchIntake.eject();
     }
 
     @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return false;
+    }
+
+    @Override
+    public void end() {
+        hatchIntake.neutral();
+    }
+
+    @Override
+    public void interrupted() {
+        end();
     }
 }

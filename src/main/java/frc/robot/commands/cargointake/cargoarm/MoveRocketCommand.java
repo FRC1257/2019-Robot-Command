@@ -17,7 +17,17 @@ public class MoveRocketCommand extends InstantCommand {
     }
 
     @Override
-    protected void initialize() {
+    public void initialize() {
         cargoArm.moveRocket();
+    }
+
+    @Override
+    public void end() {
+        cargoArm.endPID();
+    }
+
+    @Override
+    public void interrupted() {
+        end();
     }
 }

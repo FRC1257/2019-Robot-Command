@@ -16,12 +16,22 @@ public class NeutralCargoCommand extends Command {
     }
 
     @Override
-    protected void execute() {
+    public void execute() {
         cargoIntake.neutral();
     }
 
     @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return false;
+    }
+
+    @Override
+    public void end() {
+        
+    }
+
+    @Override
+    public void interrupted() {
+        end();
     }
 }

@@ -19,9 +19,9 @@ public class Robot extends TimedRobot {
     public static CargoRoller cargoRoller;
     public static HatchIntake hatchIntake;
 
-    private Vision vision;
-    private OI oi;
-    private Gyro gyro;
+    public static Vision vision;
+    public static Gyro gyro;
+    public static OI oi;
 
     private PowerDistributionPanel pdp;
     
@@ -36,8 +36,8 @@ public class Robot extends TimedRobot {
         hatchIntake = new HatchIntake();
 
         vision = Vision.getInstance();
-        oi = OI.getInstance();
         gyro = Gyro.getInstance();
+        oi = OI.getInstance();
 
         pdp = new PowerDistributionPanel();
 

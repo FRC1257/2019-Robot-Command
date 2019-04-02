@@ -16,12 +16,22 @@ public class IntakeHatchCommand extends Command {
     }
 
     @Override
-    protected void execute() {
+    public void execute() {
         hatchIntake.intake();
     }
 
     @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return false;
+    }
+
+    @Override
+    public void end() {
+        hatchIntake.neutral();
+    }
+
+    @Override
+    public void interrupted() {
+        end();
     }
 }

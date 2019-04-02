@@ -17,7 +17,17 @@ public class TurnLeftCommand extends InstantCommand {
     }
 
     @Override
-    protected void initialize() {
+    public void initialize() {
         drivetrain.turnLeft();
+    }
+
+    @Override
+    public void end() {
+        drivetrain.endTurn();
+    }
+
+    @Override
+    public void interrupted() {
+        end();
     }
 }

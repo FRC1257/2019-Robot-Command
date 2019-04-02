@@ -5,6 +5,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 import frc.robot.OI;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.util.snail_vision.SnailVision;
 
@@ -26,7 +27,7 @@ public class Vision {
         turnSpeed = 0;
         limelightNetworkTable = NetworkTableInstance.getDefault().getTable("limelight");
 
-        oi = OI.getInstance();
+        oi = Robot.oi;
 
         setConstantTuning();
     }

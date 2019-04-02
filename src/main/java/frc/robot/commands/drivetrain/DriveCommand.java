@@ -13,18 +13,28 @@ public class DriveCommand extends Command {
 
     public DriveCommand() {
         drivetrain = Robot.drivetrain;
-        oi = OI.getInstance();
+        oi = Robot.oi;
 
         requires(drivetrain);
     }
 
     @Override
-    protected void execute() {
+    public void execute() {
         drivetrain.drive(oi.getDriveForwardSpeed(), oi.getDriveTurnSpeed());
     }
 
     @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return false;
+    }
+
+    @Override
+    public void end() {
+        
+    }
+
+    @Override
+    public void interrupted() {
+        end();
     }
 }
