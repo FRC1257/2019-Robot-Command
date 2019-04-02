@@ -24,7 +24,7 @@ public class Climb extends Subsystem {
     private double backSpeed;
 
     public static enum State {
-        GROUND, EXTENDED, HALF, MANUAL
+        GROUND, EXTENDED, HALF, SECONDARY_RAISE, SECONDARY_FREEZE, MANUAL
     }
     private State state = State.GROUND;
 
@@ -64,7 +64,7 @@ public class Climb extends Subsystem {
         switch(state) {
             case GROUND:
                 retractFront();
-                retractFront();
+                retractBack();
             break;
             case EXTENDED: // Climb Stabilizer
                 double angle = Gyro.getInstance().getClimbTiltAngle();
@@ -85,6 +85,12 @@ public class Climb extends Subsystem {
             case HALF:
                 extendFront();
                 retractBack();
+            break;
+            case SECONDARY_RAISE:
+                extendBack();
+            break;
+            case SECONDARY_FREEZE:
+                turnOffBack();
             break;
             case MANUAL:
                 // Once this state is reached, the climb will only be actuated through manual procedures until reset
@@ -158,6 +164,10 @@ public class Climb extends Subsystem {
             case HALF:
                 state = State.GROUND;
             break;
+            case SECONDARY_RAISE:
+            break;
+            case SECONDARY_FREEZE:
+            break;
             case MANUAL:
             break;
         }
@@ -176,6 +186,33 @@ public class Climb extends Subsystem {
             break;
             case HALF:
                 state = State.EXTENDED;
+            break;
+            case SECONDARY_RAISE:
+            break;
+            case SECONDARY_FREEZE:
+            break;
+            case MANUAL:
+            break;
+        }
+    }
+
+    /** 
+     * Advance our level 2 climb
+     */
+    public void advanceSecondaryClimb() {
+        switch(state) {
+            case GROUND:
+                state = State.SECONDARY_RAISE;
+            break;
+            case EXTENDED:
+            break;
+            case HALF:
+            break;
+            case SECONDARY_RAISE:
+                state = State.SECONDARY_FREEZE;
+            break;
+            case SECONDARY_FREEZE:
+                state = State.GROUND;
             break;
             case MANUAL:
             break;
