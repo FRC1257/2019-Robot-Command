@@ -9,6 +9,8 @@ import java.util.Vector;
 import java.util.function.BooleanSupplier;
 
 /**
+ * Command that runs once a certain boolean condition is met
+ * 
  * @author FRC Team 1923
  */
 

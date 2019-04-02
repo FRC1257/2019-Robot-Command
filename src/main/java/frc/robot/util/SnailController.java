@@ -81,6 +81,15 @@ public class SnailController extends Joystick {
 			return 0;
 	}
 
+	/** 
+	 * Deadbands a number and returns the result
+	 * If |number| < deadband, then the function will return 0
+	 * Otherwise, it will return the number
+	 * 
+	 * @param number the number to deadband
+	 * 
+	 * @return deadbanded number
+	 */
 	public double applyDeadband(double number) {
 		if (Math.abs(number) < RobotMap.CONTROLLER_DEADBAND) {
 			return 0;
@@ -88,6 +97,13 @@ public class SnailController extends Joystick {
 		return number;
 	}
 
+	/** 
+	 * Squares a number but retains the sign
+	 * 
+	 * @param number the number to square
+	 * 
+	 * @return squared number
+	 */
 	public static double squareInput(double number) {
 		// Use abs to prevent the sign from being cancelled out
 		return Math.abs(number) * number;

@@ -13,18 +13,21 @@ import frc.robot.util.*;
 
 public class Robot extends TimedRobot {
 
+    // Subsystems
     public static Drivetrain drivetrain;
     public static Climb climb;
     public static CargoArm cargoArm;
     public static CargoRoller cargoRoller;
     public static HatchIntake hatchIntake;
 
+    // Extra Systems
     public static Vision vision;
     public static Gyro gyro;
     public static OI oi;
 
     private PowerDistributionPanel pdp;
     
+    // Timestamp of last iteration
     private double lastTimeStamp;
 
     @Override
@@ -75,6 +78,13 @@ public class Robot extends TimedRobot {
         getSubsystemConstants();
     }
 
+    /** 
+     * Runs the update loop of every subsystem
+     *  - Sends values to motor controllers
+     *  - Updates internal states of subsystems
+     *  - Outputs to SmartDashboard/Shuffleboard
+     */
+
     public void updateSubsystems() {
         vision.update();
         
@@ -91,6 +101,9 @@ public class Robot extends TimedRobot {
         lastTimeStamp = Timer.getFPGATimestamp();
     }
 
+    /**
+     * Updates subsystem constants from SmartDashboard/Shuffleboard
+     */
     public void getSubsystemConstants() {
         drivetrain.getConstantTuning();
         climb.getConstantTuning();

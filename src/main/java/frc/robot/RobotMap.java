@@ -25,21 +25,21 @@ public class RobotMap {
     // Controllers
     public static final int CONTROLLER_DRIVE_PORT = 0;
     public static final int CONTROLLER_OPERATOR_PORT = 1; 
-    public static final double CONTROLLER_DEADBAND = 0.08; // Deadband for the joysticks of the controllers
+    public static final double CONTROLLER_DEADBAND = 0.08; // deadband for joysticks of controllers
 
     // Drive
     public static final int DRIVE_FRONT_LEFT_ID = 4;
     public static final int DRIVE_FRONT_RIGHT_ID = 3;
     public static final int DRIVE_BACK_LEFT_ID = 2;
     public static final int DRIVE_BACK_RIGHT_ID = 1;
-    public static final double DRIVE_FORWARD_MAX_SPEED = 1.0;
-    public static final double DRIVE_TURN_MAX_SPEED = 0.8;
+    public static final double DRIVE_FORWARD_MAX_SPEED = 1.0; // percentage
+    public static final double DRIVE_TURN_MAX_SPEED = 0.8; // percentage
 
     public static double[] DRIVE_TURN_PIDF = { 0.01, 0.0, 0.0, 0.0 };
-    public static double DRIVE_TURN_PID_TOLERANCE = 3.0;
-    public static double DRIVE_TURN_PID_WAIT = 2.0;
-    public static double DRIVE_TURN_PID_MAX_OUTPUT = 0.8;
-    public static double DRIVE_TURN_PID_MIN_OUTPUT = -0.8;
+    public static double DRIVE_TURN_PID_TOLERANCE = 3.0; // degrees
+    public static double DRIVE_TURN_PID_WAIT = 2.0; // seconds
+    public static double DRIVE_TURN_PID_MAX_OUTPUT = 0.8; // percentage
+    public static double DRIVE_TURN_PID_MIN_OUTPUT = -0.8; // percentage
 
     // Hatch Intake
     public static final int HATCH_INTAKE_MOTOR_ID = 11;
@@ -52,18 +52,18 @@ public class RobotMap {
     public static final int CARGO_ARM_LIMIT_SWITCH_ID = 1;
 
     // Cargo Arm: 0 is at bottom, positive means higher
-    public static final double CARGO_ARM_PID_ROCKET = 11.0; // Target position for rocket
-    public static final double CARGO_ARM_PID_CARGO = 18.5; // Target position for cargo ship
-    public static final double CARGO_ARM_PID_RAISED = 28.0; // Initial position of arm
+    public static final double CARGO_ARM_PID_ROCKET = 11.0; // Target position for rocket (revolutions)
+    public static final double CARGO_ARM_PID_CARGO = 18.5; // Target position for cargo ship (revolutions)
+    public static final double CARGO_ARM_PID_RAISED = 28.0; // Initial position of arm (revolutions)
     public static double CARGO_ARM_MAX_SPEED = 1.0;
 
     public static final double[] CARGO_ARM_PIDF = { 0.1, 0.0, 0.0, 0.0 };
     public static final double CARGO_ARM_ARB_F = 0.0;
     public static final double CARGO_ARM_ANGLE_CONV_FACTOR = 90.0 / CARGO_ARM_PID_RAISED; // conversion factor from motor rev to angle
-    public static final double CARGO_ARM_PID_TOLERANCE = 1.0;
-    public static final double CARGO_ARM_PID_WAIT = 2.0;
-    public static final double CARGO_ARM_PID_MAX_OUTPUT = 1.0;
-    public static final double CARGO_ARM_PID_MIN_OUTPUT = -1.0;
+    public static final double CARGO_ARM_PID_TOLERANCE = 1.0; // revolutions
+    public static final double CARGO_ARM_PID_WAIT = 2.0; // seconds
+    public static final double CARGO_ARM_PID_MAX_OUTPUT = 1.0; // percentage
+    public static final double CARGO_ARM_PID_MIN_OUTPUT = -1.0; // percentage
 
     // Cargo Roller
     public static final int CARGO_ROLLER_MOTOR_ID = 7;
@@ -80,8 +80,8 @@ public class RobotMap {
     public static final int CLIMB_BACK_SOLENOID_FORWARD_ID = 2;
     public static final int CLIMB_BACK_SOLENOID_REVERSE_ID = 3;
 
-    public static double CLIMB_DRIVE_MAX_SPEED = 1.0;
-    public static final double CLIMB_CRITICAL_ANGLE = 5.0; // Critical angle before the climb stabilizer kicks in
+    public static double CLIMB_DRIVE_MAX_SPEED = 1.0; // percentage
+    public static final double CLIMB_CRITICAL_ANGLE = 5.0; // Critical angle before the climb stabilizer kicks in (degrees)
     
     // Vision
     public static final double[] AREA_TO_DISTANCE_ROCKET = {1};

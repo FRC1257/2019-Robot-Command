@@ -88,6 +88,7 @@ public class Gyro {
 
     /**
      * Gets the current tilt of the robot while climbing.
+     * Utilizes the NavX if it is connected, but otherwise it will use the backup gyro
      * 
      * @return THe angle in degrees
      */
@@ -115,6 +116,11 @@ public class Gyro {
         gyro.reset();
     }
 
+    /**
+     * Returns whether or not the NavX is currently connected and sending valid data 
+     * 
+     * @return whether or not the NavX is currently connected
+     */
     public boolean navXConnected() {
         return navx.isConnected();
     }

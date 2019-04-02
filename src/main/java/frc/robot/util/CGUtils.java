@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class CGUtils {
     
+    /** 
+     * Create a sequential command group from a list of commands
+     */
     public static CommandGroup sequential(Command... commands) {
         CommandGroup commandGroup = new CommandGroup();
 
@@ -19,6 +22,9 @@ public class CGUtils {
         return commandGroup;
     }
 
+    /** 
+     * Create a parallel command group from a list of commands
+     */
     public static CommandGroup parallel(Command... commands) {
         CommandGroup commandGroup = new CommandGroup();
 
