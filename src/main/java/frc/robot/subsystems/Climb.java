@@ -11,6 +11,13 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
+/**
+ * Subsystem to handle our Level 3 and Level 2 Climb
+ *  - Uses 2 3-Position Double Solenoids for lifting the front and back
+ *  - Uses 2 VictorSPXs for a sub-drivetrain while climbing
+ *  - Calculates the tilt of the robot to correct for the climb
+ */
+
 public class Climb extends Subsystem {
 
     private DoubleSolenoid frontSolenoid;
@@ -22,6 +29,18 @@ public class Climb extends Subsystem {
     private double frontSpeed;
     private double backSpeed;
 
+    /**
+     * GROUND - Default state with neither solenoid extended (Front - Hatch, Back - Cargo)
+     * MANUAL - Manual testing mode for climb. Should never be used in a match
+     * 
+     * Level 3 States:
+     *  - EXTENDED - Both solenoids are extending (uses a climb stabilizer during this step)
+     *  - HALF - Retracts the back solenoid to get onto Level 3
+     * 
+     * Level 2 States:
+     *  - SECONDARY_RAISE - Begins extending the back solenoid to level the robot
+     *  - SECONDARY_FREEZE - Freezes the back solenoid to allow driving onto Level 2
+     */
     public static enum State {
         GROUND, EXTENDED, HALF, SECONDARY_RAISE, SECONDARY_FREEZE, MANUAL
     }
@@ -59,6 +78,11 @@ public class Climb extends Subsystem {
         state = State.GROUND;
     }
 
+    /**
+     * Update the state of the solenoid depending on climb state
+     * Send motor output for the sub-drivetrain
+     * Output debugging values
+     */
     public void update() {
         switch(state) {
             case GROUND:
@@ -87,9 +111,11 @@ public class Climb extends Subsystem {
             break;
             case SECONDARY_RAISE:
                 extendBack();
+                retractFront();
             break;
             case SECONDARY_FREEZE:
                 turnOffBack();
+                retractFront();
             break;
             case MANUAL:
                 // Once this state is reached, the climb will only be actuated through manual procedures until reset
@@ -110,6 +136,9 @@ public class Climb extends Subsystem {
         SmartDashboard.putString("Climb State", state.name());
     }
 
+    /**
+     * Toggles the state of the hatch side solenoid
+     */
     public void toggleFront() {
         if(isFrontExtended()) retractFront();
         else extendFront();
@@ -117,18 +146,30 @@ public class Climb extends Subsystem {
         state = State.MANUAL;
     }
 
+    /**
+     * Retracts the hatch side solenoid
+     */
     public void retractFront() {
         frontSolenoid.set(Value.kForward);
     }
 
+    /**
+     * Extends the hatch side solenoid
+     */
     public void extendFront() {
         frontSolenoid.set(Value.kReverse); 
     }
 
+    /**
+     * Freezes the hatch side solenoid
+     */
     public void turnOffFront() {
         frontSolenoid.set(Value.kOff);
     }
 
+    /**
+     * Toggles the state of the cargo side solenoid
+     */
     public void toggleBack() {
         if(isBackExtended()) retractBack();
         else extendBack();
@@ -136,20 +177,29 @@ public class Climb extends Subsystem {
         state = State.MANUAL;
     }
 
+    /**
+     * Retracts the cargo side solenoid
+     */
     public void retractBack() {
         backSolenoid.set(Value.kForward);
     }
 
+    /**
+     * Extends the cargo side solenoid
+     */
     public void extendBack() {
         backSolenoid.set(Value.kReverse);
     }
 
+    /**
+     * Freezes the cargo side solenoid
+     */
     public void turnOffBack() {
         backSolenoid.set(Value.kOff);
     }
 
     /** 
-     *  Go to the next state of the climb
+     * Go to the next state of the Level 3 climb
      */
     public void advanceClimb() {
         switch(state) {
@@ -173,7 +223,7 @@ public class Climb extends Subsystem {
     }
 
     /** 
-     *  Go to the prev state of the climb
+     * Go to the previous state of the Level 3 climb
      */
     public void backClimb() {
         switch(state) {
@@ -196,7 +246,7 @@ public class Climb extends Subsystem {
     }
 
     /** 
-     * Advance our level 2 climb
+     * Advance our Level 2 climb
      */
     public void advanceSecondaryClimb() {
         switch(state) {
@@ -218,26 +268,42 @@ public class Climb extends Subsystem {
         }
     }
 
+    /**
+     * Set a speed to the climb sub-drivetrain
+     * 
+     * @param speed speed for the climb sub-drivetrain
+     */
     public void climbDrive(double speed) {
         double adjustedSpeed = speed * RobotMap.CLIMB_DRIVE_MAX_SPEED;
         frontSpeed = adjustedSpeed;
         backSpeed = adjustedSpeed;
     }
 
-    // Whether or not the front is currently extended
+    /**
+     * @return whether or not the front (hatch side) is currently extended
+     */
     public boolean isFrontExtended() {
         return frontSolenoid.get() == DoubleSolenoid.Value.kReverse;
     }
 
-    // Whether or not the back is currently extended
+    
+    /**
+     * @return whether or not the back (cargo side) is currently extended
+     */
     public boolean isBackExtended() {
         return backSolenoid.get() == DoubleSolenoid.Value.kReverse;
     }
 
+    /**
+     * Set up SmartDashboard/Shuffleboard for constant tuning
+     */
     public void setConstantTuning() {
         
     }
 
+    /**
+     * Retrieves constant tuning from SmartDashboard/Shuffleboard
+     */
     public void getConstantTuning() {
         
     }

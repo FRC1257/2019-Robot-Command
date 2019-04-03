@@ -14,6 +14,12 @@ import frc.robot.commands.drivetrain.*;
 import frc.robot.util.Gyro;
 import frc.robot.util.SynchronousPIDF;
 
+/**
+ * Subsystem to handle our 4 NEO Tank Drivetrain
+ *  - Utilizes PID for 90 deg turns
+ *  - Can toggle reverse driving
+ */
+
 public class Drivetrain extends Subsystem {
 
     private CANSparkMax flDrive;
@@ -29,6 +35,10 @@ public class Drivetrain extends Subsystem {
     private double turnSpeed;
     private boolean reversed;
 
+    /**
+     * DRIVER - Manual driver control
+     * PID_TURN - Using PID to execute a 90 deg turn
+     */
     public static enum State {
         DRIVER, PID_TURN
     }
@@ -86,6 +96,11 @@ public class Drivetrain extends Subsystem {
         state = State.DRIVER;
     }
 
+    /**
+     * Update motor outputs according to the current state
+     * Use dt for PID calculations
+     * Output debugging values
+     */
     public void update(double deltaT) {
         switch(state) {
             case DRIVER:
@@ -118,6 +133,13 @@ public class Drivetrain extends Subsystem {
         SmartDashboard.putNumber("Drive BR Temperature (C)", brDrive.getMotorTemperature());
     }
 
+    /**
+     * Drive at a specific forward speed and turn speed.
+     * Will end PID if called
+     * 
+     * @param x forward speed
+     * @param z turn speed
+     */
     public void drive(double x, double z) {
         if(reversed) {
             driveSpeed = -x * RobotMap.DRIVE_FORWARD_MAX_SPEED;
@@ -132,6 +154,9 @@ public class Drivetrain extends Subsystem {
         }
     }
 
+    /**
+     * Begin a PID turn for 90 deg counterclockwise
+     */
     public void turnLeft() {
         gyro.zeroRobotAngle();
         pidController.reset();
@@ -139,6 +164,9 @@ public class Drivetrain extends Subsystem {
         state = State.PID_TURN;
     }
 
+    /**
+     * Begin a PID turn for 90 deg clockwise
+     */
     public void turnRight() {
         gyro.zeroRobotAngle();
         pidController.reset();
@@ -146,10 +174,16 @@ public class Drivetrain extends Subsystem {
         state = State.PID_TURN;
     }
 
+    /**
+     * Toggle the reverse drive
+     */
     public void toggleReverse() {
         reversed = !reversed;
     }
 
+    /**
+     * Set up SmartDashboard/Shuffleboard for constant tuning
+     */
     public void setConstantTuning() {
         SmartDashboard.putNumber("Drive Turn P", RobotMap.DRIVE_TURN_PIDF[0]);
         SmartDashboard.putNumber("Drive Turn I", RobotMap.DRIVE_TURN_PIDF[1]);
@@ -157,6 +191,9 @@ public class Drivetrain extends Subsystem {
         SmartDashboard.putNumber("Drive Turn F", RobotMap.DRIVE_TURN_PIDF[3]);
     }
 
+    /**
+     * Retrieves constant tuning from SmartDashboard/Shuffleboard
+     */
     public void getConstantTuning() {
         RobotMap.DRIVE_TURN_PIDF[0] = SmartDashboard.getNumber("Drive Turn P", RobotMap.DRIVE_TURN_PIDF[0]);
         RobotMap.DRIVE_TURN_PIDF[1] = SmartDashboard.getNumber("Drive Turn I", RobotMap.DRIVE_TURN_PIDF[1]);
