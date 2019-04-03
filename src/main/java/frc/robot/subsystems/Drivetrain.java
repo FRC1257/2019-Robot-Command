@@ -146,10 +146,6 @@ public class Drivetrain extends Subsystem {
         state = State.PID_TURN;
     }
 
-    public void endTurn() {
-        state = State.DRIVER;
-    }
-
     public void toggleReverse() {
         reversed = !reversed;
     }

@@ -39,7 +39,7 @@ public class TurnRightWaitCommand extends Command {
 
     @Override
     public void end() {
-        drivetrain.endTurn();
+
     }
 
     @Override

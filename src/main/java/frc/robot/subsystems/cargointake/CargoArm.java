@@ -126,10 +126,6 @@ public class CargoArm extends Subsystem {
         state = State.PID;
     }
 
-    public void endPID() {
-        state = State.MANUAL;
-    }
-
     /* 
      * Resets the encoder to the bottom position
      */
