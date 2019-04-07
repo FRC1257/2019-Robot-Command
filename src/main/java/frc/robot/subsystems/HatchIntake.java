@@ -11,7 +11,7 @@ import frc.robot.commands.hatchintake.*;
 
 /**
  * Subsystem to handle intaking and ejecting hatch panels
- * Utilizes a single motor attached to a rolling intake
+ *  - Utilizes a single motor attached to a rolling intake
  */
 
 public class HatchIntake extends Subsystem {
@@ -68,7 +68,7 @@ public class HatchIntake extends Subsystem {
     }
 
     /**
-     * Updates motor outputs according to the current state
+     * Update motor outputs according to the current state
      */
     public void update() {
         switch(state) {
