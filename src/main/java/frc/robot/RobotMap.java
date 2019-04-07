@@ -4,7 +4,7 @@ import frc.robot.util.snail_vision.*;
 
 public class RobotMap {
 
-    /**
+    /*
      * The RobotMap is a mapping from the ports sensors and actuators are wired into
      * to a variable name. This provides flexibility changing wiring, makes checking
      * the wiring easier and significantly reduces the number of magic numbers
@@ -12,7 +12,7 @@ public class RobotMap {
      * The units of each measurement should be specified in a comment
      */
 
-    /**
+    /*
      * Needed Measurements:
      * Drive turn PIDF constants
      * Cargo arm positions and PIDF constants (something changed in the gearbox, not sure what)
@@ -42,7 +42,7 @@ public class RobotMap {
     public static double DRIVE_TURN_PID_MIN_OUTPUT = -0.8; // percentage
 
     // Hatch Intake
-    public static final int HATCH_INTAKE_MOTOR_ID = 11;
+    public static final int HATCH_INTAKE_MOTOR_ID = 5;
     public static double HATCH_INTAKE_EJECT_SPEED = -1.0; // percentage
     public static double HATCH_INTAKE_INTAKE_SPEED = 1.0; // percentage
     public static double HATCH_INTAKE_CONSTANT_INTAKE_SPEED = 0.2; // percentage

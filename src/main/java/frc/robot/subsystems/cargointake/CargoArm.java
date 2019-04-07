@@ -26,7 +26,7 @@ public class CargoArm extends Subsystem {
     private double speed;
     private double currentPIDSetpoint;
     
-    public static enum State {
+    public enum State {
         MANUAL, PID
     }
     private State state = State.MANUAL;
@@ -57,7 +57,7 @@ public class CargoArm extends Subsystem {
         setDefaultCommand(new CargoArmCommand());
     }
     
-    public void reset() {
+    private void reset() {
         cargoArmMotor.set(0);
 
         currentPIDSetpoint = -1257;
@@ -120,7 +120,7 @@ public class CargoArm extends Subsystem {
         setPIDPosition(RobotMap.CARGO_ARM_PID_CARGO);
     }
 
-    public void setPIDPosition(double value) {
+    private void setPIDPosition(double value) {
         cargoArmPID.setIAccum(0);
         currentPIDSetpoint = value;
         state = State.PID;
@@ -169,7 +169,7 @@ public class CargoArm extends Subsystem {
         return lastLimit != getLimitSwitch();
     }
     
-    public void setConstantTuning() {
+    private void setConstantTuning() {
         SmartDashboard.putNumber("Intake Arm Max Speed", RobotMap.CARGO_ARM_MAX_SPEED);
 
         SmartDashboard.putNumber("Intake Arm P", RobotMap.CARGO_ARM_PIDF[0]);

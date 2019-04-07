@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
      *  - Outputs to SmartDashboard/Shuffleboard
      */
 
-    public void updateSubsystems() {
+    private void updateSubsystems() {
         vision.update();
         
         drivetrain.update(Timer.getFPGATimestamp() - lastTimeStamp);
@@ -104,7 +104,7 @@ public class Robot extends TimedRobot {
     /**
      * Updates subsystem constants from SmartDashboard/Shuffleboard
      */
-    public void getSubsystemConstants() {
+    private void getSubsystemConstants() {
         drivetrain.getConstantTuning();
         climb.getConstantTuning();
         cargoArm.getConstantTuning();

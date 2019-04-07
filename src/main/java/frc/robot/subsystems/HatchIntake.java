@@ -23,13 +23,13 @@ public class HatchIntake extends Subsystem {
      * EJECTING - spinning outwards to eject a hatch
      * NEUTRAL - spinning slowly inwards to prevent a hatch from falling out
      */
-    public static enum State {
+    public enum State {
         INTAKING, EJECTING, NEUTRAL
     }
     private State state = State.NEUTRAL;
 
     public HatchIntake() {
-        intakeMotor = new WPI_VictorSPX(RobotMap.CARGO_ROLLER_MOTOR_ID);
+        intakeMotor = new WPI_VictorSPX(RobotMap.HATCH_INTAKE_MOTOR_ID);
         intakeMotor.setNeutralMode(NeutralMode.Brake);
 
         setConstantTuning();
@@ -41,7 +41,7 @@ public class HatchIntake extends Subsystem {
         setDefaultCommand(new NeutralHatchCommand());
     }
     
-    public void reset() {
+    private void reset() {
         intakeMotor.set(0.0);
         state = State.NEUTRAL;
     }
@@ -87,7 +87,7 @@ public class HatchIntake extends Subsystem {
     /**
      * Set up SmartDashboard/Shuffleboard for constant tuning
      */
-    public void setConstantTuning() {
+    private void setConstantTuning() {
         SmartDashboard.putNumber("Hatch Intake Speed", RobotMap.HATCH_INTAKE_INTAKE_SPEED);
         SmartDashboard.putNumber("Hatch Eject Speed", RobotMap.HATCH_INTAKE_EJECT_SPEED);
         SmartDashboard.putNumber("Hatch Constant Speed", RobotMap.HATCH_INTAKE_CONSTANT_INTAKE_SPEED);

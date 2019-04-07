@@ -2,17 +2,17 @@
 
 ## Structure
 
-Robot.java - Creates all of the subsystem objects and updates them
+ - `Robot.java` - Creates all of the subsystem objects and updates them
 
-OI.java - Binds the operator controls to the commands for the subsystems
+ - `OI.java` - Binds the operator controls to the commands for the subsystems
 
-RobotMap.java - Contains all constants for the robot code
+ - `RobotMap.java` - Contains all constants for the robot code
 
-/util - Utility classes for controllers, PIDF, and Gyro
+ - `/util` - Utility classes for controllers, PIDF, and Gyro
 
-/subsystems - All subsystems on our robot
+ - `/subsystems` - All subsystems on our robot
 
-/commands - All commands to control the various subsystems
+ - `/commands` - All commands to control the various subsystems
 
 ### Subsystems
 
@@ -26,5 +26,5 @@ Some actions have both a `Command` version and a `WaitCommand` version, specific
 
 ## Credits
 
-SynchronousPIDF.java - FRC Team 254
-CGUtils.java + QueueCommand.java - FRC Team 1923
+ - `SynchronousPIDF.java` - FRC Team 254
+ - `CGUtils.java` + `QueueCommand.java` - FRC Team 1923

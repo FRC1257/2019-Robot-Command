@@ -80,7 +80,7 @@ public class Vision {
     /**
      * Set up SmartDashboard/Shuffleboard for constant tuning
      */
-    public void setConstantTuning() {
+    private void setConstantTuning() {
         SmartDashboard.putNumber("Vision Angle Correct P", vision.ANGLE_CORRECT_P);
         SmartDashboard.putNumber("Vision Angle Correct F", vision.ANGLE_CORRECT_F);
         SmartDashboard.putNumber("Vision Distance Correct P", vision.GET_IN_DISTANCE_P);

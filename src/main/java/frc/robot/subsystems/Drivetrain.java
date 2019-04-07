@@ -29,7 +29,7 @@ public class Drivetrain extends Subsystem {
     private double turnSpeed;
     private boolean reversed;
 
-    public static enum State {
+    public enum State {
         DRIVER, PID_TURN
     }
     private State state = State.DRIVER;
@@ -62,6 +62,7 @@ public class Drivetrain extends Subsystem {
         gyro = Robot.gyro;
         pidController = new SynchronousPIDF(RobotMap.DRIVE_TURN_PIDF[0], RobotMap.DRIVE_TURN_PIDF[1], 
             RobotMap.DRIVE_TURN_PIDF[2], RobotMap.DRIVE_TURN_PIDF[3]);
+        pidController.setOutputRange(RobotMap.DRIVE_TURN_PID_MIN_OUTPUT, RobotMap.DRIVE_TURN_PID_MAX_OUTPUT);
 
         driveSpeed = 0;
         turnSpeed = 0;
@@ -76,7 +77,7 @@ public class Drivetrain extends Subsystem {
         setDefaultCommand(new DriveCommand());
     }
 
-    public void reset() {
+    private void reset() {
         flDrive.set(0);
         frDrive.set(0);
         blDrive.set(0);
@@ -154,7 +155,7 @@ public class Drivetrain extends Subsystem {
         reversed = !reversed;
     }
 
-    public void setConstantTuning() {
+    private void setConstantTuning() {
         SmartDashboard.putNumber("Drive Turn P", RobotMap.DRIVE_TURN_PIDF[0]);
         SmartDashboard.putNumber("Drive Turn I", RobotMap.DRIVE_TURN_PIDF[1]);
         SmartDashboard.putNumber("Drive Turn D", RobotMap.DRIVE_TURN_PIDF[2]);

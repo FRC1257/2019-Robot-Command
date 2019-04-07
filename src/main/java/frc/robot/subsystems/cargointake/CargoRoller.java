@@ -13,7 +13,7 @@ public class CargoRoller extends Subsystem {
 
     private WPI_VictorSPX intakeMotor;
 
-    public static enum State {
+    public enum State {
         INTAKING, EJECTING, NEUTRAL
     }
     private State state = State.NEUTRAL;
@@ -30,8 +30,8 @@ public class CargoRoller extends Subsystem {
     public void initDefaultCommand() {
         setDefaultCommand(new NeutralCargoCommand());
     }
-    
-    public void reset() {
+
+    private void reset() {
         intakeMotor.set(0.0);
         state = State.NEUTRAL;
     }
@@ -62,7 +62,7 @@ public class CargoRoller extends Subsystem {
         }
     }
 
-    public void setConstantTuning() {
+    private void setConstantTuning() {
         SmartDashboard.putNumber("Cargo Intake Speed", RobotMap.CARGO_ROLLER_INTAKE_SPEED);
         SmartDashboard.putNumber("Cargo Eject Speed", RobotMap.CARGO_ROLLER_EJECT_SPEED);
         SmartDashboard.putNumber("Cargo Constant Speed", RobotMap.CARGO_ROLLER_CONSTANT_INTAKE_SPEED);

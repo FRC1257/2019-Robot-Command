@@ -18,7 +18,7 @@ public class SnailControllerTrigger extends Trigger {
 
     @Override
     public boolean get() {
-        if(right) {
+        if (right) {
             return snailController.getRightTrigger() > 0.5;
         }
         else {

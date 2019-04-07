@@ -61,22 +61,22 @@ public class SnailController extends Joystick {
 
 	public double getForwardSpeed() {
 		if (aButton.get())
-			return getY(Hand.kLeft);
+			return getLeftStickY();
 		else if (leftBumper.get())
-			return getY(Hand.kLeft);
+			return getLeftStickY();
 		else if (rightBumper.get())
-			return getY(Hand.kRight);
+			return getRightStickY();
 		else
 			return 0;
 	}
 
 	public double getTurnSpeed() {
 		if (aButton.get())
-			return getX(Hand.kLeft);
+			return getLeftStickX();
 		else if (leftBumper.get())
-			return getX(Hand.kRight);
+			return getRightStickX();
 		else if (rightBumper.get())
-			return getX(Hand.kLeft);
+			return getLeftStickX();
 		else
 			return 0;
 	}
@@ -90,7 +90,7 @@ public class SnailController extends Joystick {
 	 * 
 	 * @return deadbanded number
 	 */
-	public double applyDeadband(double number) {
+	public static double applyDeadband(double number) {
 		if (Math.abs(number) < RobotMap.CONTROLLER_DEADBAND) {
 			return 0;
 		}

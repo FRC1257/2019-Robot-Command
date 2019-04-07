@@ -22,7 +22,7 @@ public class Climb extends Subsystem {
     private double frontSpeed;
     private double backSpeed;
 
-    public static enum State {
+    public enum State {
         GROUND, EXTENDED, HALF, SECONDARY_RAISE, SECONDARY_FREEZE, MANUAL
     }
     private State state = State.GROUND;
@@ -187,10 +187,13 @@ public class Climb extends Subsystem {
                 state = State.EXTENDED;
             break;
             case SECONDARY_RAISE:
+                // Intentionally Empty
             break;
             case SECONDARY_FREEZE:
+                // Intentionally Empty
             break;
             case MANUAL:
+                // Intentionally Empty
             break;
         }
     }
@@ -204,8 +207,10 @@ public class Climb extends Subsystem {
                 state = State.SECONDARY_RAISE;
             break;
             case EXTENDED:
+                // Intentionally Empty
             break;
             case HALF:
+                // Intentionally Empty
             break;
             case SECONDARY_RAISE:
                 state = State.SECONDARY_FREEZE;
@@ -214,6 +219,7 @@ public class Climb extends Subsystem {
                 state = State.GROUND;
             break;
             case MANUAL:
+                // Intentionally Empty
             break;
         }
     }

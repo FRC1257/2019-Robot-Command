@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/2019-Robot-Command.iml" filepath="$PROJECT_DIR$/2019-Robot-Command.iml" group="2019-Robot-Command" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2019-Robot-Command_main.iml" filepath="$PROJECT_DIR$/.idea/modules/2019-Robot-Command_main.iml" group="2019-Robot-Command" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2019-Robot-Command_test.iml" filepath="$PROJECT_DIR$/.idea/modules/2019-Robot-Command_test.iml" group="2019-Robot-Command" />
+    </modules>
+  </component>
+</project>
