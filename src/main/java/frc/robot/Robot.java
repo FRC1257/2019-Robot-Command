@@ -87,8 +87,9 @@ public class Robot extends TimedRobot {
 
     private void updateSubsystems() {
         vision.update();
-        
-        drivetrain.update(Timer.getFPGATimestamp() - lastTimeStamp);
+
+        double deltaT = Timer.getFPGATimestamp() - lastTimeStamp;
+        drivetrain.update(deltaT);
         climb.update();
         cargoArm.update();
         cargoRoller.update();
@@ -97,6 +98,7 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putNumber("PDP Temperature (C)", pdp.getTemperature());
         SmartDashboard.putData(pdp);
+        SmartDashboard.putNumber("dT", deltaT);
 
         lastTimeStamp = Timer.getFPGATimestamp();
     }

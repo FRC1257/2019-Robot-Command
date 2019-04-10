@@ -98,7 +98,6 @@ public class CargoArm extends Subsystem {
         SmartDashboard.putNumber("Intake Arm PID Setpoint", currentPIDSetpoint);
         SmartDashboard.putBoolean("Intake Arm Limit Switch", getLimitSwitch());
         SmartDashboard.putNumber("Intake Arm Position", getEncoderPosition());
-        SmartDashboard.putNumber("Intake Arm Velocity", getEncoderVelocity());
 
         SmartDashboard.putNumber("Intake Arm Current", cargoArmMotor.getOutputCurrent());
         SmartDashboard.putNumber("Intake Arm Temperature (C)", cargoArmMotor.getMotorTemperature());

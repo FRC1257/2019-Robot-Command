@@ -105,8 +105,6 @@ public class Climb extends Subsystem {
 
         SmartDashboard.putBoolean("Climb Front Extended", isFrontExtended());
         SmartDashboard.putBoolean("Climb Back Extended", isBackExtended());
-        SmartDashboard.putNumber("Climb Front Speed", frontMotor.get());
-        SmartDashboard.putNumber("Climb Back Speed", backMotor.get());
         SmartDashboard.putString("Climb State", state.name());
     }
 

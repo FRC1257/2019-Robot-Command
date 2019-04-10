@@ -112,11 +112,6 @@ public class Drivetrain extends Subsystem {
         SmartDashboard.putNumber("Drive FR Current", frDrive.getOutputCurrent());
         SmartDashboard.putNumber("Drive BL Current", blDrive.getOutputCurrent());
         SmartDashboard.putNumber("Drive BR Current", brDrive.getOutputCurrent());
-
-        SmartDashboard.putNumber("Drive FL Temperature (C)", flDrive.getMotorTemperature());
-        SmartDashboard.putNumber("Drive FR Temperature (C)", frDrive.getMotorTemperature());
-        SmartDashboard.putNumber("Drive BL Temperature (C)", blDrive.getMotorTemperature());
-        SmartDashboard.putNumber("Drive BR Temperature (C)", brDrive.getMotorTemperature());
     }
 
     public void drive(double x, double z) {
