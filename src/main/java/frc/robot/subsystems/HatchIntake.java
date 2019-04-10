@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import frc.robot.RobotMap;
+import static frc.robot.RobotMap.ElectricalLayout;
 import frc.robot.commands.hatchintake.*;
 
 /**
@@ -29,7 +30,7 @@ public class HatchIntake extends Subsystem {
     private State state = State.NEUTRAL;
 
     public HatchIntake() {
-        intakeMotor = new WPI_VictorSPX(RobotMap.HATCH_INTAKE_MOTOR_ID);
+        intakeMotor = new WPI_VictorSPX(ElectricalLayout.HATCH_INTAKE_MOTOR_ID);
         intakeMotor.setNeutralMode(NeutralMode.Brake);
 
         setConstantTuning();

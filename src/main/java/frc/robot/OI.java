@@ -7,6 +7,7 @@ import frc.robot.commands.climb.*;
 import frc.robot.commands.hatchintake.*;
 import frc.robot.util.SnailController;
 import static frc.robot.util.SnailController.*;
+import static frc.robot.RobotMap.ElectricalLayout;
 
 public class OI {
 
@@ -21,8 +22,8 @@ public class OI {
     private SnailController operatorController;
 
     private OI() {
-        driveController = new SnailController(RobotMap.CONTROLLER_DRIVE_PORT);
-        operatorController = new SnailController(RobotMap.CONTROLLER_OPERATOR_PORT);
+        driveController = new SnailController(ElectricalLayout.CONTROLLER_DRIVE_PORT);
+        operatorController = new SnailController(ElectricalLayout.CONTROLLER_OPERATOR_PORT);
 
         // Drive
         driveController.yButton.whenPressed(new ReverseDriveCommand());

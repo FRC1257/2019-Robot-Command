@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.RobotMap;
+import static frc.robot.RobotMap.ElectricalLayout;
 import frc.robot.commands.cargointake.cargoarm.*;
 
 public class CargoArm extends Subsystem {
@@ -32,7 +33,7 @@ public class CargoArm extends Subsystem {
     private State state = State.MANUAL;
 
     public CargoArm() {
-        cargoArmMotor = new CANSparkMax(RobotMap.CARGO_ARM_MOTOR_ID, MotorType.kBrushless);
+        cargoArmMotor = new CANSparkMax(ElectricalLayout.CARGO_ARM_MOTOR_ID, MotorType.kBrushless);
         cargoArmMotor.restoreFactoryDefaults();
         cargoArmMotor.setIdleMode(IdleMode.kBrake);
         cargoArmMotor.setSmartCurrentLimit(RobotMap.NEO_CURRENT_LIMIT);
@@ -45,7 +46,7 @@ public class CargoArm extends Subsystem {
         cargoArmPID.setIZone(0.0);
         cargoArmPID.setOutputRange(RobotMap.CARGO_ARM_PID_MIN_OUTPUT, RobotMap.CARGO_ARM_PID_MAX_OUTPUT);
         
-        limitSwitch = new DigitalInput(RobotMap.CARGO_ARM_LIMIT_SWITCH_ID);
+        limitSwitch = new DigitalInput(ElectricalLayout.CARGO_ARM_LIMIT_SWITCH_ID);
         lastLimit = getLimitSwitch();
 
         setConstantTuning();

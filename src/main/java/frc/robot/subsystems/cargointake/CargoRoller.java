@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import frc.robot.RobotMap;
+import static frc.robot.RobotMap.ElectricalLayout;
 import frc.robot.commands.cargointake.cargoroller.*;
 
 public class CargoRoller extends Subsystem {
@@ -19,7 +20,7 @@ public class CargoRoller extends Subsystem {
     private State state = State.NEUTRAL;
 
     public CargoRoller() {
-        intakeMotor = new WPI_VictorSPX(RobotMap.CARGO_ROLLER_MOTOR_ID);
+        intakeMotor = new WPI_VictorSPX(ElectricalLayout.CARGO_ROLLER_MOTOR_ID);
         intakeMotor.setNeutralMode(NeutralMode.Brake);
 
         setConstantTuning();

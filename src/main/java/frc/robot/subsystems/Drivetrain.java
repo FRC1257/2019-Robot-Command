@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import static frc.robot.RobotMap.ElectricalLayout;
 import frc.robot.commands.drivetrain.*;
 import frc.robot.util.Gyro;
 import frc.robot.util.SynchronousPIDF;
@@ -35,10 +36,10 @@ public class Drivetrain extends Subsystem {
     private State state = State.DRIVER;
 
     public Drivetrain() {
-        flDrive = new CANSparkMax(RobotMap.DRIVE_FRONT_LEFT_ID, MotorType.kBrushless);
-        frDrive = new CANSparkMax(RobotMap.DRIVE_FRONT_RIGHT_ID, MotorType.kBrushless);
-        blDrive = new CANSparkMax(RobotMap.DRIVE_BACK_LEFT_ID, MotorType.kBrushless);
-        brDrive = new CANSparkMax(RobotMap.DRIVE_BACK_RIGHT_ID, MotorType.kBrushless);
+        flDrive = new CANSparkMax(ElectricalLayout.DRIVE_FRONT_LEFT_ID, MotorType.kBrushless);
+        frDrive = new CANSparkMax(ElectricalLayout.DRIVE_FRONT_RIGHT_ID, MotorType.kBrushless);
+        blDrive = new CANSparkMax(ElectricalLayout.DRIVE_BACK_LEFT_ID, MotorType.kBrushless);
+        brDrive = new CANSparkMax(ElectricalLayout.DRIVE_BACK_RIGHT_ID, MotorType.kBrushless);
 
         flDrive.restoreFactoryDefaults();
         frDrive.restoreFactoryDefaults();

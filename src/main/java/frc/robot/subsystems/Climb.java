@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import static frc.robot.RobotMap.ElectricalLayout;
 
 public class Climb extends Subsystem {
 
@@ -28,11 +29,15 @@ public class Climb extends Subsystem {
     private State state = State.GROUND;
 
     public Climb() {
-        frontSolenoid = new DoubleSolenoid(RobotMap.PCM_SECONDARY_ID, RobotMap.CLIMB_FRONT_SOLENOID_FORWARD_ID, RobotMap.CLIMB_FRONT_SOLENOID_REVERSE_ID);
-        backSolenoid = new DoubleSolenoid(RobotMap.PCM_SECONDARY_ID, RobotMap.CLIMB_BACK_SOLENOID_FORWARD_ID, RobotMap.CLIMB_BACK_SOLENOID_REVERSE_ID);
+        frontSolenoid = new DoubleSolenoid(ElectricalLayout.PCM_SECONDARY_ID, 
+            ElectricalLayout.CLIMB_FRONT_SOLENOID_FORWARD_ID, 
+            ElectricalLayout.CLIMB_FRONT_SOLENOID_REVERSE_ID);
+        backSolenoid = new DoubleSolenoid(ElectricalLayout.PCM_SECONDARY_ID, 
+            ElectricalLayout.CLIMB_BACK_SOLENOID_FORWARD_ID, 
+            ElectricalLayout.CLIMB_BACK_SOLENOID_REVERSE_ID);
 
-        frontMotor = new WPI_VictorSPX(RobotMap.CLIMB_FRONT_MOTOR_ID);
-        backMotor = new WPI_VictorSPX(RobotMap.CLIMB_BACK_MOTOR_ID);
+        frontMotor = new WPI_VictorSPX(ElectricalLayout.CLIMB_FRONT_MOTOR_ID);
+        backMotor = new WPI_VictorSPX(ElectricalLayout.CLIMB_BACK_MOTOR_ID);
         frontMotor.setNeutralMode(NeutralMode.Brake);
         backMotor.setNeutralMode(NeutralMode.Brake);
 
