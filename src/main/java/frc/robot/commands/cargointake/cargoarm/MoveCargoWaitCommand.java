@@ -4,8 +4,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.Robot;
-import frc.robot.RobotMap;
-import frc.robot.subsystems.cargointake.CargoArm;;
+import frc.robot.subsystems.cargointake.CargoArm;
 
 public class MoveCargoWaitCommand extends Command {
 

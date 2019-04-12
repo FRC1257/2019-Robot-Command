@@ -123,15 +123,15 @@ public class Climb extends Subsystem {
         state = State.MANUAL;
     }
 
-    public void retractFront() {
+    private void retractFront() {
         frontSolenoid.set(Value.kForward);
     }
 
-    public void extendFront() {
+    private void extendFront() {
         frontSolenoid.set(Value.kReverse); 
     }
 
-    public void turnOffFront() {
+    private void turnOffFront() {
         frontSolenoid.set(Value.kOff);
     }
 
@@ -142,15 +142,15 @@ public class Climb extends Subsystem {
         state = State.MANUAL;
     }
 
-    public void retractBack() {
+    private void retractBack() {
         backSolenoid.set(Value.kForward);
     }
 
-    public void extendBack() {
+    private void extendBack() {
         backSolenoid.set(Value.kReverse);
     }
 
-    public void turnOffBack() {
+    private void turnOffBack() {
         backSolenoid.set(Value.kOff);
     }
 
@@ -170,10 +170,13 @@ public class Climb extends Subsystem {
                 state = State.GROUND;
             break;
             case SECONDARY_RAISE:
+                // Intentionally Empty
             break;
             case SECONDARY_FREEZE:
+                // Intentionally Empty
             break;
             case MANUAL:
+                // Intentionally Empty
             break;
         }
     }
@@ -230,23 +233,23 @@ public class Climb extends Subsystem {
         }
     }
 
-    public void climbDrive(double speed) {
+    private void climbDrive(double speed) {
         double adjustedSpeed = speed * CLIMB_DRIVE_MAX_SPEED;
         frontSpeed = adjustedSpeed;
         backSpeed = adjustedSpeed;
     }
 
     // Whether or not the front is currently extended
-    public boolean isFrontExtended() {
+    private boolean isFrontExtended() {
         return frontSolenoid.get() == DoubleSolenoid.Value.kReverse;
     }
 
     // Whether or not the back is currently extended
-    public boolean isBackExtended() {
+    private boolean isBackExtended() {
         return backSolenoid.get() == DoubleSolenoid.Value.kReverse;
     }
 
-    public void setConstantTuning() {
+    private void setConstantTuning() {
         
     }
 

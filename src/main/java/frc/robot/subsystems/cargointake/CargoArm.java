@@ -142,39 +142,39 @@ public class CargoArm extends Subsystem {
     /* 
      * Resets the encoder to the bottom position
      */
-    public void resetEncoder() {
+    private void resetEncoder() {
         cargoArmEncoder.setPosition(0.0);
     }
     
     /* 
      * Resets the encoder to the top position
      */
-    public void resetEncoderTop() {
+    private void resetEncoderTop() {
         cargoArmEncoder.setPosition(CARGO_ARM_PID_RAISED);
     }
 
-    public double getEncoderPosition() {
+    private double getEncoderPosition() {
         return cargoArmEncoder.getPosition();
     }
 
-    public double getEncoderVelocity() {
+    private double getEncoderVelocity() {
         return cargoArmEncoder.getVelocity();
     }
 
     /**
      * Returns the current angle of the arm in degrees
      */
-    public double getArmAngle() {
+    private double getArmAngle() {
         return getEncoderPosition() * CARGO_ARM_ANGLE_CONV_FACTOR;
     }
 
     // Whether or not the bottom limit switch is pressed
-    public boolean getLimitSwitch() {
+    private boolean getLimitSwitch() {
         return !limitSwitch.get();
     }
 
     // Whether or not the bottom limit switch is pressed
-    public boolean getLimitSwitchPressed() {
+    private boolean getLimitSwitchPressed() {
         return lastLimit != getLimitSwitch();
     }
     
