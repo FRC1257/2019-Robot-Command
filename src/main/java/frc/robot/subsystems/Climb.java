@@ -10,9 +10,12 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import static frc.robot.RobotMap.ElectricalLayout;
 
 public class Climb extends Subsystem {
+
+    // Constants
+    public static double CLIMB_DRIVE_MAX_SPEED = 1.0; // percentage
+    public static final double CLIMB_CRITICAL_ANGLE = 5.0; // Critical angle before the climb stabilizer kicks in (degrees)
 
     private DoubleSolenoid frontSolenoid;
     private DoubleSolenoid backSolenoid;
@@ -29,15 +32,15 @@ public class Climb extends Subsystem {
     private State state = State.GROUND;
 
     public Climb() {
-        frontSolenoid = new DoubleSolenoid(ElectricalLayout.PCM_SECONDARY_ID, 
-            ElectricalLayout.CLIMB_FRONT_SOLENOID_FORWARD_ID, 
-            ElectricalLayout.CLIMB_FRONT_SOLENOID_REVERSE_ID);
-        backSolenoid = new DoubleSolenoid(ElectricalLayout.PCM_SECONDARY_ID, 
-            ElectricalLayout.CLIMB_BACK_SOLENOID_FORWARD_ID, 
-            ElectricalLayout.CLIMB_BACK_SOLENOID_REVERSE_ID);
+        frontSolenoid = new DoubleSolenoid(RobotMap.PCM_SECONDARY_ID, 
+            RobotMap.CLIMB_FRONT_SOLENOID_FORWARD_ID, 
+            RobotMap.CLIMB_FRONT_SOLENOID_REVERSE_ID);
+        backSolenoid = new DoubleSolenoid(RobotMap.PCM_SECONDARY_ID, 
+            RobotMap.CLIMB_BACK_SOLENOID_FORWARD_ID, 
+            RobotMap.CLIMB_BACK_SOLENOID_REVERSE_ID);
 
-        frontMotor = new WPI_VictorSPX(ElectricalLayout.CLIMB_FRONT_MOTOR_ID);
-        backMotor = new WPI_VictorSPX(ElectricalLayout.CLIMB_BACK_MOTOR_ID);
+        frontMotor = new WPI_VictorSPX(RobotMap.CLIMB_FRONT_MOTOR_ID);
+        backMotor = new WPI_VictorSPX(RobotMap.CLIMB_BACK_MOTOR_ID);
         frontMotor.setNeutralMode(NeutralMode.Brake);
         backMotor.setNeutralMode(NeutralMode.Brake);
 
@@ -73,11 +76,11 @@ public class Climb extends Subsystem {
             case EXTENDED: // Climb Stabilizer
                 double angle = Robot.gyro.getClimbTiltAngle();
                 // Robot is tilted forwards, so stop back
-                if(angle > RobotMap.CLIMB_CRITICAL_ANGLE) {
+                if(angle > CLIMB_CRITICAL_ANGLE) {
                     turnOffBack();
                 }
                 // Robot is tilted backwards, so stop front
-                else if(angle < -RobotMap.CLIMB_CRITICAL_ANGLE) {
+                else if(angle < -CLIMB_CRITICAL_ANGLE) {
                     turnOffFront();
                 }
                 // Otherwise, just extend both
@@ -228,7 +231,7 @@ public class Climb extends Subsystem {
     }
 
     public void climbDrive(double speed) {
-        double adjustedSpeed = speed * RobotMap.CLIMB_DRIVE_MAX_SPEED;
+        double adjustedSpeed = speed * CLIMB_DRIVE_MAX_SPEED;
         frontSpeed = adjustedSpeed;
         backSpeed = adjustedSpeed;
     }

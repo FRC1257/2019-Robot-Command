@@ -34,7 +34,7 @@ public class TurnRightWaitCommand extends Command {
     @Override
     public boolean isFinished() {
         return drivetrain.getState() == Drivetrain.State.DRIVER || 
-            Timer.getFPGATimestamp() - start > RobotMap.DRIVE_TURN_PID_WAIT;
+            Timer.getFPGATimestamp() - start > Drivetrain.DRIVE_TURN_PID_WAIT;
     }
 
     @Override

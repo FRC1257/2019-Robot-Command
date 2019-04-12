@@ -7,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import frc.robot.RobotMap;
-import static frc.robot.RobotMap.ElectricalLayout;
 import frc.robot.commands.hatchintake.*;
 
 /**
@@ -16,6 +15,11 @@ import frc.robot.commands.hatchintake.*;
  */
 
 public class HatchIntake extends Subsystem {
+
+    // Constants
+    public static double HATCH_INTAKE_EJECT_SPEED = -1.0; // percentage
+    public static double HATCH_INTAKE_INTAKE_SPEED = 1.0; // percentage
+    public static double HATCH_INTAKE_CONSTANT_INTAKE_SPEED = 0.2; // percentage
 
     private WPI_VictorSPX intakeMotor;
 
@@ -30,7 +34,7 @@ public class HatchIntake extends Subsystem {
     private State state = State.NEUTRAL;
 
     public HatchIntake() {
-        intakeMotor = new WPI_VictorSPX(ElectricalLayout.HATCH_INTAKE_MOTOR_ID);
+        intakeMotor = new WPI_VictorSPX(RobotMap.HATCH_INTAKE_MOTOR_ID);
         intakeMotor.setNeutralMode(NeutralMode.Brake);
 
         setConstantTuning();
@@ -74,13 +78,13 @@ public class HatchIntake extends Subsystem {
     public void update() {
         switch(state) {
             case INTAKING:
-                intakeMotor.set(RobotMap.HATCH_INTAKE_INTAKE_SPEED);
+                intakeMotor.set(HATCH_INTAKE_INTAKE_SPEED);
             break;
             case EJECTING:
-                intakeMotor.set(RobotMap.HATCH_INTAKE_EJECT_SPEED);
+                intakeMotor.set(HATCH_INTAKE_EJECT_SPEED);
             break;
             case NEUTRAL:
-                intakeMotor.set(RobotMap.HATCH_INTAKE_CONSTANT_INTAKE_SPEED);
+                intakeMotor.set(HATCH_INTAKE_CONSTANT_INTAKE_SPEED);
             break;
         }
     }
@@ -89,18 +93,18 @@ public class HatchIntake extends Subsystem {
      * Set up SmartDashboard/Shuffleboard for constant tuning
      */
     private void setConstantTuning() {
-        SmartDashboard.putNumber("Hatch Intake Speed", RobotMap.HATCH_INTAKE_INTAKE_SPEED);
-        SmartDashboard.putNumber("Hatch Eject Speed", RobotMap.HATCH_INTAKE_EJECT_SPEED);
-        SmartDashboard.putNumber("Hatch Constant Speed", RobotMap.HATCH_INTAKE_CONSTANT_INTAKE_SPEED);
+        SmartDashboard.putNumber("Hatch Intake Speed", HATCH_INTAKE_INTAKE_SPEED);
+        SmartDashboard.putNumber("Hatch Eject Speed", HATCH_INTAKE_EJECT_SPEED);
+        SmartDashboard.putNumber("Hatch Constant Speed", HATCH_INTAKE_CONSTANT_INTAKE_SPEED);
     }
 
     /**
      * Retrieves constant tuning from SmartDashboard/Shuffleboard
      */
     public void getConstantTuning() {
-        RobotMap.CARGO_ROLLER_INTAKE_SPEED = SmartDashboard.getNumber("Hatch Intake Speed", RobotMap.HATCH_INTAKE_INTAKE_SPEED);
-        RobotMap.CARGO_ROLLER_EJECT_SPEED = SmartDashboard.getNumber("Hatch Eject Speed", RobotMap.HATCH_INTAKE_EJECT_SPEED);
-        RobotMap.HATCH_INTAKE_CONSTANT_INTAKE_SPEED = SmartDashboard.getNumber("Hatch Constant Speed", RobotMap.HATCH_INTAKE_CONSTANT_INTAKE_SPEED);
+        HATCH_INTAKE_INTAKE_SPEED = SmartDashboard.getNumber("Hatch Intake Speed", HATCH_INTAKE_INTAKE_SPEED);
+        HATCH_INTAKE_EJECT_SPEED = SmartDashboard.getNumber("Hatch Eject Speed", HATCH_INTAKE_EJECT_SPEED);
+        HATCH_INTAKE_CONSTANT_INTAKE_SPEED = SmartDashboard.getNumber("Hatch Constant Speed", HATCH_INTAKE_CONSTANT_INTAKE_SPEED);
     }
 
     public State getState() {

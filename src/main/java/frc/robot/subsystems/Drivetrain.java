@@ -10,12 +10,21 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import static frc.robot.RobotMap.ElectricalLayout;
 import frc.robot.commands.drivetrain.*;
 import frc.robot.util.Gyro;
 import frc.robot.util.SynchronousPIDF;
 
 public class Drivetrain extends Subsystem {
+
+    // Constants
+    public static final double DRIVE_FORWARD_MAX_SPEED = 1.0; // percentage
+    public static final double DRIVE_TURN_MAX_SPEED = 0.8; // percentage
+    
+    public static double[] DRIVE_TURN_PIDF = { 0.01, 0.0, 0.0, 0.0 };
+    public static double DRIVE_TURN_PID_TOLERANCE = 3.0; // degrees
+    public static double DRIVE_TURN_PID_WAIT = 2.0; // seconds
+    public static double DRIVE_TURN_PID_MAX_OUTPUT = 0.8; // percentage
+    public static double DRIVE_TURN_PID_MIN_OUTPUT = -0.8; // percentage
 
     private CANSparkMax flDrive;
     private CANSparkMax frDrive;
@@ -36,10 +45,10 @@ public class Drivetrain extends Subsystem {
     private State state = State.DRIVER;
 
     public Drivetrain() {
-        flDrive = new CANSparkMax(ElectricalLayout.DRIVE_FRONT_LEFT_ID, MotorType.kBrushless);
-        frDrive = new CANSparkMax(ElectricalLayout.DRIVE_FRONT_RIGHT_ID, MotorType.kBrushless);
-        blDrive = new CANSparkMax(ElectricalLayout.DRIVE_BACK_LEFT_ID, MotorType.kBrushless);
-        brDrive = new CANSparkMax(ElectricalLayout.DRIVE_BACK_RIGHT_ID, MotorType.kBrushless);
+        flDrive = new CANSparkMax(RobotMap.DRIVE_FRONT_LEFT_ID, MotorType.kBrushless);
+        frDrive = new CANSparkMax(RobotMap.DRIVE_FRONT_RIGHT_ID, MotorType.kBrushless);
+        blDrive = new CANSparkMax(RobotMap.DRIVE_BACK_LEFT_ID, MotorType.kBrushless);
+        brDrive = new CANSparkMax(RobotMap.DRIVE_BACK_RIGHT_ID, MotorType.kBrushless);
 
         flDrive.restoreFactoryDefaults();
         frDrive.restoreFactoryDefaults();
@@ -61,9 +70,9 @@ public class Drivetrain extends Subsystem {
 
         drivetrain = new DifferentialDrive(flDrive, frDrive);
         gyro = Robot.gyro;
-        pidController = new SynchronousPIDF(RobotMap.DRIVE_TURN_PIDF[0], RobotMap.DRIVE_TURN_PIDF[1], 
-            RobotMap.DRIVE_TURN_PIDF[2], RobotMap.DRIVE_TURN_PIDF[3]);
-        pidController.setOutputRange(RobotMap.DRIVE_TURN_PID_MIN_OUTPUT, RobotMap.DRIVE_TURN_PID_MAX_OUTPUT);
+        pidController = new SynchronousPIDF(DRIVE_TURN_PIDF[0], DRIVE_TURN_PIDF[1], 
+            DRIVE_TURN_PIDF[2], DRIVE_TURN_PIDF[3]);
+        pidController.setOutputRange(DRIVE_TURN_PID_MIN_OUTPUT, DRIVE_TURN_PID_MAX_OUTPUT);
 
         driveSpeed = 0;
         turnSpeed = 0;
@@ -97,7 +106,7 @@ public class Drivetrain extends Subsystem {
                 drivetrain.arcadeDrive(0, pidController.calculate(gyro.getRobotAngle(), deltaT));
 
                 double error = Math.abs(gyro.getRobotAngle() - pidController.getSetpoint());
-                if(error < RobotMap.DRIVE_TURN_PID_TOLERANCE) {
+                if(error < DRIVE_TURN_PID_TOLERANCE) {
                     state = State.DRIVER;
                 }
             break;
@@ -117,12 +126,12 @@ public class Drivetrain extends Subsystem {
 
     public void drive(double x, double z) {
         if(reversed) {
-            driveSpeed = -x * RobotMap.DRIVE_FORWARD_MAX_SPEED;
-            turnSpeed = z * RobotMap.DRIVE_TURN_MAX_SPEED;
+            driveSpeed = -x * DRIVE_FORWARD_MAX_SPEED;
+            turnSpeed = z * DRIVE_TURN_MAX_SPEED;
         }
         else {
-            driveSpeed = x * RobotMap.DRIVE_FORWARD_MAX_SPEED;
-            turnSpeed = z * RobotMap.DRIVE_TURN_MAX_SPEED;
+            driveSpeed = x * DRIVE_FORWARD_MAX_SPEED;
+            turnSpeed = z * DRIVE_TURN_MAX_SPEED;
         }
         if(driveSpeed != 0.0 || turnSpeed != 0.0) {
             state = State.DRIVER;
@@ -152,20 +161,20 @@ public class Drivetrain extends Subsystem {
     }
 
     private void setConstantTuning() {
-        SmartDashboard.putNumber("Drive Turn P", RobotMap.DRIVE_TURN_PIDF[0]);
-        SmartDashboard.putNumber("Drive Turn I", RobotMap.DRIVE_TURN_PIDF[1]);
-        SmartDashboard.putNumber("Drive Turn D", RobotMap.DRIVE_TURN_PIDF[2]);
-        SmartDashboard.putNumber("Drive Turn F", RobotMap.DRIVE_TURN_PIDF[3]);
+        SmartDashboard.putNumber("Drive Turn P", DRIVE_TURN_PIDF[0]);
+        SmartDashboard.putNumber("Drive Turn I", DRIVE_TURN_PIDF[1]);
+        SmartDashboard.putNumber("Drive Turn D", DRIVE_TURN_PIDF[2]);
+        SmartDashboard.putNumber("Drive Turn F", DRIVE_TURN_PIDF[3]);
     }
 
     public void getConstantTuning() {
-        RobotMap.DRIVE_TURN_PIDF[0] = SmartDashboard.getNumber("Drive Turn P", RobotMap.DRIVE_TURN_PIDF[0]);
-        RobotMap.DRIVE_TURN_PIDF[1] = SmartDashboard.getNumber("Drive Turn I", RobotMap.DRIVE_TURN_PIDF[1]);
-        RobotMap.DRIVE_TURN_PIDF[2] = SmartDashboard.getNumber("Drive Turn D", RobotMap.DRIVE_TURN_PIDF[2]);
-        RobotMap.DRIVE_TURN_PIDF[3] = SmartDashboard.getNumber("Drive Turn F", RobotMap.DRIVE_TURN_PIDF[3]);
+        DRIVE_TURN_PIDF[0] = SmartDashboard.getNumber("Drive Turn P", DRIVE_TURN_PIDF[0]);
+        DRIVE_TURN_PIDF[1] = SmartDashboard.getNumber("Drive Turn I", DRIVE_TURN_PIDF[1]);
+        DRIVE_TURN_PIDF[2] = SmartDashboard.getNumber("Drive Turn D", DRIVE_TURN_PIDF[2]);
+        DRIVE_TURN_PIDF[3] = SmartDashboard.getNumber("Drive Turn F", DRIVE_TURN_PIDF[3]);
 
-        pidController.setPID(RobotMap.DRIVE_TURN_PIDF[0], RobotMap.DRIVE_TURN_PIDF[1], 
-            RobotMap.DRIVE_TURN_PIDF[2], RobotMap.DRIVE_TURN_PIDF[3]);
+        pidController.setPID(DRIVE_TURN_PIDF[0], DRIVE_TURN_PIDF[1], 
+            DRIVE_TURN_PIDF[2], DRIVE_TURN_PIDF[3]);
     }
 
     public State getState() {

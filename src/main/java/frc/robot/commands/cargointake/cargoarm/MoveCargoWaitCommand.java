@@ -34,7 +34,7 @@ public class MoveCargoWaitCommand extends Command {
     @Override
     public boolean isFinished() {
         return cargoArm.getState() == CargoArm.State.MANUAL || 
-            Timer.getFPGATimestamp() - start > RobotMap.CARGO_ARM_PID_WAIT;
+            Timer.getFPGATimestamp() - start > CargoArm.CARGO_ARM_PID_WAIT;
     }
 
     @Override

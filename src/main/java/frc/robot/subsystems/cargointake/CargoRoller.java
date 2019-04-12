@@ -7,10 +7,14 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import frc.robot.RobotMap;
-import static frc.robot.RobotMap.ElectricalLayout;
 import frc.robot.commands.cargointake.cargoroller.*;
 
 public class CargoRoller extends Subsystem {
+
+    // Constants
+    public static double CARGO_ROLLER_EJECT_SPEED = -0.8; // percentage
+    public static double CARGO_ROLLER_INTAKE_SPEED = 1.0; // percentage
+    public static double CARGO_ROLLER_CONSTANT_INTAKE_SPEED = 0.2; // percentage
 
     private WPI_VictorSPX intakeMotor;
 
@@ -20,7 +24,7 @@ public class CargoRoller extends Subsystem {
     private State state = State.NEUTRAL;
 
     public CargoRoller() {
-        intakeMotor = new WPI_VictorSPX(ElectricalLayout.CARGO_ROLLER_MOTOR_ID);
+        intakeMotor = new WPI_VictorSPX(RobotMap.CARGO_ROLLER_MOTOR_ID);
         intakeMotor.setNeutralMode(NeutralMode.Brake);
 
         setConstantTuning();
@@ -52,27 +56,27 @@ public class CargoRoller extends Subsystem {
     public void update() {
         switch(state) {
             case INTAKING:
-                intakeMotor.set(RobotMap.CARGO_ROLLER_INTAKE_SPEED);
+                intakeMotor.set(CARGO_ROLLER_INTAKE_SPEED);
             break;
             case EJECTING:
-                intakeMotor.set(RobotMap.CARGO_ROLLER_EJECT_SPEED);
+                intakeMotor.set(CARGO_ROLLER_EJECT_SPEED);
             break;
             case NEUTRAL:
-                intakeMotor.set(RobotMap.CARGO_ROLLER_CONSTANT_INTAKE_SPEED);
+                intakeMotor.set(CARGO_ROLLER_CONSTANT_INTAKE_SPEED);
             break;
         }
     }
 
     private void setConstantTuning() {
-        SmartDashboard.putNumber("Cargo Intake Speed", RobotMap.CARGO_ROLLER_INTAKE_SPEED);
-        SmartDashboard.putNumber("Cargo Eject Speed", RobotMap.CARGO_ROLLER_EJECT_SPEED);
-        SmartDashboard.putNumber("Cargo Constant Speed", RobotMap.CARGO_ROLLER_CONSTANT_INTAKE_SPEED);
+        SmartDashboard.putNumber("Cargo Intake Speed", CARGO_ROLLER_INTAKE_SPEED);
+        SmartDashboard.putNumber("Cargo Eject Speed", CARGO_ROLLER_EJECT_SPEED);
+        SmartDashboard.putNumber("Cargo Constant Speed", CARGO_ROLLER_CONSTANT_INTAKE_SPEED);
     }
 
     public void getConstantTuning() {
-        RobotMap.CARGO_ROLLER_INTAKE_SPEED = SmartDashboard.getNumber("Cargo Intake Speed", RobotMap.CARGO_ROLLER_INTAKE_SPEED);
-        RobotMap.CARGO_ROLLER_EJECT_SPEED = SmartDashboard.getNumber("Cargo Eject Speed", RobotMap.CARGO_ROLLER_EJECT_SPEED);
-        RobotMap.CARGO_ROLLER_CONSTANT_INTAKE_SPEED = SmartDashboard.getNumber("Cargo Constant Speed", RobotMap.CARGO_ROLLER_CONSTANT_INTAKE_SPEED);
+        CARGO_ROLLER_INTAKE_SPEED = SmartDashboard.getNumber("Cargo Intake Speed", CARGO_ROLLER_INTAKE_SPEED);
+        CARGO_ROLLER_EJECT_SPEED = SmartDashboard.getNumber("Cargo Eject Speed", CARGO_ROLLER_EJECT_SPEED);
+        CARGO_ROLLER_CONSTANT_INTAKE_SPEED = SmartDashboard.getNumber("Cargo Constant Speed", CARGO_ROLLER_CONSTANT_INTAKE_SPEED);
     }
 
     public State getState() {

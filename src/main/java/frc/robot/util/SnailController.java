@@ -3,14 +3,14 @@ package frc.robot.util;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-import frc.robot.RobotMap;
-
 public class SnailController extends Joystick {
 
     /** 
      * Xbox controller for command based programming
      * Credit to FRC Team 319 for the original code
      */
+
+	public static final double CONTROLLER_DEADBAND = 0.08; // deadband for joysticks
     
 	public JoystickButton aButton = new JoystickButton(this, 1);
 	public JoystickButton bButton = new JoystickButton(this, 2);
@@ -91,7 +91,7 @@ public class SnailController extends Joystick {
 	 * @return deadbanded number
 	 */
 	public static double applyDeadband(double number) {
-		if (Math.abs(number) < RobotMap.CONTROLLER_DEADBAND) {
+		if (Math.abs(number) < CONTROLLER_DEADBAND) {
 			return 0;
 		}
 		return number;

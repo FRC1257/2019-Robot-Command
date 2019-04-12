@@ -8,6 +8,7 @@ import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.util.snail_vision.SnailVision;
+import frc.robot.util.snail_vision.Target;
 
 /**
  * Class to handle all vision functionality
@@ -16,6 +17,24 @@ import frc.robot.util.snail_vision.SnailVision;
  */
 
 public class Vision {
+
+    public static final double[] AREA_TO_DISTANCE_ROCKET = {1};
+    public static final double[] AREA_TO_DISTANCE_SHIP = {1};
+
+    public static void initializeVision(SnailVision vision) {
+        vision.ANGLE_CORRECT_P = -0.02;
+        vision.ANGLE_CORRECT_F = 0.2;
+        vision.ANGLE_CORRECT_MIN_ANGLE = 2.0; // degrees
+        
+        vision.GET_IN_DISTANCE_P = 4.0;
+        vision.GET_IN_DISTANCE_ERROR = 3.0; // inches
+        vision.DISTANCE_ESTIMATION_METHOD = "area";
+
+        vision.JERK_COLLISION_THRESHOLD = 1;
+
+        vision.TARGETS.add(new Target(0, 12, 60, AREA_TO_DISTANCE_ROCKET)); // Rocket
+        vision.TARGETS.add(new Target(0, 12, 60, AREA_TO_DISTANCE_SHIP)); // Cargo Ship
+    }
     
     private static Vision instance = null;
 
@@ -28,7 +47,7 @@ public class Vision {
 
     private Vision() {
         vision = new SnailVision(true);
-        RobotMap.initializeVision(vision);
+        initializeVision(vision);
         forwardSpeed = 0;
         turnSpeed = 0;
         limelightNetworkTable = NetworkTableInstance.getDefault().getTable("limelight");

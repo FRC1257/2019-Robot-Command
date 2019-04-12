@@ -12,10 +12,23 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.RobotMap;
-import static frc.robot.RobotMap.ElectricalLayout;
 import frc.robot.commands.cargointake.cargoarm.*;
 
 public class CargoArm extends Subsystem {
+
+    // Constants
+    public static final double CARGO_ARM_PID_ROCKET = 11.0; // Target position for rocket (revolutions)
+    public static final double CARGO_ARM_PID_CARGO = 18.5; // Target position for cargo ship (revolutions)
+    public static final double CARGO_ARM_PID_RAISED = 28.0; // Initial position of arm (revolutions)
+    public static double CARGO_ARM_MAX_SPEED = 1.0;
+
+    public static final double[] CARGO_ARM_PIDF = { 0.1, 0.0, 0.0, 0.0 };
+    public static final double CARGO_ARM_ARB_F = 0.0;
+    public static final double CARGO_ARM_ANGLE_CONV_FACTOR = 90.0 / CARGO_ARM_PID_RAISED; // conversion factor from motor rev to angle
+    public static final double CARGO_ARM_PID_TOLERANCE = 1.0; // revolutions
+    public static final double CARGO_ARM_PID_WAIT = 2.0; // seconds
+    public static final double CARGO_ARM_PID_MAX_OUTPUT = 1.0; // percentage
+    public static final double CARGO_ARM_PID_MIN_OUTPUT = -1.0; // percentage
 
     private CANSparkMax cargoArmMotor;
     private CANEncoder cargoArmEncoder;
@@ -33,20 +46,20 @@ public class CargoArm extends Subsystem {
     private State state = State.MANUAL;
 
     public CargoArm() {
-        cargoArmMotor = new CANSparkMax(ElectricalLayout.CARGO_ARM_MOTOR_ID, MotorType.kBrushless);
+        cargoArmMotor = new CANSparkMax(RobotMap.CARGO_ARM_MOTOR_ID, MotorType.kBrushless);
         cargoArmMotor.restoreFactoryDefaults();
         cargoArmMotor.setIdleMode(IdleMode.kBrake);
         cargoArmMotor.setSmartCurrentLimit(RobotMap.NEO_CURRENT_LIMIT);
         cargoArmEncoder = cargoArmMotor.getEncoder();
         cargoArmPID = cargoArmMotor.getPIDController();
-        cargoArmPID.setP(RobotMap.CARGO_ARM_PIDF[0]);
-        cargoArmPID.setI(RobotMap.CARGO_ARM_PIDF[1]);
-        cargoArmPID.setD(RobotMap.CARGO_ARM_PIDF[2]);
-        cargoArmPID.setFF(RobotMap.CARGO_ARM_PIDF[3]);
+        cargoArmPID.setP(CARGO_ARM_PIDF[0]);
+        cargoArmPID.setI(CARGO_ARM_PIDF[1]);
+        cargoArmPID.setD(CARGO_ARM_PIDF[2]);
+        cargoArmPID.setFF(CARGO_ARM_PIDF[3]);
         cargoArmPID.setIZone(0.0);
-        cargoArmPID.setOutputRange(RobotMap.CARGO_ARM_PID_MIN_OUTPUT, RobotMap.CARGO_ARM_PID_MAX_OUTPUT);
+        cargoArmPID.setOutputRange(CARGO_ARM_PID_MIN_OUTPUT, CARGO_ARM_PID_MAX_OUTPUT);
         
-        limitSwitch = new DigitalInput(ElectricalLayout.CARGO_ARM_LIMIT_SWITCH_ID);
+        limitSwitch = new DigitalInput(RobotMap.CARGO_ARM_LIMIT_SWITCH_ID);
         lastLimit = getLimitSwitch();
 
         setConstantTuning();
@@ -79,10 +92,10 @@ public class CargoArm extends Subsystem {
                 }
                 else {
                     cargoArmPID.setReference(currentPIDSetpoint, ControlType.kPosition, 0,
-                        RobotMap.CARGO_ARM_ARB_F * Math.cos(getArmAngle()));
+                        CARGO_ARM_ARB_F * Math.cos(getArmAngle()));
 
                     double error = Math.abs(getEncoderPosition() - currentPIDSetpoint);
-                    if(error < RobotMap.CARGO_ARM_PID_TOLERANCE) {
+                    if(error < CARGO_ARM_PID_TOLERANCE) {
                         state = State.MANUAL;
                     }
                 }   
@@ -105,7 +118,7 @@ public class CargoArm extends Subsystem {
     }
 
     public void setSpeed(double value) {
-        speed = value * RobotMap.CARGO_ARM_MAX_SPEED;
+        speed = value * CARGO_ARM_MAX_SPEED;
 
         if(speed != 0) {
             state = State.MANUAL;
@@ -113,11 +126,11 @@ public class CargoArm extends Subsystem {
     }
 
     public void moveRocket() {
-        setPIDPosition(RobotMap.CARGO_ARM_PID_ROCKET);
+        setPIDPosition(CARGO_ARM_PID_ROCKET);
     }
 
     public void moveCargo() {
-        setPIDPosition(RobotMap.CARGO_ARM_PID_CARGO);
+        setPIDPosition(CARGO_ARM_PID_CARGO);
     }
 
     private void setPIDPosition(double value) {
@@ -137,7 +150,7 @@ public class CargoArm extends Subsystem {
      * Resets the encoder to the top position
      */
     public void resetEncoderTop() {
-        cargoArmEncoder.setPosition(RobotMap.CARGO_ARM_PID_RAISED);
+        cargoArmEncoder.setPosition(CARGO_ARM_PID_RAISED);
     }
 
     public double getEncoderPosition() {
@@ -152,7 +165,7 @@ public class CargoArm extends Subsystem {
      * Returns the current angle of the arm in degrees
      */
     public double getArmAngle() {
-        return getEncoderPosition() * RobotMap.CARGO_ARM_ANGLE_CONV_FACTOR;
+        return getEncoderPosition() * CARGO_ARM_ANGLE_CONV_FACTOR;
     }
 
     // Whether or not the bottom limit switch is pressed
@@ -166,33 +179,33 @@ public class CargoArm extends Subsystem {
     }
     
     private void setConstantTuning() {
-        SmartDashboard.putNumber("Intake Arm Max Speed", RobotMap.CARGO_ARM_MAX_SPEED);
+        SmartDashboard.putNumber("Intake Arm Max Speed", CARGO_ARM_MAX_SPEED);
 
-        SmartDashboard.putNumber("Intake Arm P", RobotMap.CARGO_ARM_PIDF[0]);
-        SmartDashboard.putNumber("Intake Arm I", RobotMap.CARGO_ARM_PIDF[1]);
-        SmartDashboard.putNumber("Intake Arm D", RobotMap.CARGO_ARM_PIDF[2]);
-        SmartDashboard.putNumber("Intake Arm F", RobotMap.CARGO_ARM_PIDF[3]);
+        SmartDashboard.putNumber("Intake Arm P", CARGO_ARM_PIDF[0]);
+        SmartDashboard.putNumber("Intake Arm I", CARGO_ARM_PIDF[1]);
+        SmartDashboard.putNumber("Intake Arm D", CARGO_ARM_PIDF[2]);
+        SmartDashboard.putNumber("Intake Arm F", CARGO_ARM_PIDF[3]);
     }
 
     public void getConstantTuning() {
-        RobotMap.CARGO_ARM_MAX_SPEED = SmartDashboard.getNumber("Intake Arm Max Speed",
-                RobotMap.CARGO_ARM_MAX_SPEED);
+        CARGO_ARM_MAX_SPEED = SmartDashboard.getNumber("Intake Arm Max Speed",
+                CARGO_ARM_MAX_SPEED);
 
-        if(RobotMap.CARGO_ARM_PIDF[0] != SmartDashboard.getNumber("Intake Arm P", RobotMap.CARGO_ARM_PIDF[0])) {
-            RobotMap.CARGO_ARM_PIDF[0] = SmartDashboard.getNumber("Intake Arm P", RobotMap.CARGO_ARM_PIDF[0]);
-            cargoArmPID.setP(RobotMap.CARGO_ARM_PIDF[0]);
+        if(CARGO_ARM_PIDF[0] != SmartDashboard.getNumber("Intake Arm P", CARGO_ARM_PIDF[0])) {
+            CARGO_ARM_PIDF[0] = SmartDashboard.getNumber("Intake Arm P", CARGO_ARM_PIDF[0]);
+            cargoArmPID.setP(CARGO_ARM_PIDF[0]);
         }
-        if(RobotMap.CARGO_ARM_PIDF[1] != SmartDashboard.getNumber("Intake Arm I", RobotMap.CARGO_ARM_PIDF[1])) {
-            RobotMap.CARGO_ARM_PIDF[1] = SmartDashboard.getNumber("Intake Arm I", RobotMap.CARGO_ARM_PIDF[1]);
-            cargoArmPID.setP(RobotMap.CARGO_ARM_PIDF[1]);
+        if(CARGO_ARM_PIDF[1] != SmartDashboard.getNumber("Intake Arm I", CARGO_ARM_PIDF[1])) {
+            CARGO_ARM_PIDF[1] = SmartDashboard.getNumber("Intake Arm I", CARGO_ARM_PIDF[1]);
+            cargoArmPID.setP(CARGO_ARM_PIDF[1]);
         }
-        if(RobotMap.CARGO_ARM_PIDF[2] != SmartDashboard.getNumber("Intake Arm D", RobotMap.CARGO_ARM_PIDF[2])) {
-            RobotMap.CARGO_ARM_PIDF[2] = SmartDashboard.getNumber("Intake Arm D", RobotMap.CARGO_ARM_PIDF[2]);
-            cargoArmPID.setP(RobotMap.CARGO_ARM_PIDF[2]);
+        if(CARGO_ARM_PIDF[2] != SmartDashboard.getNumber("Intake Arm D", CARGO_ARM_PIDF[2])) {
+            CARGO_ARM_PIDF[2] = SmartDashboard.getNumber("Intake Arm D", CARGO_ARM_PIDF[2]);
+            cargoArmPID.setP(CARGO_ARM_PIDF[2]);
         }
-        if(RobotMap.CARGO_ARM_PIDF[3] != SmartDashboard.getNumber("Intake Arm F", RobotMap.CARGO_ARM_PIDF[3])) {
-            RobotMap.CARGO_ARM_PIDF[3] = SmartDashboard.getNumber("Intake Arm F", RobotMap.CARGO_ARM_PIDF[3]);
-            cargoArmPID.setP(RobotMap.CARGO_ARM_PIDF[3]);
+        if(CARGO_ARM_PIDF[3] != SmartDashboard.getNumber("Intake Arm F", CARGO_ARM_PIDF[3])) {
+            CARGO_ARM_PIDF[3] = SmartDashboard.getNumber("Intake Arm F", CARGO_ARM_PIDF[3]);
+            cargoArmPID.setP(CARGO_ARM_PIDF[3]);
         }
     }
 
