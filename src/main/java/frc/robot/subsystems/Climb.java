@@ -23,6 +23,9 @@ public class Climb extends Subsystem {
     private WPI_VictorSPX frontMotor;
     private WPI_VictorSPX backMotor;
 
+    private Value frontState;
+    private Value backState;
+
     private double frontSpeed;
     private double backSpeed;
 
@@ -53,15 +56,15 @@ public class Climb extends Subsystem {
         // No default command
     }
     
-    public void reset() {   
+    public void reset() {
+        retractFront();
+        retractBack();
+
         frontMotor.set(0.0);
         backMotor.set(0.0);
 
         frontSpeed = 0.0;
         backSpeed = 0.0;
-        
-        retractFront();
-        retractBack();
 
         Robot.gyro.zeroClimbTiltAngle();
         state = State.GROUND;
@@ -106,6 +109,9 @@ public class Climb extends Subsystem {
 
         climbDrive(Robot.oi.getClimbDriveSpeed());
 
+        frontSolenoid.set(frontState);
+        backSolenoid.set(backState);
+
         frontMotor.set(frontSpeed);
         backMotor.set(backSpeed);
         frontSpeed = 0.0;
@@ -124,15 +130,15 @@ public class Climb extends Subsystem {
     }
 
     private void retractFront() {
-        frontSolenoid.set(Value.kForward);
+        frontState = Value.kForward;
     }
 
     private void extendFront() {
-        frontSolenoid.set(Value.kReverse); 
+        frontState = Value.kReverse;
     }
 
     private void turnOffFront() {
-        frontSolenoid.set(Value.kOff);
+        frontState = Value.kOff;
     }
 
     public void toggleBack() {
@@ -143,15 +149,15 @@ public class Climb extends Subsystem {
     }
 
     private void retractBack() {
-        backSolenoid.set(Value.kForward);
+        backState = Value.kForward;
     }
 
     private void extendBack() {
-        backSolenoid.set(Value.kReverse);
+        backState = Value.kReverse;
     }
 
     private void turnOffBack() {
-        backSolenoid.set(Value.kOff);
+        backState = Value.kOff;
     }
 
     /** 
@@ -241,12 +247,12 @@ public class Climb extends Subsystem {
 
     // Whether or not the front is currently extended
     private boolean isFrontExtended() {
-        return frontSolenoid.get() == DoubleSolenoid.Value.kReverse;
+        return frontState == DoubleSolenoid.Value.kReverse;
     }
 
     // Whether or not the back is currently extended
     private boolean isBackExtended() {
-        return backSolenoid.get() == DoubleSolenoid.Value.kReverse;
+        return backState == DoubleSolenoid.Value.kReverse;
     }
 
     private void setConstantTuning() {
