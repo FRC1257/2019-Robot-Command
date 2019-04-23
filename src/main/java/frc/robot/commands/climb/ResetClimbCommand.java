@@ -5,6 +5,10 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 import frc.robot.subsystems.Climb;
 
+/**
+ * Reset the climb to the neutral state
+ */
+
 public class ResetClimbCommand extends InstantCommand {
 
     private Climb climb;

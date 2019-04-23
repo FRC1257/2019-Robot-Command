@@ -5,6 +5,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.cargointake.CargoRoller;
 
+/**
+ * Intake a cargo ball
+ */
+
 public class IntakeCargoCommand extends Command {
 
     private CargoRoller cargoIntake;

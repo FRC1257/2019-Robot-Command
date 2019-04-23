@@ -6,6 +6,12 @@ import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Vision;
 
+/**
+ * Set the speed of the drivetrain with the values from the controller and update them with vision
+ *
+ * Unused for now, needs testing
+ */
+
 public class DriveVisionCommand extends Command {
 
     private Drivetrain drivetrain;

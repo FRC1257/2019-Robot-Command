@@ -5,6 +5,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.HatchIntake;
 
+/**
+ * Intake a hatch panel
+ */
+
 public class IntakeHatchCommand extends Command {
 
     private HatchIntake hatchIntake;

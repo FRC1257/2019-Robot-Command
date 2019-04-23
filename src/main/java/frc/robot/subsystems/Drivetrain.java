@@ -14,6 +14,13 @@ import frc.robot.commands.drivetrain.*;
 import frc.robot.util.Gyro;
 import frc.robot.util.SynchronousPIDF;
 
+/**
+ * Subsystem to handle the drivetrain
+ *  - Utilizes 4 NEO motors, 2 for each side
+ *  - Uses a gyro to perform precise turns using PIDF control
+ *  - Implements the ability to reverse the direction of the drive
+ */
+
 public class Drivetrain extends Subsystem {
 
     // Constants
@@ -39,6 +46,10 @@ public class Drivetrain extends Subsystem {
     private double turnSpeed;
     private boolean reversed;
 
+    /**
+     * DRIVE - normal driver control
+     * PID_TURN - turning to a specific angle
+     */
     public enum State {
         DRIVER, PID_TURN
     }
@@ -97,6 +108,9 @@ public class Drivetrain extends Subsystem {
         state = State.DRIVER;
     }
 
+    /**
+     * Update motor outputs according to the current state
+     */
     public void update(double deltaT) {
         switch(state) {
             case DRIVER:
@@ -124,6 +138,13 @@ public class Drivetrain extends Subsystem {
         SmartDashboard.putNumber("Drive BR Current", brDrive.getOutputCurrent());
     }
 
+    /**
+     * Arcade drive with a forward speed and turn speed
+     * Applies drive reverse
+     *
+     * @param x forward speed
+     * @param z turn speed
+     */
     public void drive(double x, double z) {
         if(reversed) {
             driveSpeed = -x * DRIVE_FORWARD_MAX_SPEED;
@@ -138,6 +159,9 @@ public class Drivetrain extends Subsystem {
         }
     }
 
+    /**
+     * Turn 90 deg counterclockwise
+     */
     public void turnLeft() {
         gyro.zeroRobotAngle();
         pidController.reset();
@@ -145,6 +169,9 @@ public class Drivetrain extends Subsystem {
         state = State.PID_TURN;
     }
 
+    /**
+     * Turn 90 deg clockwise
+     */
     public void turnRight() {
         gyro.zeroRobotAngle();
         pidController.reset();
@@ -152,10 +179,16 @@ public class Drivetrain extends Subsystem {
         state = State.PID_TURN;
     }
 
+    /**
+     * Toggle the reverse drive feature
+     */
     public void toggleReverse() {
         reversed = !reversed;
     }
 
+    /**
+     * Set up SmartDashboard/Shuffleboard for constant tuning
+     */
     private void setConstantTuning() {
         SmartDashboard.putNumber("Drive Turn P", DRIVE_TURN_PIDF[0]);
         SmartDashboard.putNumber("Drive Turn I", DRIVE_TURN_PIDF[1]);
@@ -163,6 +196,9 @@ public class Drivetrain extends Subsystem {
         SmartDashboard.putNumber("Drive Turn F", DRIVE_TURN_PIDF[3]);
     }
 
+    /**
+     * Retrieves constant tuning from SmartDashboard/Shuffleboard
+     */
     public void getConstantTuning() {
         DRIVE_TURN_PIDF[0] = SmartDashboard.getNumber("Drive Turn P", DRIVE_TURN_PIDF[0]);
         DRIVE_TURN_PIDF[1] = SmartDashboard.getNumber("Drive Turn I", DRIVE_TURN_PIDF[1]);

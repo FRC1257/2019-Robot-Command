@@ -5,6 +5,10 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
 
+/**
+ * Toggle the reverse drive of the drivetrain
+ */
+
 public class ReverseDriveCommand extends InstantCommand {
 
     private Drivetrain drivetrain;

@@ -52,6 +52,23 @@ public class HatchIntake extends Subsystem {
     }
 
     /**
+     * Update motor outputs according to the current state
+     */
+    public void update() {
+        switch(state) {
+            case INTAKING:
+                intakeMotor.set(HATCH_INTAKE_INTAKE_SPEED);
+                break;
+            case EJECTING:
+                intakeMotor.set(HATCH_INTAKE_EJECT_SPEED);
+                break;
+            case NEUTRAL:
+                intakeMotor.set(HATCH_INTAKE_CONSTANT_INTAKE_SPEED);
+                break;
+        }
+    }
+
+    /**
      * Begin intaking a hatch panel
      */
     public void intake() {
@@ -70,23 +87,6 @@ public class HatchIntake extends Subsystem {
      */
     public void neutral() {
         state = State.NEUTRAL;
-    }
-
-    /**
-     * Update motor outputs according to the current state
-     */
-    public void update() {
-        switch(state) {
-            case INTAKING:
-                intakeMotor.set(HATCH_INTAKE_INTAKE_SPEED);
-            break;
-            case EJECTING:
-                intakeMotor.set(HATCH_INTAKE_EJECT_SPEED);
-            break;
-            case NEUTRAL:
-                intakeMotor.set(HATCH_INTAKE_CONSTANT_INTAKE_SPEED);
-            break;
-        }
     }
 
     /**

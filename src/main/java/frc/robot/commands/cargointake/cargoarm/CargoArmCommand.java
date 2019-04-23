@@ -6,6 +6,12 @@ import frc.robot.Robot;
 import frc.robot.OI;
 import frc.robot.subsystems.cargointake.CargoArm;
 
+/**
+ * Set the speed of the cargo arm with the value from the controller
+ *
+ * Default command of the CargoArm subsystem
+ */
+
 public class CargoArmCommand extends Command {
 
     private CargoArm cargoArm;

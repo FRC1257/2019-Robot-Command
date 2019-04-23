@@ -7,6 +7,13 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Drivetrain;
 
+/**
+ * Begin turning left with the drivetrain
+ * Once this begins, the driver WILL NOT be able to cancel it through controller input
+ *
+ * For use in autonomous routines
+ */
+
 public class TurnLeftWaitCommand extends Command {
     
     private Drivetrain drivetrain;

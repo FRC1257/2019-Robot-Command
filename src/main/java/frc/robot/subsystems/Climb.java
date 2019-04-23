@@ -11,6 +11,13 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
+/**
+ * Subsystem to handle our hab climb mechanism
+ *  - Utilizes 3 position double solenoids to control front and back pistons to rise up
+ *  - Utilizes 2 motors to control a sub-drivetrain at the bottom of the pistons
+ *  - Ability to do a Level 3 and Level 2 climb
+ *  - Uses the gyro to correct for robot tilt during the climb
+ */
 public class Climb extends Subsystem {
 
     // Constants
@@ -29,6 +36,14 @@ public class Climb extends Subsystem {
     private double frontSpeed;
     private double backSpeed;
 
+    /**
+     * GROUND - neutral state of the climb, both front and back retracted
+     * EXTENDED - first stage of level 3, both front and back extended
+     * HALF - second stage of level 3, front extended, back retracted
+     * SECONDARY_RAISE - first stage of level 2, back extended
+     * SECONDARY_FREEZE - second stage of level 2, back frozen
+     * MANUAL - front/back manually actuated for testing purposes
+     */
     public enum State {
         GROUND, EXTENDED, HALF, SECONDARY_RAISE, SECONDARY_FREEZE, MANUAL
     }
@@ -70,6 +85,9 @@ public class Climb extends Subsystem {
         state = State.GROUND;
     }
 
+    /**
+     * Update motor/solenoid outputs according to the current state
+     */
     public void update() {
         switch(state) {
             case GROUND:
@@ -122,6 +140,10 @@ public class Climb extends Subsystem {
         SmartDashboard.putString("Climb State", state.name());
     }
 
+    /**
+     * Toggle the state of the front solenoid
+     * Using this function sends the climb into the manual testing state
+     */
     public void toggleFront() {
         if(isFrontExtended()) retractFront();
         else extendFront();
@@ -129,18 +151,31 @@ public class Climb extends Subsystem {
         state = State.MANUAL;
     }
 
+    /**
+     * Retract the front solenoid
+     */
     private void retractFront() {
         frontState = Value.kForward;
     }
 
+    /**
+     * extend the front solenoid
+     */
     private void extendFront() {
         frontState = Value.kReverse;
     }
 
+    /**
+     * Freeze the front solenoid
+     */
     private void turnOffFront() {
         frontState = Value.kOff;
     }
 
+    /**
+     * Toggle the back solenoid
+     * Using this function sends the climb into the manual testing state
+     */
     public void toggleBack() {
         if(isBackExtended()) retractBack();
         else extendBack();
@@ -148,14 +183,23 @@ public class Climb extends Subsystem {
         state = State.MANUAL;
     }
 
+    /**
+     * Retract the back solenoid
+     */
     private void retractBack() {
         backState = Value.kForward;
     }
 
+    /**
+     * Extend the back solenoid
+     */
     private void extendBack() {
         backState = Value.kReverse;
     }
 
+    /**
+     * Freeze the back solenoid
+     */
     private void turnOffBack() {
         backState = Value.kOff;
     }
@@ -239,26 +283,42 @@ public class Climb extends Subsystem {
         }
     }
 
+    /**
+     * Update the speed of the sub-drivetrain
+     *
+     * @param speed speed of the sub-drivetrain
+     */
     private void climbDrive(double speed) {
         double adjustedSpeed = speed * CLIMB_DRIVE_MAX_SPEED;
         frontSpeed = adjustedSpeed;
         backSpeed = adjustedSpeed;
     }
 
-    // Whether or not the front is currently extended
+
+    /**
+     * @return whether or not the front is currently extended
+     */
     private boolean isFrontExtended() {
         return frontState == DoubleSolenoid.Value.kReverse;
     }
 
-    // Whether or not the back is currently extended
+    /**
+     * @return whether or not the back is currently extended
+     */
     private boolean isBackExtended() {
         return backState == DoubleSolenoid.Value.kReverse;
     }
 
+    /**
+     * Set up SmartDashboard/Shuffleboard for constant tuning
+     */
     private void setConstantTuning() {
         
     }
 
+    /**
+     * Retrieves constant tuning from SmartDashboard/Shuffleboard
+     */
     public void getConstantTuning() {
         
     }

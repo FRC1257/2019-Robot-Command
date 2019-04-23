@@ -6,6 +6,12 @@ import frc.robot.Robot;
 import frc.robot.OI;
 import frc.robot.subsystems.Drivetrain;
 
+/**
+ * Set the speed of the drivetrain with the values from the controller
+ *
+ * Default command of the Drivetrain subsystem
+ */
+
 public class DriveCommand extends Command {
 
     private Drivetrain drivetrain;

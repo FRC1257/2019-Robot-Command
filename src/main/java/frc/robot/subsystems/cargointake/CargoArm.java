@@ -14,6 +14,12 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.RobotMap;
 import frc.robot.commands.cargointake.cargoarm.*;
 
+/**
+ * Subsystem to handle the arm controlling the cargo intake
+ *  - Utilizes a single NEO motor attached to a pivot
+ *  - Uses a bump switch to zero the encoder at the bottom of the pivot
+ *  - Uses PID to move the arm to specific setpoints
+ */
 public class CargoArm extends Subsystem {
 
     // Constants
@@ -39,7 +45,11 @@ public class CargoArm extends Subsystem {
 
     private double speed;
     private double currentPIDSetpoint;
-    
+
+    /**
+     * MANUAL - Using manual input from the controller to control the motor
+     * PID - Using PID control to go to and maintain a specific position
+     */
     public enum State {
         MANUAL, PID
     }
@@ -80,6 +90,9 @@ public class CargoArm extends Subsystem {
         state = State.MANUAL;
     }
 
+    /**
+     * Update motor outputs according to the current state
+     */
     public void update() {
         switch(state) {
             case MANUAL:
@@ -117,22 +130,44 @@ public class CargoArm extends Subsystem {
         SmartDashboard.putNumber("Intake Arm Temperature (C)", cargoArmMotor.getMotorTemperature());
     }
 
+    /**
+     * Drive the arm with a specific value
+     * Scales the given value with a max speed
+     *
+     * @param value speed of the arm
+     */
     public void setSpeed(double value) {
         speed = value * CARGO_ARM_MAX_SPEED;
+
+        // Safety to prevent arm from ripping itself apart
+        if(speed < 0 && getLimitSwitch()) {
+            speed = 0;
+        }
 
         if(speed != 0) {
             state = State.MANUAL;
         }
     }
 
+    /**
+     * Move the arm to the position for scoring in the rocket
+     */
     public void moveRocket() {
         setPIDPosition(CARGO_ARM_PID_ROCKET);
     }
 
+    /**
+     * Move the arm to the position for scoring in the cargo bay
+     */
     public void moveCargo() {
         setPIDPosition(CARGO_ARM_PID_CARGO);
     }
 
+    /**
+     * Move the arm to a specific setpoint using PID control
+     *
+     * @param value position of the arm in motor revolutions
+     */
     private void setPIDPosition(double value) {
         cargoArmPID.setIAccum(0);
         currentPIDSetpoint = value;
@@ -153,31 +188,44 @@ public class CargoArm extends Subsystem {
         cargoArmEncoder.setPosition(CARGO_ARM_PID_RAISED);
     }
 
+    /**
+     * @return the current velocity of the arm in revolutions
+     */
     private double getEncoderPosition() {
         return cargoArmEncoder.getPosition();
     }
 
+    /**
+     * @return the current velocity of the arm in revolutions / second
+     */
     private double getEncoderVelocity() {
         return cargoArmEncoder.getVelocity();
     }
 
     /**
-     * Returns the current angle of the arm in degrees
+     * @return the current angle of the arm in degrees
      */
     private double getArmAngle() {
         return getEncoderPosition() * CARGO_ARM_ANGLE_CONV_FACTOR;
     }
 
-    // Whether or not the bottom limit switch is pressed
+    /**
+     * @return whether or not the bottom limit switch is pressed
+     */
     private boolean getLimitSwitch() {
         return !limitSwitch.get();
     }
 
-    // Whether or not the bottom limit switch is pressed
+    /**
+     * @return whether or not the bottom limit switch has just been pressed
+     */
     private boolean getLimitSwitchPressed() {
         return lastLimit != getLimitSwitch();
     }
-    
+
+    /**
+     * Set up SmartDashboard/Shuffleboard for constant tuning
+     */
     private void setConstantTuning() {
         SmartDashboard.putNumber("Intake Arm Max Speed", CARGO_ARM_MAX_SPEED);
 
@@ -187,6 +235,9 @@ public class CargoArm extends Subsystem {
         SmartDashboard.putNumber("Intake Arm F", CARGO_ARM_PIDF[3]);
     }
 
+    /**
+     * Retrieves constant tuning from SmartDashboard/Shuffleboard
+     */
     public void getConstantTuning() {
         CARGO_ARM_MAX_SPEED = SmartDashboard.getNumber("Intake Arm Max Speed",
                 CARGO_ARM_MAX_SPEED);

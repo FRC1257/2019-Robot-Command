@@ -6,6 +6,13 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.cargointake.CargoArm;
 
+/**
+ * Begin moving the cargo arm to the position to score in the cargo bay
+ * Once this begins, the driver WILL NOT be able to cancel it through controller input
+ *
+ * For use in autonomous routines
+ */
+
 public class MoveCargoWaitCommand extends Command {
 
     private CargoArm cargoArm;

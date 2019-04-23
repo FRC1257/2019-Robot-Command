@@ -2,11 +2,11 @@ package frc.robot.util;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
 
-public class SnailControllerTrigger extends Trigger {
+/**
+ * Xbox controller utility class for calling commands upon the trigger being pressed
+ */
 
-    /** 
-     * Xbox controller utility class for calling commands upon the trigger being pressed
-     */
+public class SnailControllerTrigger extends Trigger {
 
     private SnailController snailController;
     private boolean right;
