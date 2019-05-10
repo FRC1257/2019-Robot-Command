@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.util.Gyro;
 
 /**
  * Subsystem to handle our hab climb mechanism
@@ -81,7 +82,7 @@ public class Climb extends Subsystem {
         frontSpeed = 0.0;
         backSpeed = 0.0;
 
-        Robot.gyro.zeroClimbTiltAngle();
+        Gyro.getInstance().zeroClimbTiltAngle();
         state = State.GROUND;
     }
 
@@ -95,7 +96,7 @@ public class Climb extends Subsystem {
                 retractBack();
             break;
             case EXTENDED: // Climb Stabilizer
-                double angle = Robot.gyro.getClimbTiltAngle();
+                double angle = Gyro.getInstance().getClimbTiltAngle();
                 // Robot is tilted forwards, so stop back
                 if(angle > CLIMB_CRITICAL_ANGLE) {
                     turnOffBack();
@@ -210,7 +211,7 @@ public class Climb extends Subsystem {
     public void advanceClimb() {
         switch(state) {
             case GROUND:
-                Robot.gyro.zeroClimbTiltAngle();
+                Gyro.getInstance().zeroClimbTiltAngle();
                 state = State.EXTENDED;
             break;
             case EXTENDED:

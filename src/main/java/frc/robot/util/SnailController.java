@@ -39,7 +39,7 @@ public class SnailController extends Joystick {
         return applyDeadband(getRawAxis(4));
     }
     public double getRightStickY() {
-        return applyDeadband(getRawAxis(5));
+        return applyDeadband(-getRawAxis(5));
     }
 
     public double getLeftTrigger() {

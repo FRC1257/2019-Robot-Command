@@ -8,7 +8,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.drivetrain.*;
 import frc.robot.util.Gyro;
@@ -39,7 +38,6 @@ public class Drivetrain extends Subsystem {
     private CANSparkMax brDrive;
 
     private DifferentialDrive drivetrain;
-    private Gyro gyro;
     private SynchronousPIDF pidController;
 
     private double driveSpeed;
@@ -80,7 +78,6 @@ public class Drivetrain extends Subsystem {
         brDrive.follow(frDrive);
 
         drivetrain = new DifferentialDrive(flDrive, frDrive);
-        gyro = Robot.gyro;
         pidController = new SynchronousPIDF(DRIVE_TURN_PIDF[0], DRIVE_TURN_PIDF[1], 
             DRIVE_TURN_PIDF[2], DRIVE_TURN_PIDF[3]);
         pidController.setOutputRange(DRIVE_TURN_PID_MIN_OUTPUT, DRIVE_TURN_PID_MAX_OUTPUT);
@@ -117,9 +114,9 @@ public class Drivetrain extends Subsystem {
                 drivetrain.arcadeDrive(driveSpeed, turnSpeed);
             break;
             case PID_TURN:
-                drivetrain.arcadeDrive(0, pidController.calculate(gyro.getRobotAngle(), deltaT));
+                drivetrain.arcadeDrive(0, pidController.calculate(Gyro.getInstance().getRobotAngle(), deltaT));
 
-                double error = Math.abs(gyro.getRobotAngle() - pidController.getSetpoint());
+                double error = Math.abs(Gyro.getInstance().getRobotAngle() - pidController.getSetpoint());
                 if(error < DRIVE_TURN_PID_TOLERANCE) {
                     state = State.DRIVER;
                 }
@@ -163,7 +160,7 @@ public class Drivetrain extends Subsystem {
      * Turn 90 deg counterclockwise
      */
     public void turnLeft() {
-        gyro.zeroRobotAngle();
+        Gyro.getInstance().zeroRobotAngle();
         pidController.reset();
         pidController.setSetpoint(-90);
         state = State.PID_TURN;
@@ -173,7 +170,7 @@ public class Drivetrain extends Subsystem {
      * Turn 90 deg clockwise
      */
     public void turnRight() {
-        gyro.zeroRobotAngle();
+        Gyro.getInstance().zeroRobotAngle();
         pidController.reset();
         pidController.setSetpoint(90);
         state = State.PID_TURN;
