@@ -19,7 +19,7 @@ public class CargoArmCommand extends Command {
 
     public CargoArmCommand() {
         cargoArm = Robot.cargoArm;
-        oi = Robot.oi;
+        oi = OI.getInstance();
 
         requires(cargoArm);
     }

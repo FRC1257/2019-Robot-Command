@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-import frc.robot.Robot;
+import frc.robot.OI;
 import frc.robot.RobotMap;
 import frc.robot.util.Gyro;
 
@@ -126,7 +126,7 @@ public class Climb extends Subsystem {
                 break;
         }
 
-        climbDrive(Robot.oi.getClimbDriveSpeed());
+        climbDrive(OI.getInstance().getClimbDriveSpeed());
 
         frontSolenoid.set(frontState);
         backSolenoid.set(backState);

@@ -19,7 +19,7 @@ public class DriveCommand extends Command {
 
     public DriveCommand() {
         drivetrain = Robot.drivetrain;
-        oi = Robot.oi;
+        oi = OI.getInstance();
 
         requires(drivetrain);
     }

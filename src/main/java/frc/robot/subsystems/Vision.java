@@ -52,7 +52,7 @@ public class Vision {
         turnSpeed = 0;
         limelightNetworkTable = NetworkTableInstance.getDefault().getTable("limelight");
 
-        oi = Robot.oi;
+        oi = OI.getInstance();
 
         setConstantTuning();
     }
