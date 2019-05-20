@@ -64,7 +64,7 @@ public class OI {
 
     // Cargo Arm
     public double getCargoArmSpeed() {
-        return squareInput(operatorController.getRightStickY());
+        return squareInput(-operatorController.getRightStickY());
     }
 
     // Vision

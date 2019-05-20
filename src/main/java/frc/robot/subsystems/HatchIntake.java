@@ -17,9 +17,9 @@ import frc.robot.commands.hatchintake.*;
 public class HatchIntake extends Subsystem {
 
     // Constants
-    public static double HATCH_INTAKE_EJECT_SPEED = -1.0; // percentage
-    public static double HATCH_INTAKE_INTAKE_SPEED = 1.0; // percentage
-    public static double HATCH_INTAKE_CONSTANT_INTAKE_SPEED = 0.2; // percentage
+    public static double HATCH_INTAKE_EJECT_SPEED = 1.0; // percentage
+    public static double HATCH_INTAKE_INTAKE_SPEED = -1.0; // percentage
+    public static double HATCH_INTAKE_CONSTANT_INTAKE_SPEED = -0.2; // percentage
 
     private WPI_VictorSPX intakeMotor;
 

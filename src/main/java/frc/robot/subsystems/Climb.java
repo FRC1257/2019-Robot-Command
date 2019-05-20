@@ -51,11 +51,9 @@ public class Climb extends Subsystem {
     private State state = State.GROUND;
 
     public Climb() {
-        frontSolenoid = new DoubleSolenoid(RobotMap.PCM_SECONDARY_ID, 
-            RobotMap.CLIMB_FRONT_SOLENOID_FORWARD_ID, 
+        frontSolenoid = new DoubleSolenoid(RobotMap.CLIMB_FRONT_SOLENOID_FORWARD_ID, 
             RobotMap.CLIMB_FRONT_SOLENOID_REVERSE_ID);
-        backSolenoid = new DoubleSolenoid(RobotMap.PCM_SECONDARY_ID, 
-            RobotMap.CLIMB_BACK_SOLENOID_FORWARD_ID, 
+        backSolenoid = new DoubleSolenoid(RobotMap.CLIMB_BACK_SOLENOID_FORWARD_ID, 
             RobotMap.CLIMB_BACK_SOLENOID_REVERSE_ID);
 
         frontMotor = new WPI_VictorSPX(RobotMap.CLIMB_FRONT_MOTOR_ID);
