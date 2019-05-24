@@ -27,8 +27,9 @@ public class Robot extends TimedRobot {
 
     private PowerDistributionPanel pdp;
     
-    // Timestamp of last iteration
-    private double lastTimeStamp;
+    private double lastTimeStamp; // timestamp of last iteration
+    private int outputCounter; // counter for staggering output calls
+    private int tuningCounter; // counter for staggering tuning calls
 
     @Override
     public void robotInit() {
@@ -47,6 +48,15 @@ public class Robot extends TimedRobot {
         CameraServer.getInstance().startAutomaticCapture(0);
 
         lastTimeStamp = Timer.getFPGATimestamp();
+        outputCounter = 0;
+        tuningCounter = 0;
+    }
+
+    @Override
+    public void robotPeriodic() {
+        Scheduler.getInstance().run();
+        updateSubsystems();
+        outputValues();
     }
 
     @Override
@@ -56,8 +66,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
-        updateSubsystems();
+        
     }
 
     @Override
@@ -67,14 +76,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        Scheduler.getInstance().run();
-        updateSubsystems();
+        
     }
 
     @Override
     public void testPeriodic() {
-        Scheduler.getInstance().run();
-        updateSubsystems();
         getSubsystemConstants();
     }
 
@@ -84,7 +90,6 @@ public class Robot extends TimedRobot {
      *  - Updates internal states of subsystems
      *  - Outputs to SmartDashboard/Shuffleboard
      */
-
     private void updateSubsystems() {
         vision.update();
 
@@ -94,25 +99,65 @@ public class Robot extends TimedRobot {
         cargoArm.update();
         cargoRoller.update();
         hatchIntake.update();
-        gyro.outputValues();
-
-        SmartDashboard.putNumber("PDP Temperature (C)", pdp.getTemperature());
-        SmartDashboard.putData(pdp);
-        SmartDashboard.putNumber("dT", deltaT);
 
         lastTimeStamp = Timer.getFPGATimestamp();
     }
 
     /**
-     * Updates subsystem constants from SmartDashboard/Shuffleboard
+     * Outputs SmartDashboard/Shuffleboard values for all subsystems in a staggered way to avoid lag/memory issues
+     */
+    private void outputValues() {
+        switch(outputCounter) {
+            case 0:
+                drivetrain.outputValues();
+            break;
+            case 1:
+                climb.outputValues();
+            break;
+            case 2:
+                cargoArm.outputValues();
+            break;
+            case 3:
+                cargoRoller.outputValues();
+            break;
+            case 4:
+                hatchIntake.outputValues();
+            break;
+            case 5:
+                gyro.outputValues();
+            break;
+            case 6:
+                SmartDashboard.putData(pdp);
+            break;
+        }
+        outputCounter = (outputCounter + 1) % 7;
+    }
+
+    /**
+     * Updates subsystem constants from SmartDashboard/Shuffleboard in a staggered way to avoid lag/memory issues
      */
     private void getSubsystemConstants() {
-        drivetrain.getConstantTuning();
-        climb.getConstantTuning();
-        cargoArm.getConstantTuning();
-        cargoRoller.getConstantTuning();
-        hatchIntake.getConstantTuning();
+        switch(tuningCounter) {
+            case 0:
+                drivetrain.getConstantTuning();
+            break;
+            case 1:
+                climb.getConstantTuning();
+            break;
+            case 2:
+                cargoArm.getConstantTuning();
+            break;
+            case 3:
+                cargoRoller.getConstantTuning();
+            break;
+            case 4:
+                hatchIntake.getConstantTuning();
+            break;
+            case 5:
+                vision.getConstantTuning();
+            break;
+        }
 
-        vision.getConstantTuning();
+        tuningCounter = (tuningCounter + 1) % 6;
     }
 }

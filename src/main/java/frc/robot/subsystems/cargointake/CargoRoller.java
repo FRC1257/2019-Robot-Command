@@ -68,6 +68,10 @@ public class CargoRoller extends Subsystem {
         }
     }
 
+    public void outputValues() {
+        
+    }
+
     /**
      * Begin intaking a cargo ball
      */

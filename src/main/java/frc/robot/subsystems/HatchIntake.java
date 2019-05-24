@@ -68,6 +68,10 @@ public class HatchIntake extends Subsystem {
         }
     }
 
+    public void outputValues() {
+        
+    }
+
     /**
      * Begin intaking a hatch panel
      */
