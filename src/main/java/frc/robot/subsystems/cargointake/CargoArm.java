@@ -49,9 +49,10 @@ public class CargoArm extends Subsystem {
     /**
      * MANUAL - Using manual input from the controller to control the motor
      * PID - Using PID control to go to and maintain a specific position
+     * FROZEN - Uses PID to maintain the current position of the arm
      */
     public enum State {
-        MANUAL, PID
+        MANUAL, PID, FROZEN
     }
     private State state = State.MANUAL;
 
@@ -113,6 +114,15 @@ public class CargoArm extends Subsystem {
                     }
                 }   
             break;
+            case FROZEN:
+                if(currentPIDSetpoint == -1257) {
+                    state = State.MANUAL;
+                }
+                else {
+                    cargoArmPID.setReference(currentPIDSetpoint, ControlType.kPosition, 0,
+                        CARGO_ARM_ARB_F * Math.cos(getArmAngle()));
+                }
+            break;
         }
 
         speed = 0;
@@ -124,12 +134,14 @@ public class CargoArm extends Subsystem {
     }
 
     public void outputValues() {
-        SmartDashboard.putNumber("Intake Arm PID Setpoint", currentPIDSetpoint);
-        SmartDashboard.putBoolean("Intake Arm Limit Switch", getLimitSwitch());
-        SmartDashboard.putNumber("Intake Arm Position", getEncoderPosition());
+        SmartDashboard.putString("Cargo Arm State", state.name());
 
-        SmartDashboard.putNumber("Intake Arm Current", cargoArmMotor.getOutputCurrent());
-        SmartDashboard.putNumber("Intake Arm Temperature (C)", cargoArmMotor.getMotorTemperature());
+        SmartDashboard.putNumber("Cargo Arm PID Setpoint", currentPIDSetpoint);
+        SmartDashboard.putBoolean("Cargo Arm Limit Switch", getLimitSwitch());
+        SmartDashboard.putNumber("Cargo Arm Position", getEncoderPosition());
+
+        SmartDashboard.putNumber("Cargo Arm Current", cargoArmMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Cargo Arm Temperature (C)", cargoArmMotor.getMotorTemperature());
     }
 
     /**
@@ -163,6 +175,16 @@ public class CargoArm extends Subsystem {
      */
     public void moveCargo() {
         setPIDPosition(CARGO_ARM_PID_CARGO);
+    }
+
+    /**
+     * 
+     * @param value
+     */
+    public void freeze() {
+        cargoArmPID.setIAccum(0);
+        currentPIDSetpoint = getEncoderPosition();
+        state = State.FROZEN;
     }
 
     /**
@@ -229,35 +251,35 @@ public class CargoArm extends Subsystem {
      * Set up SmartDashboard/Shuffleboard for constant tuning
      */
     private void setConstantTuning() {
-        SmartDashboard.putNumber("Intake Arm Max Speed", CARGO_ARM_MAX_SPEED);
+        SmartDashboard.putNumber("Cargo Arm Max Speed", CARGO_ARM_MAX_SPEED);
 
-        SmartDashboard.putNumber("Intake Arm P", CARGO_ARM_PIDF[0]);
-        SmartDashboard.putNumber("Intake Arm I", CARGO_ARM_PIDF[1]);
-        SmartDashboard.putNumber("Intake Arm D", CARGO_ARM_PIDF[2]);
-        SmartDashboard.putNumber("Intake Arm F", CARGO_ARM_PIDF[3]);
+        SmartDashboard.putNumber("Cargo Arm P", CARGO_ARM_PIDF[0]);
+        SmartDashboard.putNumber("Cargo Arm I", CARGO_ARM_PIDF[1]);
+        SmartDashboard.putNumber("Cargo Arm D", CARGO_ARM_PIDF[2]);
+        SmartDashboard.putNumber("Cargo Arm F", CARGO_ARM_PIDF[3]);
     }
 
     /**
      * Retrieves constant tuning from SmartDashboard/Shuffleboard
      */
     public void getConstantTuning() {
-        CARGO_ARM_MAX_SPEED = SmartDashboard.getNumber("Intake Arm Max Speed",
+        CARGO_ARM_MAX_SPEED = SmartDashboard.getNumber("Cargo Arm Max Speed",
                 CARGO_ARM_MAX_SPEED);
 
-        if(CARGO_ARM_PIDF[0] != SmartDashboard.getNumber("Intake Arm P", CARGO_ARM_PIDF[0])) {
-            CARGO_ARM_PIDF[0] = SmartDashboard.getNumber("Intake Arm P", CARGO_ARM_PIDF[0]);
+        if(CARGO_ARM_PIDF[0] != SmartDashboard.getNumber("Cargo Arm P", CARGO_ARM_PIDF[0])) {
+            CARGO_ARM_PIDF[0] = SmartDashboard.getNumber("Cargo Arm P", CARGO_ARM_PIDF[0]);
             cargoArmPID.setP(CARGO_ARM_PIDF[0]);
         }
-        if(CARGO_ARM_PIDF[1] != SmartDashboard.getNumber("Intake Arm I", CARGO_ARM_PIDF[1])) {
-            CARGO_ARM_PIDF[1] = SmartDashboard.getNumber("Intake Arm I", CARGO_ARM_PIDF[1]);
+        if(CARGO_ARM_PIDF[1] != SmartDashboard.getNumber("Cargo Arm I", CARGO_ARM_PIDF[1])) {
+            CARGO_ARM_PIDF[1] = SmartDashboard.getNumber("Cargo Arm I", CARGO_ARM_PIDF[1]);
             cargoArmPID.setP(CARGO_ARM_PIDF[1]);
         }
-        if(CARGO_ARM_PIDF[2] != SmartDashboard.getNumber("Intake Arm D", CARGO_ARM_PIDF[2])) {
-            CARGO_ARM_PIDF[2] = SmartDashboard.getNumber("Intake Arm D", CARGO_ARM_PIDF[2]);
+        if(CARGO_ARM_PIDF[2] != SmartDashboard.getNumber("Cargo Arm D", CARGO_ARM_PIDF[2])) {
+            CARGO_ARM_PIDF[2] = SmartDashboard.getNumber("Cargo Arm D", CARGO_ARM_PIDF[2]);
             cargoArmPID.setP(CARGO_ARM_PIDF[2]);
         }
-        if(CARGO_ARM_PIDF[3] != SmartDashboard.getNumber("Intake Arm F", CARGO_ARM_PIDF[3])) {
-            CARGO_ARM_PIDF[3] = SmartDashboard.getNumber("Intake Arm F", CARGO_ARM_PIDF[3]);
+        if(CARGO_ARM_PIDF[3] != SmartDashboard.getNumber("Cargo Arm F", CARGO_ARM_PIDF[3])) {
+            CARGO_ARM_PIDF[3] = SmartDashboard.getNumber("Cargo Arm F", CARGO_ARM_PIDF[3]);
             cargoArmPID.setP(CARGO_ARM_PIDF[3]);
         }
     }

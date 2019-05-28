@@ -291,8 +291,12 @@ public class Climb extends Subsystem {
      */
     private void climbDrive(double speed) {
         double adjustedSpeed = speed * CLIMB_DRIVE_MAX_SPEED;
-        frontSpeed = adjustedSpeed;
-        backSpeed = adjustedSpeed;
+
+        // Do not drive the motors if the robot is in the grounded state
+        if(adjustedSpeed == 0.0 || state != State.GROUND) {
+            frontSpeed = adjustedSpeed;
+            backSpeed = adjustedSpeed;
+        }
     }
 
 
