@@ -39,9 +39,10 @@ public class OI {
         driveController.startButton.whenPressed(new ResetClimbCommand());
         driveController.selectButton.whenPressed(new AdvanceSecondaryClimbCommand());
 
-        // Intake Arm
+        // Cargo Arm
         operatorController.leftBumper.whenPressed(new MoveCargoCommand());
         operatorController.rightBumper.whenPressed(new MoveCargoCommand());
+        operatorController.rightTrigger.whenActive(new FreezeArmCommand());
 
         // Hatch Intake
         operatorController.xButton.whileHeld(new EjectHatchCommand());
