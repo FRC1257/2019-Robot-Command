@@ -22,7 +22,6 @@ public class Robot extends TimedRobot {
     public static HatchIntake hatchIntake;
 
     // Extra Systems
-    public static Vision vision;
     public static Gyro gyro;
     public static OI oi;
 
@@ -40,7 +39,6 @@ public class Robot extends TimedRobot {
         cargoRoller = new CargoRoller();
         hatchIntake = new HatchIntake();
 
-        vision = Vision.getInstance();
         gyro = Gyro.getInstance();
         oi = OI.getInstance();
 
@@ -94,8 +92,6 @@ public class Robot extends TimedRobot {
      *  - Outputs to SmartDashboard/Shuffleboard
      */
     private void updateSubsystems() {
-        vision.update();
-
         double deltaT = Timer.getFPGATimestamp() - lastTimeStamp;
         drivetrain.update(deltaT);
         climb.update();
@@ -156,11 +152,8 @@ public class Robot extends TimedRobot {
             case 4:
                 hatchIntake.getConstantTuning();
             break;
-            case 5:
-                vision.getConstantTuning();
-            break;
         }
 
-        tuningCounter = (tuningCounter + 1) % 6;
+        tuningCounter = (tuningCounter + 1) % 5;
     }
 }

@@ -42,7 +42,7 @@ public class OI {
         // Cargo Arm
         operatorController.leftBumper.whenPressed(new MoveCargoCommand());
         operatorController.rightBumper.whenPressed(new MoveCargoCommand());
-        operatorController.rightTrigger.whenActive(new FreezeArmCommand());
+        operatorController.rightStickButton.whenPressed(new FreezeArmCommand());
 
         // Hatch Intake
         operatorController.xButton.whileHeld(new EjectHatchCommand());
