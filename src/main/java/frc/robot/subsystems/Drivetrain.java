@@ -128,7 +128,6 @@ public class Drivetrain extends Subsystem {
     }
 
     public void outputValues() {
-        SmartDashboard.putString("Drive State", state.name());
         SmartDashboard.putBoolean("Drive Reversed", reversed);
 
         SmartDashboard.putNumber("Drive FL Current", flDrive.getOutputCurrent());

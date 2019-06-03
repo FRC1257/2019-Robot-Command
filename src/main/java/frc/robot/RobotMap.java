@@ -9,7 +9,7 @@ public class RobotMap {
 
     // Controllers
     public static final int CONTROLLER_DRIVE_PORT = 0;
-    public static final int CONTROLLER_OPERATOR_PORT = 1; 
+    public static final int CONTROLLER_OPERATOR_PORT = 1;
 
     // PCM
     public static final int PCM_SECONDARY_ID = 10;

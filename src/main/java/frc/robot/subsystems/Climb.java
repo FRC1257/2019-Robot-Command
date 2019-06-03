@@ -188,14 +188,14 @@ public class Climb extends Subsystem {
      * Retract the back solenoid
      */
     private void retractBack() {
-        backState = Value.kForward;
+        backState = Value.kReverse;
     }
 
     /**
      * Extend the back solenoid
      */
     private void extendBack() {
-        backState = Value.kReverse;
+        backState = Value.kForward;
     }
 
     /**
@@ -311,7 +311,7 @@ public class Climb extends Subsystem {
      * @return whether or not the back is currently extended
      */
     private boolean isBackExtended() {
-        return backState == DoubleSolenoid.Value.kReverse;
+        return backState == DoubleSolenoid.Value.kForward;
     }
 
     /**

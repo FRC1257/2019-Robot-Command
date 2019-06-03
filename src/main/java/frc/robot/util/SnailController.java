@@ -2,6 +2,7 @@ package frc.robot.util;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 
 /**
  * Xbox controller for command based programming
@@ -107,5 +108,30 @@ public class SnailController extends Joystick {
     public static double squareInput(double number) {
         // Use abs to prevent the sign from being cancelled out
         return Math.abs(number) * number;
+    }
+
+    /**
+     * Xbox controller utility class for calling commands upon the trigger being pressed
+     */
+
+    public class SnailControllerTrigger extends Trigger {
+
+        private SnailController snailController;
+        private boolean right;
+
+        public SnailControllerTrigger(SnailController snailController, boolean right) {
+            this.snailController = snailController;
+            this.right = right;
+        }
+
+        @Override
+        public boolean get() {
+            if (right) {
+                return snailController.getRightTrigger() > 0.5;
+            }
+            else {
+                return snailController.getLeftTrigger() > 0.5;
+            }
+        }
     }
 }
