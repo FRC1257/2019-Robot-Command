@@ -131,7 +131,9 @@ public class CargoArm extends Subsystem {
             resetEncoder();
         }
         lastLimit = getLimitSwitch();
+    }
 
+    public void outputValues() {
         SmartDashboard.putString("Cargo Arm State", state.name());
 
         SmartDashboard.putNumber("Cargo Arm PID Setpoint", currentPIDSetpoint);

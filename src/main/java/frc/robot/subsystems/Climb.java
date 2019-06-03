@@ -133,7 +133,9 @@ public class Climb extends Subsystem {
         backMotor.set(backSpeed);
         frontSpeed = 0.0;
         backSpeed = 0.0;
+    }
 
+    public void outputValues() {
         SmartDashboard.putBoolean("Climb Front Extended", isFrontExtended());
         SmartDashboard.putBoolean("Climb Back Extended", isBackExtended());
         SmartDashboard.putString("Climb State", state.name());
