@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 
 import frc.robot.subsystems.*;
@@ -44,7 +45,13 @@ public class Robot extends TimedRobot {
 
         pdp = new PowerDistributionPanel();
 
-        CameraServer.getInstance().startAutomaticCapture(0);
+        UsbCamera camera0 = CameraServer.getInstance().startAutomaticCapture(0);
+        UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture(1);
+
+        camera0.setFPS(20);
+        camera1.setFPS(20);
+        camera0.setResolution(300, 300);
+        camera1.setResolution(300, 300);
 
         lastTimeStamp = Timer.getFPGATimestamp();
         outputCounter = 0;

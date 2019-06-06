@@ -26,7 +26,7 @@ public class CargoArm extends Subsystem {
     public static final double CARGO_ARM_PID_ROCKET = 11.0; // Target position for rocket (revolutions)
     public static final double CARGO_ARM_PID_CARGO = 18.5; // Target position for cargo ship (revolutions)
     public static final double CARGO_ARM_PID_RAISED = 28.0; // Initial position of arm (revolutions)
-    public static double CARGO_ARM_MAX_SPEED = 1.0;
+    public static double CARGO_ARM_MAX_SPEED = 0.5;
 
     public static final double[] CARGO_ARM_PIDF = { 0.1, 0.0, 0.0, 0.0 };
     public static final double CARGO_ARM_ARB_F = 0.0;
