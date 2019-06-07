@@ -58,13 +58,13 @@ public class CargoRoller extends Subsystem {
         switch(state) {
             case INTAKING:
                 intakeMotor.set(CARGO_ROLLER_INTAKE_SPEED);
-                break;
+            break;
             case EJECTING:
                 intakeMotor.set(CARGO_ROLLER_EJECT_SPEED);
-                break;
+            break;
             case NEUTRAL:
                 intakeMotor.set(CARGO_ROLLER_CONSTANT_INTAKE_SPEED);
-                break;
+            break;
         }
     }
 
