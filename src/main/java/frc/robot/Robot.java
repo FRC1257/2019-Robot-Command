@@ -116,25 +116,25 @@ public class Robot extends TimedRobot {
         switch(outputCounter) {
             case 0:
                 drivetrain.outputValues();
-            break;
+                break;
             case 1:
                 climb.outputValues();
-            break;
+                break;
             case 2:
                 cargoArm.outputValues();
-            break;
+                break;
             case 3:
                 cargoRoller.outputValues();
-            break;
+                break;
             case 4:
                 hatchIntake.outputValues();
-            break;
+                break;
             case 5:
                 gyro.outputValues();
-            break;
+                break;
             case 6:
                 SmartDashboard.putData(pdp);
-            break;
+                break;
         }
         outputCounter = (outputCounter + 1) % 7;
     }
@@ -146,19 +146,19 @@ public class Robot extends TimedRobot {
         switch(tuningCounter) {
             case 0:
                 drivetrain.getConstantTuning();
-            break;
+                break;
             case 1:
                 climb.getConstantTuning();
-            break;
+                break;
             case 2:
                 cargoArm.getConstantTuning();
-            break;
+                break;
             case 3:
                 cargoRoller.getConstantTuning();
-            break;
+                break;
             case 4:
                 hatchIntake.getConstantTuning();
-            break;
+                break;
         }
 
         tuningCounter = (tuningCounter + 1) % 5;

@@ -58,13 +58,13 @@ public class HatchIntake extends Subsystem {
         switch(state) {
             case INTAKING:
                 intakeMotor.set(HATCH_INTAKE_INTAKE_SPEED);
-                break;
+            break;
             case EJECTING:
                 intakeMotor.set(HATCH_INTAKE_EJECT_SPEED);
-                break;
+            break;
             case NEUTRAL:
                 intakeMotor.set(HATCH_INTAKE_CONSTANT_INTAKE_SPEED);
-                break;
+            break;
         }
     }
 
