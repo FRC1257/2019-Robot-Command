@@ -50,8 +50,8 @@ public class Robot extends TimedRobot {
 
         camera0.setFPS(20);
         camera1.setFPS(20);
-        camera0.setResolution(300, 300);
-        camera1.setResolution(300, 300);
+        camera0.setResolution(200, 200);
+        camera1.setResolution(200, 200);
 
         lastTimeStamp = Timer.getFPGATimestamp();
         outputCounter = 0;
