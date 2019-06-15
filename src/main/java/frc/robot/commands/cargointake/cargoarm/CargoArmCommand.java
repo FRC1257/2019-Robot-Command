@@ -36,7 +36,7 @@ public class CargoArmCommand extends Command {
 
     @Override
     public void end() {
-        
+
     }
 
     @Override

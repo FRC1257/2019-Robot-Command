@@ -7,6 +7,7 @@ import frc.robot.subsystems.Climb;
 
 /**
  * Toggle the front solenoid of the climb
+ * 
  * Sends the climb into a manual/testing state
  */
 
@@ -16,7 +17,7 @@ public class ToggleFrontClimbCommand extends InstantCommand {
 
     public ToggleFrontClimbCommand() {
         super();
-        
+
         climb = Robot.climb;
         requires(climb);
     }
@@ -28,7 +29,7 @@ public class ToggleFrontClimbCommand extends InstantCommand {
 
     @Override
     public void end() {
-        
+
     }
 
     @Override

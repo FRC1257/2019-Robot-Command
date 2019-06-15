@@ -15,7 +15,7 @@ public class ResetClimbCommand extends InstantCommand {
 
     public ResetClimbCommand() {
         super();
-        
+
         climb = Robot.climb;
         requires(climb);
     }
@@ -27,7 +27,7 @@ public class ResetClimbCommand extends InstantCommand {
 
     @Override
     public void end() {
-        
+
     }
 
     @Override

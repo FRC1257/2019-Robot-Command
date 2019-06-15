@@ -13,17 +13,18 @@ import frc.robot.RobotMap;
 import frc.robot.util.Gyro;
 
 /**
- * Subsystem to handle our hab climb mechanism
- *  - Utilizes 3 position double solenoids to control front and back pistons to rise up
- *  - Utilizes 2 motors to control a sub-drivetrain at the bottom of the pistons
- *  - Ability to do a Level 3 and Level 2 climb
- *  - Uses the gyro to correct for robot tilt during the climb
+ * Subsystem to handle our hab climb mechanism - Utilizes 3 position double
+ * solenoids to control front and back pistons to rise up - Utilizes 2 motors to
+ * control a sub-drivetrain at the bottom of the pistons - Ability to do a Level
+ * 3 and Level 2 climb - Uses the gyro to correct for robot tilt during the
+ * climb
  */
 public class Climb extends Subsystem {
 
     // Constants
     public static double CLIMB_DRIVE_MAX_SPEED = 1.0; // percentage
-    public static final double CLIMB_CRITICAL_ANGLE = 5.0; // Critical angle before the climb stabilizer kicks in (degrees)
+    public static final double CLIMB_CRITICAL_ANGLE = 5.0; // Critical angle before the climb stabilizer kicks in
+                                                           // (degrees)
 
     private DoubleSolenoid frontSolenoid;
     private DoubleSolenoid backSolenoid;
@@ -38,23 +39,23 @@ public class Climb extends Subsystem {
     private double backSpeed;
 
     /**
-     * GROUND - neutral state of the climb, both front and back retracted
-     * EXTENDED - first stage of level 3, both front and back extended
-     * HALF - second stage of level 3, front extended, back retracted
-     * SECONDARY_RAISE - first stage of level 2, back extended
-     * SECONDARY_FREEZE - second stage of level 2, back frozen
-     * MANUAL - front/back manually actuated for testing purposes
+     * GROUND - neutral state of the climb, both front and back retracted EXTENDED -
+     * first stage of level 3, both front and back extended HALF - second stage of
+     * level 3, front extended, back retracted SECONDARY_RAISE - first stage of
+     * level 2, back extended SECONDARY_FREEZE - second stage of level 2, back
+     * frozen MANUAL - front/back manually actuated for testing purposes
      */
     public enum State {
         GROUND, EXTENDED, HALF, SECONDARY_RAISE, SECONDARY_FREEZE, MANUAL
     }
+
     private State state = State.GROUND;
 
     public Climb() {
-        frontSolenoid = new DoubleSolenoid(RobotMap.CLIMB_FRONT_SOLENOID_FORWARD_ID, 
-            RobotMap.CLIMB_FRONT_SOLENOID_REVERSE_ID);
-        backSolenoid = new DoubleSolenoid(RobotMap.CLIMB_BACK_SOLENOID_FORWARD_ID, 
-            RobotMap.CLIMB_BACK_SOLENOID_REVERSE_ID);
+        frontSolenoid = new DoubleSolenoid(RobotMap.CLIMB_FRONT_SOLENOID_FORWARD_ID,
+                RobotMap.CLIMB_FRONT_SOLENOID_REVERSE_ID);
+        backSolenoid = new DoubleSolenoid(RobotMap.CLIMB_BACK_SOLENOID_FORWARD_ID,
+                RobotMap.CLIMB_BACK_SOLENOID_REVERSE_ID);
 
         frontMotor = new WPI_VictorSPX(RobotMap.CLIMB_FRONT_MOTOR_ID);
         backMotor = new WPI_VictorSPX(RobotMap.CLIMB_BACK_MOTOR_ID);
@@ -69,7 +70,7 @@ public class Climb extends Subsystem {
     public void initDefaultCommand() {
         // No default command
     }
-    
+
     public void reset() {
         retractFront();
         retractBack();
@@ -88,40 +89,41 @@ public class Climb extends Subsystem {
      * Update motor/solenoid outputs according to the current state
      */
     public void update() {
-        switch(state) {
-            case GROUND:
-                retractFront();
-                retractBack();
+        switch (state) {
+        case GROUND:
+            retractFront();
+            retractBack();
             break;
-            case EXTENDED: // Climb Stabilizer
-                double angle = Gyro.getInstance().getClimbTiltAngle();
-                // Robot is tilted forwards, so stop back
-                if(angle > CLIMB_CRITICAL_ANGLE) {
-                    turnOffBack();
-                }
-                // Robot is tilted backwards, so stop front
-                else if(angle < -CLIMB_CRITICAL_ANGLE) {
-                    turnOffFront();
-                }
-                // Otherwise, just extend both
-                else {
-                    extendFront();
-                    extendBack();
-                }
-            break;
-            case HALF:
-                extendFront();
-                retractBack();
-            break;
-            case SECONDARY_RAISE:
-                extendBack();
-            break;
-            case SECONDARY_FREEZE:
+        case EXTENDED: // Climb Stabilizer
+            double angle = Gyro.getInstance().getClimbTiltAngle();
+            // Robot is tilted forwards, so stop back
+            if (angle > CLIMB_CRITICAL_ANGLE) {
                 turnOffBack();
+            }
+            // Robot is tilted backwards, so stop front
+            else if (angle < -CLIMB_CRITICAL_ANGLE) {
+                turnOffFront();
+            }
+            // Otherwise, just extend both
+            else {
+                extendFront();
+                extendBack();
+            }
             break;
-            case MANUAL:
-                // Once this state is reached, the climb will only be actuated through manual procedures until reset
-                break;
+        case HALF:
+            extendFront();
+            retractBack();
+            break;
+        case SECONDARY_RAISE:
+            extendBack();
+            break;
+        case SECONDARY_FREEZE:
+            turnOffBack();
+            break;
+        case MANUAL:
+            // Once this state is reached, the climb will only be actuated through manual
+            // procedures until reset
+            break;
         }
 
         climbDrive(OI.getInstance().getClimbDriveSpeed());
@@ -142,12 +144,14 @@ public class Climb extends Subsystem {
     }
 
     /**
-     * Toggle the state of the front solenoid
-     * Using this function sends the climb into the manual testing state
+     * Toggle the state of the front solenoid Using this function sends the climb
+     * into the manual testing state
      */
     public void toggleFront() {
-        if(isFrontExtended()) retractFront();
-        else extendFront();
+        if (isFrontExtended())
+            retractFront();
+        else
+            extendFront();
 
         state = State.MANUAL;
     }
@@ -174,12 +178,14 @@ public class Climb extends Subsystem {
     }
 
     /**
-     * Toggle the back solenoid
-     * Using this function sends the climb into the manual testing state
+     * Toggle the back solenoid Using this function sends the climb into the manual
+     * testing state
      */
     public void toggleBack() {
-        if(isBackExtended()) retractBack();
-        else extendBack();
+        if (isBackExtended())
+            retractBack();
+        else
+            extendBack();
 
         state = State.MANUAL;
     }
@@ -205,81 +211,81 @@ public class Climb extends Subsystem {
         backState = Value.kOff;
     }
 
-    /** 
-     *  Go to the next state of the climb
+    /**
+     * Go to the next state of the climb
      */
     public void advanceClimb() {
-        switch(state) {
-            case GROUND:
-                Gyro.getInstance().zeroClimbTiltAngle();
-                state = State.EXTENDED;
+        switch (state) {
+        case GROUND:
+            Gyro.getInstance().zeroClimbTiltAngle();
+            state = State.EXTENDED;
             break;
-            case EXTENDED:
-                state = State.HALF;
+        case EXTENDED:
+            state = State.HALF;
             break;
-            case HALF:
-                state = State.GROUND;
+        case HALF:
+            state = State.GROUND;
             break;
-            case SECONDARY_RAISE:
-                // Intentionally Empty
+        case SECONDARY_RAISE:
+            // Intentionally Empty
             break;
-            case SECONDARY_FREEZE:
-                // Intentionally Empty
+        case SECONDARY_FREEZE:
+            // Intentionally Empty
             break;
-            case MANUAL:
-                // Intentionally Empty
+        case MANUAL:
+            // Intentionally Empty
             break;
         }
     }
 
-    /** 
-     *  Go to the prev state of the climb
+    /**
+     * Go to the prev state of the climb
      */
     public void backClimb() {
-        switch(state) {
-            case GROUND:
-                state = State.HALF;
+        switch (state) {
+        case GROUND:
+            state = State.HALF;
             break;
-            case EXTENDED:
-                state = State.GROUND;
+        case EXTENDED:
+            state = State.GROUND;
             break;
-            case HALF:
-                state = State.EXTENDED;
+        case HALF:
+            state = State.EXTENDED;
             break;
-            case SECONDARY_RAISE:
-                // Intentionally Empty
+        case SECONDARY_RAISE:
+            // Intentionally Empty
             break;
-            case SECONDARY_FREEZE:
-                // Intentionally Empty
+        case SECONDARY_FREEZE:
+            // Intentionally Empty
             break;
-            case MANUAL:
-                // Intentionally Empty
+        case MANUAL:
+            // Intentionally Empty
             break;
         }
     }
 
-    /** 
+    /**
      * Advance our level 2 climb
      */
     public void advanceSecondaryClimb() {
-        switch(state) {
-            case GROUND:
-                state = State.SECONDARY_RAISE;
+        switch (state) {
+        case GROUND:
+            state = State.SECONDARY_RAISE;
             break;
-            case EXTENDED:
-                // Intentionally Empty
+        case EXTENDED:
+            // Intentionally Empty
             break;
-            case HALF:
-                // Intentionally Empty
+        case HALF:
+            // Intentionally Empty
             break;
-            case SECONDARY_RAISE:
-                state = State.SECONDARY_FREEZE;
+        case SECONDARY_RAISE:
+            state = State.SECONDARY_FREEZE;
             break;
-            case SECONDARY_FREEZE:
-                state = State.GROUND;
+        case SECONDARY_FREEZE:
+            state = State.GROUND;
             break;
-            case MANUAL:
-                // Intentionally Empty
+        case MANUAL:
+            // Intentionally Empty
             break;
         }
     }
@@ -293,12 +299,11 @@ public class Climb extends Subsystem {
         double adjustedSpeed = speed * CLIMB_DRIVE_MAX_SPEED;
 
         // Do not drive the motors if the robot is in the grounded state
-        if(adjustedSpeed == 0.0 || state != State.GROUND) {
+        if (adjustedSpeed == 0.0 || state != State.GROUND) {
             frontSpeed = adjustedSpeed;
             backSpeed = adjustedSpeed;
         }
     }
-
 
     /**
      * @return whether or not the front is currently extended
@@ -318,14 +323,14 @@ public class Climb extends Subsystem {
      * Set up SmartDashboard/Shuffleboard for constant tuning
      */
     private void setConstantTuning() {
-        
+
     }
 
     /**
      * Retrieves constant tuning from SmartDashboard/Shuffleboard
      */
     public void getConstantTuning() {
-        
+
     }
 
     public State getState() {

@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 
 /**
- * Xbox controller for command based programming
- * Credit to FRC Team 319 for the original code
+ * Xbox controller for command based programming Credit to FRC Team 319 for the
+ * original code
  */
 
 public class SnailController extends Joystick {
@@ -33,12 +33,15 @@ public class SnailController extends Joystick {
     public double getLeftStickX() {
         return applyDeadband(getRawAxis(0));
     }
+
     public double getLeftStickY() {
         return applyDeadband(-getRawAxis(1));
     }
+
     public double getRightStickX() {
         return applyDeadband(getRawAxis(4));
     }
+
     public double getRightStickY() {
         return applyDeadband(-getRawAxis(5));
     }
@@ -46,6 +49,7 @@ public class SnailController extends Joystick {
     public double getLeftTrigger() {
         return applyDeadband(getRawAxis(2));
     }
+
     public double getRightTrigger() {
         return applyDeadband(-getRawAxis(3));
     }
@@ -83,9 +87,8 @@ public class SnailController extends Joystick {
     }
 
     /**
-     * Deadbands a number and returns the result
-     * If |number| < deadband, then the function will return 0
-     * Otherwise, it will return the number
+     * Deadbands a number and returns the result If |number| < deadband, then the
+     * function will return 0 Otherwise, it will return the number
      *
      * @param number the number to deadband
      *
@@ -111,7 +114,8 @@ public class SnailController extends Joystick {
     }
 
     /**
-     * Xbox controller utility class for calling commands upon the trigger being pressed
+     * Xbox controller utility class for calling commands upon the trigger being
+     * pressed
      */
 
     public class SnailControllerTrigger extends Trigger {
@@ -128,8 +132,7 @@ public class SnailController extends Joystick {
         public boolean get() {
             if (right) {
                 return snailController.getRightTrigger() > 0.5;
-            }
-            else {
+            } else {
                 return snailController.getLeftTrigger() > 0.5;
             }
         }

@@ -33,7 +33,7 @@ public class NeutralHatchCommand extends Command {
 
     @Override
     public void end() {
-        
+
     }
 
     @Override

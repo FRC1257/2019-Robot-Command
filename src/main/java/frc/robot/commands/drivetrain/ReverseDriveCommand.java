@@ -15,7 +15,7 @@ public class ReverseDriveCommand extends InstantCommand {
 
     public ReverseDriveCommand() {
         super();
-        
+
         drivetrain = Robot.drivetrain;
         requires(drivetrain);
     }
@@ -27,7 +27,7 @@ public class ReverseDriveCommand extends InstantCommand {
 
     @Override
     public void end() {
-        
+
     }
 
     @Override

@@ -7,7 +7,9 @@ import frc.robot.subsystems.cargointake.CargoArm;
 
 /**
  * Begin moving the cargo arm to the position to score in the level 1 rocket
- * Once this begins, the driver WILL be able to cancel it through controller input
+ * 
+ * Once this begins, the driver WILL be able to cancel it through controller
+ * input
  */
 
 public class MoveRocketCommand extends InstantCommand {
@@ -16,7 +18,7 @@ public class MoveRocketCommand extends InstantCommand {
 
     public MoveRocketCommand() {
         super();
-        
+
         cargoArm = Robot.cargoArm;
         requires(cargoArm);
     }
@@ -28,7 +30,7 @@ public class MoveRocketCommand extends InstantCommand {
 
     @Override
     public void end() {
-        
+
     }
 
     @Override

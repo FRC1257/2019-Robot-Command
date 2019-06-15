@@ -15,7 +15,7 @@ public class AdvanceClimbCommand extends InstantCommand {
 
     public AdvanceClimbCommand() {
         super();
-        
+
         climb = Robot.climb;
         requires(climb);
     }
@@ -27,7 +27,7 @@ public class AdvanceClimbCommand extends InstantCommand {
 
     @Override
     public void end() {
-        
+
     }
 
     @Override

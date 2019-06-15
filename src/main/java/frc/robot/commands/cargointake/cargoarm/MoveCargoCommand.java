@@ -7,6 +7,7 @@ import frc.robot.subsystems.cargointake.CargoArm;
 
 /**
  * Begin moving the cargo arm to the position to score in the cargo bay
+ * 
  * Once this begins, the driver WILL be able to cancel it through controller input
  */
 
@@ -16,7 +17,7 @@ public class MoveCargoCommand extends InstantCommand {
 
     public MoveCargoCommand() {
         super();
-        
+
         cargoArm = Robot.cargoArm;
         requires(cargoArm);
     }
@@ -28,7 +29,7 @@ public class MoveCargoCommand extends InstantCommand {
 
     @Override
     public void end() {
-        
+
     }
 
     @Override

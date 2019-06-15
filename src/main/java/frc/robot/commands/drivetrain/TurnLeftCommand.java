@@ -7,7 +7,9 @@ import frc.robot.subsystems.Drivetrain;
 
 /**
  * Begin turning left with the drivetrain
- * Once this begins, the driver WILL be able to cancel it through controller input
+ * 
+ * Once this begins, the driver WILL be able to cancel it through controller
+ * input
  */
 
 public class TurnLeftCommand extends InstantCommand {
@@ -16,7 +18,7 @@ public class TurnLeftCommand extends InstantCommand {
 
     public TurnLeftCommand() {
         super();
-        
+
         drivetrain = Robot.drivetrain;
         requires(drivetrain);
     }

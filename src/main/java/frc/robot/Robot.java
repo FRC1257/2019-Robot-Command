@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
     public static OI oi;
 
     private PowerDistributionPanel pdp;
-    
+
     private double lastTimeStamp; // timestamp of last iteration
     private int outputCounter; // counter for staggering output calls
     private int tuningCounter; // counter for staggering tuning calls
@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
-        
+
     }
 
     @Override
@@ -84,7 +84,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        
+
     }
 
     @Override
@@ -92,11 +92,10 @@ public class Robot extends TimedRobot {
         getSubsystemConstants();
     }
 
-    /** 
-     * Runs the update loop of every subsystem
-     *  - Sends values to motor controllers
-     *  - Updates internal states of subsystems
-     *  - Outputs to SmartDashboard/Shuffleboard
+    /**
+     * Runs the update loop of every subsystem - Sends values to motor controllers -
+     * Updates internal states of subsystems - Outputs to
+     * SmartDashboard/Shuffleboard
      */
     private void updateSubsystems() {
         double deltaT = Timer.getFPGATimestamp() - lastTimeStamp;
@@ -110,57 +109,59 @@ public class Robot extends TimedRobot {
     }
 
     /**
-     * Outputs SmartDashboard/Shuffleboard values for all subsystems in a staggered way to avoid lag/memory issues
+     * Outputs SmartDashboard/Shuffleboard values for all subsystems in a staggered
+     * way to avoid lag/memory issues
      */
     private void outputValues() {
-        switch(outputCounter) {
-            case 0:
-                drivetrain.outputValues();
-                break;
-            case 1:
-                climb.outputValues();
-                break;
-            case 2:
-                cargoArm.outputValues();
-                break;
-            case 3:
-                cargoRoller.outputValues();
-                break;
-            case 4:
-                hatchIntake.outputValues();
-                break;
-            case 5:
-                gyro.outputValues();
-                break;
-            case 6:
-                SmartDashboard.putData(pdp);
-                break;
+        switch (outputCounter) {
+        case 0:
+            drivetrain.outputValues();
+            break;
+        case 1:
+            climb.outputValues();
+            break;
+        case 2:
+            cargoArm.outputValues();
+            break;
+        case 3:
+            cargoRoller.outputValues();
+            break;
+        case 4:
+            hatchIntake.outputValues();
+            break;
+        case 5:
+            gyro.outputValues();
+            break;
+        case 6:
+            SmartDashboard.putData(pdp);
+            break;
         }
-        outputCounter = (outputCounter + 1) % 7;
+        outputCounter = (outputCounter + 1) % 10;
     }
 
     /**
-     * Updates subsystem constants from SmartDashboard/Shuffleboard in a staggered way to avoid lag/memory issues
+     * Updates subsystem constants from SmartDashboard/Shuffleboard in a staggered
+     * way to avoid lag/memory issues
      */
     private void getSubsystemConstants() {
-        switch(tuningCounter) {
-            case 0:
-                drivetrain.getConstantTuning();
-                break;
-            case 1:
-                climb.getConstantTuning();
-                break;
-            case 2:
-                cargoArm.getConstantTuning();
-                break;
-            case 3:
-                cargoRoller.getConstantTuning();
-                break;
-            case 4:
-                hatchIntake.getConstantTuning();
-                break;
+        switch (tuningCounter) {
+        case 0:
+            drivetrain.getConstantTuning();
+            break;
+        case 1:
+            climb.getConstantTuning();
+            break;
+        case 2:
+            cargoArm.getConstantTuning();
+            break;
+        case 3:
+            cargoRoller.getConstantTuning();
+            break;
+        case 4:
+            hatchIntake.getConstantTuning();
+            break;
         }
 
-        tuningCounter = (tuningCounter + 1) % 5;
+        tuningCounter = (tuningCounter + 1) % 10;
     }
 }

@@ -7,7 +7,9 @@ import frc.robot.subsystems.cargointake.CargoArm;
 
 /**
  * Freeze the cargo arm at the currently held position using PID control
- * Once this begins, the driver WILL be able to cancel it through controller input
+ * 
+ * Once this begins, the driver WILL be able to cancel it through controller
+ * input
  */
 
 public class FreezeArmCommand extends InstantCommand {
@@ -16,7 +18,7 @@ public class FreezeArmCommand extends InstantCommand {
 
     public FreezeArmCommand() {
         super();
-        
+
         cargoArm = Robot.cargoArm;
         requires(cargoArm);
     }
@@ -28,7 +30,7 @@ public class FreezeArmCommand extends InstantCommand {
 
     @Override
     public void end() {
-        
+
     }
 
     @Override

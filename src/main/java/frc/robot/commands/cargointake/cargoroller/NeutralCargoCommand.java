@@ -33,7 +33,7 @@ public class NeutralCargoCommand extends Command {
 
     @Override
     public void end() {
-        
+
     }
 
     @Override

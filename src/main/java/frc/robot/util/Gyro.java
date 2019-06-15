@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI.Port;
 
 /**
- * Wrapper class for the navX-MXP and ADXRS450_Gyro
- * Mostly utilizes the navX-MXP, but uses the ADXRS450 as backup if it disconnects
+ * Wrapper class for the navX-MXP and ADXRS450_Gyro Mostly utilizes the
+ * navX-MXP, but uses the ADXRS450 as backup if it disconnects
  */
 
 public class Gyro {
@@ -56,6 +56,7 @@ public class Gyro {
     public double getPitchAngle() {
         return navx.getPitch() - resetPitch;
     }
+
     /**
      * Sets the current yaw angle to "0".
      */
@@ -87,16 +88,15 @@ public class Gyro {
     }
 
     /**
-     * Gets the current tilt of the robot while climbing.
-     * Utilizes the NavX if it is connected, but otherwise it will use the backup gyro
+     * Gets the current tilt of the robot while climbing. Utilizes the NavX if it is
+     * connected, but otherwise it will use the backup gyro
      * 
      * @return THe angle in degrees
      */
     public double getClimbTiltAngle() {
-        if(navXConnected()) {
+        if (navXConnected()) {
             return getRollAngle();
-        }
-        else {
+        } else {
             return -gyro.getAngle();
         }
     }
@@ -117,7 +117,7 @@ public class Gyro {
     }
 
     /**
-     * Returns whether or not the NavX is currently connected and sending valid data 
+     * Returns whether or not the NavX is currently connected and sending valid data
      * 
      * @return whether or not the NavX is currently connected
      */

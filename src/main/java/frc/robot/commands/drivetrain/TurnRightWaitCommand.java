@@ -8,20 +8,22 @@ import frc.robot.subsystems.Drivetrain;
 
 /**
  * Begin turning right with the drivetrain
- * Once this begins, the driver WILL NOT be able to cancel it through controller input
+ * 
+ * Once this begins, the driver WILL NOT be able to cancel it through controller
+ * input
  *
  * For use in autonomous routines
  */
 
 public class TurnRightWaitCommand extends Command {
-    
+
     private Drivetrain drivetrain;
 
     private double start;
 
     public TurnRightWaitCommand() {
         super();
-        
+
         drivetrain = Robot.drivetrain;
         requires(drivetrain);
     }
@@ -34,13 +36,13 @@ public class TurnRightWaitCommand extends Command {
 
     @Override
     public void execute() {
-        
+
     }
 
     @Override
     public boolean isFinished() {
-        return drivetrain.getState() == Drivetrain.State.DRIVER || 
-            Timer.getFPGATimestamp() - start > Drivetrain.DRIVE_TURN_PID_WAIT;
+        return drivetrain.getState() == Drivetrain.State.DRIVER
+                || Timer.getFPGATimestamp() - start > Drivetrain.DRIVE_TURN_PID_WAIT;
     }
 
     @Override

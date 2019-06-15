@@ -15,10 +15,9 @@ import frc.robot.RobotMap;
 import frc.robot.commands.cargointake.cargoarm.*;
 
 /**
- * Subsystem to handle the arm controlling the cargo intake
- *  - Utilizes a single NEO motor attached to a pivot
- *  - Uses a bump switch to zero the encoder at the bottom of the pivot
- *  - Uses PID to move the arm to specific setpoints
+ * Subsystem to handle the arm controlling the cargo intake - Utilizes a single
+ * NEO motor attached to a pivot - Uses a bump switch to zero the encoder at the
+ * bottom of the pivot - Uses PID to move the arm to specific setpoints
  */
 public class CargoArm extends Subsystem {
 
@@ -30,7 +29,8 @@ public class CargoArm extends Subsystem {
 
     public static final double[] CARGO_ARM_PIDF = { 0.1, 0.0, 0.0, 0.0 };
     public static final double CARGO_ARM_ARB_F = 0.0;
-    public static final double CARGO_ARM_ANGLE_CONV_FACTOR = 90.0 / CARGO_ARM_PID_RAISED; // conversion factor from motor rev to angle
+    public static final double CARGO_ARM_ANGLE_CONV_FACTOR = 90.0 / CARGO_ARM_PID_RAISED; // conversion factor from
+                                                                                          // motor rev to angle
     public static final double CARGO_ARM_PID_TOLERANCE = 1.0; // revolutions
     public static final double CARGO_ARM_PID_WAIT = 2.0; // seconds
     public static final double CARGO_ARM_PID_MAX_OUTPUT = 1.0; // percentage
@@ -47,13 +47,14 @@ public class CargoArm extends Subsystem {
     private double currentPIDSetpoint;
 
     /**
-     * MANUAL - Using manual input from the controller to control the motor
-     * PID - Using PID control to go to and maintain a specific position
-     * FROZEN - Uses PID to maintain the current position of the arm
+     * MANUAL - Using manual input from the controller to control the motor PID -
+     * Using PID control to go to and maintain a specific position FROZEN - Uses PID
+     * to maintain the current position of the arm
      */
     public enum State {
         MANUAL, PID, FROZEN
     }
+
     private State state = State.MANUAL;
 
     public CargoArm() {
@@ -69,7 +70,7 @@ public class CargoArm extends Subsystem {
         cargoArmPID.setFF(CARGO_ARM_PIDF[3]);
         cargoArmPID.setIZone(0.0);
         cargoArmPID.setOutputRange(CARGO_ARM_PID_MIN_OUTPUT, CARGO_ARM_PID_MAX_OUTPUT);
-        
+
         limitSwitch = new DigitalInput(RobotMap.CARGO_ARM_LIMIT_SWITCH_ID);
         lastLimit = getLimitSwitch();
 
@@ -81,7 +82,7 @@ public class CargoArm extends Subsystem {
     public void initDefaultCommand() {
         setDefaultCommand(new CargoArmCommand());
     }
-    
+
     private void reset() {
         cargoArmMotor.set(0);
 
@@ -95,33 +96,31 @@ public class CargoArm extends Subsystem {
      * Update motor outputs according to the current state
      */
     public void update() {
-        switch(state) {
-            case MANUAL:
-                cargoArmMotor.set(speed);
-                currentPIDSetpoint = -1257;
+        switch (state) {
+        case MANUAL:
+            cargoArmMotor.set(speed);
+            currentPIDSetpoint = -1257;
             break;
-            case PID:
-                if(currentPIDSetpoint == -1257) {
-                    state = State.MANUAL;
-                }
-                else {
-                    cargoArmPID.setReference(currentPIDSetpoint, ControlType.kPosition, 0,
+        case PID:
+            if (currentPIDSetpoint == -1257) {
+                state = State.MANUAL;
+            } else {
+                cargoArmPID.setReference(currentPIDSetpoint, ControlType.kPosition, 0,
                         CARGO_ARM_ARB_F * Math.cos(getArmAngle()));
 
-                    double error = Math.abs(getEncoderPosition() - currentPIDSetpoint);
-                    if(error < CARGO_ARM_PID_TOLERANCE) {
-                        state = State.MANUAL;
-                    }
-                }   
-            break;
-            case FROZEN:
-                if(currentPIDSetpoint == -1257) {
+                double error = Math.abs(getEncoderPosition() - currentPIDSetpoint);
+                if (error < CARGO_ARM_PID_TOLERANCE) {
                     state = State.MANUAL;
                 }
-                else {
-                    cargoArmPID.setReference(currentPIDSetpoint, ControlType.kPosition, 0,
+            }
+            break;
+        case FROZEN:
+            if (currentPIDSetpoint == -1257) {
+                state = State.MANUAL;
+            } else {
+                cargoArmPID.setReference(currentPIDSetpoint, ControlType.kPosition, 0,
                         CARGO_ARM_ARB_F * Math.cos(getArmAngle()));
-                }
+            }
             break;
         }
 
@@ -145,8 +144,7 @@ public class CargoArm extends Subsystem {
     }
 
     /**
-     * Drive the arm with a specific value
-     * Scales the given value with a max speed
+     * Drive the arm with a specific value Scales the given value with a max speed
      *
      * @param value speed of the arm
      */
@@ -154,11 +152,11 @@ public class CargoArm extends Subsystem {
         speed = value * CARGO_ARM_MAX_SPEED;
 
         // Safety to prevent arm from ripping itself apart
-        if(speed < 0 && getLimitSwitch()) {
+        if (speed < 0 && getLimitSwitch()) {
             speed = 0;
         }
 
-        if(speed != 0) {
+        if (speed != 0) {
             state = State.MANUAL;
         }
     }
@@ -198,14 +196,14 @@ public class CargoArm extends Subsystem {
         state = State.PID;
     }
 
-    /* 
+    /*
      * Resets the encoder to the bottom position
      */
     private void resetEncoder() {
         cargoArmEncoder.setPosition(0.0);
     }
-    
-    /* 
+
+    /*
      * Resets the encoder to the top position
      */
     private void resetEncoderTop() {
@@ -263,22 +261,21 @@ public class CargoArm extends Subsystem {
      * Retrieves constant tuning from SmartDashboard/Shuffleboard
      */
     public void getConstantTuning() {
-        CARGO_ARM_MAX_SPEED = SmartDashboard.getNumber("Cargo Arm Max Speed",
-                CARGO_ARM_MAX_SPEED);
+        CARGO_ARM_MAX_SPEED = SmartDashboard.getNumber("Cargo Arm Max Speed", CARGO_ARM_MAX_SPEED);
 
-        if(CARGO_ARM_PIDF[0] != SmartDashboard.getNumber("Cargo Arm P", CARGO_ARM_PIDF[0])) {
+        if (CARGO_ARM_PIDF[0] != SmartDashboard.getNumber("Cargo Arm P", CARGO_ARM_PIDF[0])) {
             CARGO_ARM_PIDF[0] = SmartDashboard.getNumber("Cargo Arm P", CARGO_ARM_PIDF[0]);
             cargoArmPID.setP(CARGO_ARM_PIDF[0]);
         }
-        if(CARGO_ARM_PIDF[1] != SmartDashboard.getNumber("Cargo Arm I", CARGO_ARM_PIDF[1])) {
+        if (CARGO_ARM_PIDF[1] != SmartDashboard.getNumber("Cargo Arm I", CARGO_ARM_PIDF[1])) {
             CARGO_ARM_PIDF[1] = SmartDashboard.getNumber("Cargo Arm I", CARGO_ARM_PIDF[1]);
             cargoArmPID.setP(CARGO_ARM_PIDF[1]);
         }
-        if(CARGO_ARM_PIDF[2] != SmartDashboard.getNumber("Cargo Arm D", CARGO_ARM_PIDF[2])) {
+        if (CARGO_ARM_PIDF[2] != SmartDashboard.getNumber("Cargo Arm D", CARGO_ARM_PIDF[2])) {
             CARGO_ARM_PIDF[2] = SmartDashboard.getNumber("Cargo Arm D", CARGO_ARM_PIDF[2]);
             cargoArmPID.setP(CARGO_ARM_PIDF[2]);
         }
-        if(CARGO_ARM_PIDF[3] != SmartDashboard.getNumber("Cargo Arm F", CARGO_ARM_PIDF[3])) {
+        if (CARGO_ARM_PIDF[3] != SmartDashboard.getNumber("Cargo Arm F", CARGO_ARM_PIDF[3])) {
             CARGO_ARM_PIDF[3] = SmartDashboard.getNumber("Cargo Arm F", CARGO_ARM_PIDF[3]);
             cargoArmPID.setP(CARGO_ARM_PIDF[3]);
         }
