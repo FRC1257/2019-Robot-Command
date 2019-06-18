@@ -2,16 +2,15 @@ package frc.robot.subsystems.cargointake;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-
 import frc.robot.RobotMap;
 import frc.robot.commands.cargointake.cargoroller.*;
 
 /**
- * Subsystem to handle intaking and ejecting cargo balls - Utilizes a single
- * motor attached to a rolling intake
+ * Subsystem to handle intaking and ejecting cargo balls
+ * 
+ * - Utilizes a single motor attached to a rolling intake
  */
 
 public class CargoRoller extends Subsystem {
@@ -24,9 +23,11 @@ public class CargoRoller extends Subsystem {
     private WPI_VictorSPX intakeMotor;
 
     /**
-     * INTAKING - spinning inwards to take in a cargo EJECTING - spinning outwards
-     * to eject a cargo NEUTRAL - spinning slowly inwards to prevent a cargo from
-     * falling out
+     * INTAKING - spinning inwards to take in a cargo
+     * 
+     * EJECTING - spinning outwards to eject a cargo
+     * 
+     * NEUTRAL - spinning slowly inwards to prevent a cargo from falling out
      */
     public enum State {
         INTAKING, EJECTING, NEUTRAL
@@ -57,15 +58,15 @@ public class CargoRoller extends Subsystem {
      */
     public void update() {
         switch (state) {
-        case INTAKING:
-            intakeMotor.set(CARGO_ROLLER_INTAKE_SPEED);
-            break;
-        case EJECTING:
-            intakeMotor.set(CARGO_ROLLER_EJECT_SPEED);
-            break;
-        case NEUTRAL:
-            intakeMotor.set(CARGO_ROLLER_CONSTANT_INTAKE_SPEED);
-            break;
+            case INTAKING:
+                intakeMotor.set(CARGO_ROLLER_INTAKE_SPEED);
+                break;
+            case EJECTING:
+                intakeMotor.set(CARGO_ROLLER_EJECT_SPEED);
+                break;
+            case NEUTRAL:
+                intakeMotor.set(CARGO_ROLLER_CONSTANT_INTAKE_SPEED);
+                break;
         }
     }
 
@@ -107,8 +108,10 @@ public class CargoRoller extends Subsystem {
      * Retrieves constant tuning from SmartDashboard/Shuffleboard
      */
     public void getConstantTuning() {
-        CARGO_ROLLER_INTAKE_SPEED = SmartDashboard.getNumber("Cargo Intake Speed", CARGO_ROLLER_INTAKE_SPEED);
-        CARGO_ROLLER_EJECT_SPEED = SmartDashboard.getNumber("Cargo Eject Speed", CARGO_ROLLER_EJECT_SPEED);
+        CARGO_ROLLER_INTAKE_SPEED =
+                SmartDashboard.getNumber("Cargo Intake Speed", CARGO_ROLLER_INTAKE_SPEED);
+        CARGO_ROLLER_EJECT_SPEED =
+                SmartDashboard.getNumber("Cargo Eject Speed", CARGO_ROLLER_EJECT_SPEED);
         CARGO_ROLLER_CONSTANT_INTAKE_SPEED = SmartDashboard.getNumber("Cargo Constant Speed",
                 CARGO_ROLLER_CONSTANT_INTAKE_SPEED);
     }

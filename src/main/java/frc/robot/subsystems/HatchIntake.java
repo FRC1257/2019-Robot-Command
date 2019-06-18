@@ -2,16 +2,15 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-
 import frc.robot.RobotMap;
 import frc.robot.commands.hatchintake.*;
 
 /**
- * Subsystem to handle intaking and ejecting hatch panels - Utilizes a single
- * motor attached to a rolling intake
+ * Subsystem to handle intaking and ejecting hatch panels
+ * 
+ * - Utilizes a single motor attached to a rolling intake
  */
 
 public class HatchIntake extends Subsystem {
@@ -24,9 +23,11 @@ public class HatchIntake extends Subsystem {
     private WPI_VictorSPX intakeMotor;
 
     /**
-     * INTAKING - spinning inwards to take in a hatch EJECTING - spinning outwards
-     * to eject a hatch NEUTRAL - spinning slowly inwards to prevent a hatch from
-     * falling out
+     * INTAKING - spinning inwards to take in a hatch
+     * 
+     * EJECTING - spinning outwards to eject a hatch
+     * 
+     * NEUTRAL - spinning slowly inwards to prevent a hatch from falling out
      */
     public enum State {
         INTAKING, EJECTING, NEUTRAL
@@ -57,15 +58,15 @@ public class HatchIntake extends Subsystem {
      */
     public void update() {
         switch (state) {
-        case INTAKING:
-            intakeMotor.set(HATCH_INTAKE_INTAKE_SPEED);
-            break;
-        case EJECTING:
-            intakeMotor.set(HATCH_INTAKE_EJECT_SPEED);
-            break;
-        case NEUTRAL:
-            intakeMotor.set(HATCH_INTAKE_CONSTANT_INTAKE_SPEED);
-            break;
+            case INTAKING:
+                intakeMotor.set(HATCH_INTAKE_INTAKE_SPEED);
+                break;
+            case EJECTING:
+                intakeMotor.set(HATCH_INTAKE_EJECT_SPEED);
+                break;
+            case NEUTRAL:
+                intakeMotor.set(HATCH_INTAKE_CONSTANT_INTAKE_SPEED);
+                break;
         }
     }
 
@@ -107,8 +108,10 @@ public class HatchIntake extends Subsystem {
      * Retrieves constant tuning from SmartDashboard/Shuffleboard
      */
     public void getConstantTuning() {
-        HATCH_INTAKE_INTAKE_SPEED = SmartDashboard.getNumber("Hatch Intake Speed", HATCH_INTAKE_INTAKE_SPEED);
-        HATCH_INTAKE_EJECT_SPEED = SmartDashboard.getNumber("Hatch Eject Speed", HATCH_INTAKE_EJECT_SPEED);
+        HATCH_INTAKE_INTAKE_SPEED =
+                SmartDashboard.getNumber("Hatch Intake Speed", HATCH_INTAKE_INTAKE_SPEED);
+        HATCH_INTAKE_EJECT_SPEED =
+                SmartDashboard.getNumber("Hatch Eject Speed", HATCH_INTAKE_EJECT_SPEED);
         HATCH_INTAKE_CONSTANT_INTAKE_SPEED = SmartDashboard.getNumber("Hatch Constant Speed",
                 HATCH_INTAKE_CONSTANT_INTAKE_SPEED);
     }

@@ -9,8 +9,8 @@ import frc.robot.util.SnailController;
 import static frc.robot.util.SnailController.*;
 
 /**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
+ * This class is the glue that binds the controls on the physical operator interface to the commands
+ * and command groups that allow control of the robot.
  */
 
 public class OI {
@@ -31,52 +31,52 @@ public class OI {
         operatorController = new SnailController(RobotMap.CONTROLLER_OPERATOR_PORT);
 
         switch (controlScheme) {
-        case ORIGINAL:
-            // Drive
-            driveController.yButton.whenPressed(new ReverseDriveCommand());
-            driveController.xButton.whenPressed(new TurnLeftCommand());
-            driveController.bButton.whenPressed(new TurnRightCommand());
+            case ORIGINAL:
+                // Drive
+                driveController.yButton.whenPressed(new ReverseDriveCommand());
+                driveController.xButton.whenPressed(new TurnLeftCommand());
+                driveController.bButton.whenPressed(new TurnRightCommand());
 
-            // Cargo Intake
-            operatorController.aButton.whileHeld(new EjectCargoCommand());
-            operatorController.bButton.whileHeld(new IntakeCargoCommand());
+                // Cargo Intake
+                operatorController.aButton.whileHeld(new EjectCargoCommand());
+                operatorController.bButton.whileHeld(new IntakeCargoCommand());
 
-            // Climb
-            operatorController.startButton.whenPressed(new AdvanceClimbCommand());
-            operatorController.selectButton.whenPressed(new BackClimbCommand());
-            driveController.startButton.whenPressed(new ResetClimbCommand());
-            driveController.selectButton.whenPressed(new AdvanceSecondaryClimbCommand());
+                // Climb
+                operatorController.startButton.whenPressed(new AdvanceClimbCommand());
+                operatorController.selectButton.whenPressed(new BackClimbCommand());
+                driveController.startButton.whenPressed(new ResetClimbCommand());
+                driveController.selectButton.whenPressed(new AdvanceSecondaryClimbCommand());
 
-            // Cargo Arm
-            operatorController.leftBumper.whenPressed(new MoveCargoCommand());
-            operatorController.rightBumper.whenPressed(new MoveRocketCommand());
-            operatorController.rightStickButton.whenPressed(new FreezeArmCommand());
+                // Cargo Arm
+                operatorController.leftBumper.whenPressed(new MoveCargoCommand());
+                operatorController.rightBumper.whenPressed(new MoveRocketCommand());
+                operatorController.rightStickButton.whenPressed(new FreezeArmCommand());
 
-            // Hatch Intake
-            operatorController.xButton.whileHeld(new EjectHatchCommand());
-            operatorController.yButton.whileHeld(new IntakeHatchCommand());
-            break;
-        case MODIFIED:
-            // Drive
-            driveController.yButton.whenPressed(new ReverseDriveCommand());
-            driveController.xButton.whenPressed(new TurnLeftCommand());
-            driveController.bButton.whenPressed(new TurnRightCommand());
+                // Hatch Intake
+                operatorController.xButton.whileHeld(new EjectHatchCommand());
+                operatorController.yButton.whileHeld(new IntakeHatchCommand());
+                break;
+            case MODIFIED:
+                // Drive
+                driveController.yButton.whenPressed(new ReverseDriveCommand());
+                driveController.xButton.whenPressed(new TurnLeftCommand());
+                driveController.bButton.whenPressed(new TurnRightCommand());
 
-            // Cargo Intake
-            operatorController.rightTrigger.whileActive(new EjectCargoCommand());
-            operatorController.leftTrigger.whileActive(new IntakeCargoCommand());
+                // Cargo Intake
+                operatorController.rightTrigger.whileActive(new EjectCargoCommand());
+                operatorController.leftTrigger.whileActive(new IntakeCargoCommand());
 
-            // Climb
-            operatorController.startButton.whenPressed(new AdvanceClimbCommand());
-            operatorController.selectButton.whenPressed(new BackClimbCommand());
-            driveController.startButton.whenPressed(new ResetClimbCommand());
-            driveController.selectButton.whenPressed(new AdvanceSecondaryClimbCommand());
+                // Climb
+                operatorController.startButton.whenPressed(new AdvanceClimbCommand());
+                operatorController.selectButton.whenPressed(new BackClimbCommand());
+                driveController.startButton.whenPressed(new ResetClimbCommand());
+                driveController.selectButton.whenPressed(new AdvanceSecondaryClimbCommand());
 
-            // Cargo Arm
-            operatorController.aButton.whenPressed(new MoveCargoCommand());
-            operatorController.bButton.whenPressed(new MoveRocketCommand());
-            operatorController.leftStickButton.whenPressed(new FreezeArmCommand());
-            break;
+                // Cargo Arm
+                operatorController.aButton.whenPressed(new MoveCargoCommand());
+                operatorController.bButton.whenPressed(new MoveRocketCommand());
+                operatorController.leftStickButton.whenPressed(new FreezeArmCommand());
+                break;
         }
     }
 
@@ -97,23 +97,23 @@ public class OI {
     // Cargo Arm
     public double getCargoArmSpeed() {
         switch (controlScheme) {
-        case ORIGINAL:
-            return squareInput(-operatorController.getRightStickY());
-        case MODIFIED:
-            return squareInput(operatorController.getLeftStickY());
-        default:
-            return 0;
+            case ORIGINAL:
+                return squareInput(-operatorController.getRightStickY());
+            case MODIFIED:
+                return squareInput(operatorController.getLeftStickY());
+            default:
+                return 0;
         }
     }
 
     public double getHatchIntakeSpeed() {
         switch (controlScheme) {
-        case ORIGINAL:
-            return 0;
-        case MODIFIED:
-            return squareInput(operatorController.getRightStickY());
-        default:
-            return 0;
+            case ORIGINAL:
+                return 0;
+            case MODIFIED:
+                return squareInput(operatorController.getRightStickY());
+            default:
+                return 0;
         }
     }
 

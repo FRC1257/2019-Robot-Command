@@ -5,8 +5,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 
 /**
- * Xbox controller for command based programming Credit to FRC Team 319 for the
- * original code
+ * Xbox controller for command based programming Credit to FRC Team 319 for the original code
  */
 
 public class SnailController extends Joystick {
@@ -57,11 +56,11 @@ public class SnailController extends Joystick {
     /*
      * Controls: If they press A, use single stick arcade with the left joystick
      *
-     * If they press the left bumper, use the left joystick for forward and backward
-     * motion and the right joystick for turning
+     * If they press the left bumper, use the left joystick for forward and backward motion and the
+     * right joystick for turning
      *
-     * If they press the right bumper, use the right joystick for forward and
-     * backward motion and the left joystick for turning
+     * If they press the right bumper, use the right joystick for forward and backward motion and
+     * the left joystick for turning
      */
 
     public double getForwardSpeed() {
@@ -87,8 +86,8 @@ public class SnailController extends Joystick {
     }
 
     /**
-     * Deadbands a number and returns the result If |number| < deadband, then the
-     * function will return 0 Otherwise, it will return the number
+     * Deadbands a number and returns the result If |number| < deadband, then the function will
+     * return 0 Otherwise, it will return the number
      *
      * @param number the number to deadband
      *
@@ -114,8 +113,7 @@ public class SnailController extends Joystick {
     }
 
     /**
-     * Xbox controller utility class for calling commands upon the trigger being
-     * pressed
+     * Xbox controller utility class for calling commands upon the trigger being pressed
      */
 
     public class SnailControllerTrigger extends Trigger {

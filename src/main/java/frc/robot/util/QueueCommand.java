@@ -2,7 +2,6 @@ package frc.robot.util;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Vector;
@@ -47,7 +46,8 @@ public class QueueCommand extends Command {
         } catch (Exception e) {
             e.printStackTrace();
 
-            throw new RuntimeException("Cannot retrieve " + command.getClass().getName() + "'s dependencies.");
+            throw new RuntimeException(
+                    "Cannot retrieve " + command.getClass().getName() + "'s dependencies.");
         }
     }
 
@@ -67,7 +67,8 @@ public class QueueCommand extends Command {
             } catch (Exception e) {
                 e.printStackTrace();
 
-                throw new RuntimeException("Cannot clear " + this.command.getClass().getName() + "'s requirements.");
+                throw new RuntimeException(
+                        "Cannot clear " + this.command.getClass().getName() + "'s requirements.");
             }
 
             this.command.start();

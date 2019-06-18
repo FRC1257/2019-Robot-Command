@@ -8,8 +8,7 @@ import frc.robot.subsystems.HatchIntake;
 /**
  * Constantly intake hatch panel in order to retain it
  * 
- * In the alternate control scheme, this will use a joystick to control the
- * intake
+ * In the alternate control scheme, this will use a joystick to control the intake
  *
  * Default command of HatchIntake subsystem
  */
@@ -29,18 +28,18 @@ public class NeutralHatchCommand extends Command {
     @Override
     public void execute() {
         switch (oi.controlScheme) {
-        case ORIGINAL:
-            hatchIntake.neutral();
-            break;
-        case MODIFIED:
-            if (oi.getHatchIntakeSpeed() < -0.2) {
-                hatchIntake.intake();
-            } else if (oi.getHatchIntakeSpeed() > 0.2) {
-                hatchIntake.eject();
-            } else {
+            case ORIGINAL:
                 hatchIntake.neutral();
-            }
-            break;
+                break;
+            case MODIFIED:
+                if (oi.getHatchIntakeSpeed() < -0.2) {
+                    hatchIntake.intake();
+                } else if (oi.getHatchIntakeSpeed() > 0.2) {
+                    hatchIntake.eject();
+                } else {
+                    hatchIntake.neutral();
+                }
+                break;
         }
     }
 

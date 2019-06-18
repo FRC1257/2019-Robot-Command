@@ -3,20 +3,22 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import frc.robot.RobotMap;
 import frc.robot.commands.drivetrain.*;
 import frc.robot.util.Gyro;
 import frc.robot.util.SynchronousPIDF;
 
 /**
- * Subsystem to handle the drivetrain - Utilizes 4 NEO motors, 2 for each side -
- * Uses a gyro to perform precise turns using PIDF control - Implements the
- * ability to reverse the direction of the drive
+ * Subsystem to handle the drivetrain
+ * 
+ * - Utilizes 4 NEO motors, 2 for each side
+ * 
+ * - Uses a gyro to perform precise turns using PIDF control
+ * 
+ * - Implements the ability to reverse the direction of the drive
  */
 
 public class Drivetrain extends Subsystem {
@@ -25,7 +27,7 @@ public class Drivetrain extends Subsystem {
     public static final double DRIVE_FORWARD_MAX_SPEED = 1.0; // percentage
     public static final double DRIVE_TURN_MAX_SPEED = 0.8; // percentage
 
-    public static double[] DRIVE_TURN_PIDF = { 0.01, 0.0, 0.0, 0.0 };
+    public static double[] DRIVE_TURN_PIDF = {0.01, 0.0, 0.0, 0.0};
     public static double DRIVE_TURN_PID_TOLERANCE = 3.0; // degrees
     public static double DRIVE_TURN_PID_WAIT = 2.0; // seconds
     public static double DRIVE_TURN_PID_MAX_OUTPUT = 0.8; // percentage
@@ -44,7 +46,9 @@ public class Drivetrain extends Subsystem {
     private boolean reversed;
 
     /**
-     * DRIVE - normal driver control PID_TURN - turning to a specific angle
+     * DRIVE - normal driver control
+     * 
+     * PID_TURN - turning to a specific angle
      */
     public enum State {
         DRIVER, PID_TURN
@@ -77,8 +81,8 @@ public class Drivetrain extends Subsystem {
         brDrive.follow(frDrive);
 
         drivetrain = new DifferentialDrive(flDrive, frDrive);
-        pidController = new SynchronousPIDF(DRIVE_TURN_PIDF[0], DRIVE_TURN_PIDF[1], DRIVE_TURN_PIDF[2],
-                DRIVE_TURN_PIDF[3]);
+        pidController = new SynchronousPIDF(DRIVE_TURN_PIDF[0], DRIVE_TURN_PIDF[1],
+                DRIVE_TURN_PIDF[2], DRIVE_TURN_PIDF[3]);
         pidController.setOutputRange(DRIVE_TURN_PID_MIN_OUTPUT, DRIVE_TURN_PID_MAX_OUTPUT);
 
         driveSpeed = 0;
@@ -109,17 +113,19 @@ public class Drivetrain extends Subsystem {
      */
     public void update(double deltaT) {
         switch (state) {
-        case DRIVER:
-            drivetrain.arcadeDrive(driveSpeed, turnSpeed);
-            break;
-        case PID_TURN:
-            drivetrain.arcadeDrive(0, pidController.calculate(Gyro.getInstance().getRobotAngle(), deltaT));
+            case DRIVER:
+                drivetrain.arcadeDrive(driveSpeed, turnSpeed);
+                break;
+            case PID_TURN:
+                drivetrain.arcadeDrive(0,
+                        pidController.calculate(Gyro.getInstance().getRobotAngle(), deltaT));
 
-            double error = Math.abs(Gyro.getInstance().getRobotAngle() - pidController.getSetpoint());
-            if (error < DRIVE_TURN_PID_TOLERANCE) {
-                state = State.DRIVER;
-            }
-            break;
+                double error =
+                        Math.abs(Gyro.getInstance().getRobotAngle() - pidController.getSetpoint());
+                if (error < DRIVE_TURN_PID_TOLERANCE) {
+                    state = State.DRIVER;
+                }
+                break;
         }
 
         driveSpeed = 0;
@@ -200,7 +206,8 @@ public class Drivetrain extends Subsystem {
         DRIVE_TURN_PIDF[2] = SmartDashboard.getNumber("Drive Turn D", DRIVE_TURN_PIDF[2]);
         DRIVE_TURN_PIDF[3] = SmartDashboard.getNumber("Drive Turn F", DRIVE_TURN_PIDF[3]);
 
-        pidController.setPID(DRIVE_TURN_PIDF[0], DRIVE_TURN_PIDF[1], DRIVE_TURN_PIDF[2], DRIVE_TURN_PIDF[3]);
+        pidController.setPID(DRIVE_TURN_PIDF[0], DRIVE_TURN_PIDF[1], DRIVE_TURN_PIDF[2],
+                DRIVE_TURN_PIDF[3]);
     }
 
     public State getState() {
