@@ -131,9 +131,9 @@ public class SnailController extends Joystick {
         @Override
         public boolean get() {
             if (right) {
-                return snailController.getRightTrigger() > 0.5;
+                return snailController.getRightTrigger() > 0.0;
             } else {
-                return snailController.getLeftTrigger() > 0.5;
+                return snailController.getLeftTrigger() > 0.0;
             }
         }
     }
