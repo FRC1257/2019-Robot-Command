@@ -154,7 +154,7 @@
               "Crosshair/Crosshair color": "#FFFFFFFF",
               "Controls/Show controls": true,
               "Controls/Rotation": "NONE",
-              "compression": 55.0,
+              "compression": 70.0,
               "fps": 20,
               "imageWidth": 200,
               "imageHeight": 200
@@ -173,10 +173,10 @@
               "Crosshair/Crosshair color": "#FFFFFFFF",
               "Controls/Show controls": true,
               "Controls/Rotation": "NONE",
-              "compression": -1.0,
-              "fps": -1,
-              "imageWidth": 0,
-              "imageHeight": 0
+              "compression": 56.0,
+              "fps": -20,
+              "imageWidth": 200,
+              "imageHeight": 200
             }
           },
           "7,0": {
@@ -236,7 +236,8 @@
               "_type": "Graph",
               "_source0": "network_table:///SmartDashboard/Drive BL Current",
               "_title": "SmartDashboard/Drive BL Current",
-              "Graph/Visible time": 30.0
+              "Graph/Visible time": 30.0,
+              "Visible data/SmartDashboard/Drive BL Current": true
             }
           },
           "3,2": {
@@ -248,7 +249,8 @@
               "_type": "Graph",
               "_source0": "network_table:///SmartDashboard/Drive BR Current",
               "_title": "SmartDashboard/Drive BR Current",
-              "Graph/Visible time": 30.0
+              "Graph/Visible time": 30.0,
+              "Visible data/SmartDashboard/Drive BR Current": true
             }
           },
           "5,0": {
@@ -260,7 +262,8 @@
               "_type": "Graph",
               "_source0": "network_table:///SmartDashboard/Drive FL Current",
               "_title": "SmartDashboard/Drive FL Current",
-              "Graph/Visible time": 30.0
+              "Graph/Visible time": 30.0,
+              "Visible data/SmartDashboard/Drive FL Current": true
             }
           },
           "5,2": {
@@ -272,7 +275,111 @@
               "_type": "Graph",
               "_source0": "network_table:///SmartDashboard/Drive FR Current",
               "_title": "SmartDashboard/Drive FR Current",
-              "Graph/Visible time": 30.0
+              "Graph/Visible time": 30.0,
+              "Visible data/SmartDashboard/Drive FR Current": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Cargo Arm PID",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "3,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Cargo Arm PID Setpoint",
+              "_title": "/SmartDashboard/Cargo Arm PID Setpoint"
+            }
+          },
+          "3,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Cargo Arm Limit Switch",
+              "_title": "/SmartDashboard/Cargo Arm Limit Switch",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "4,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Cargo Arm P",
+              "_title": "/SmartDashboard/Cargo Arm P"
+            }
+          },
+          "3,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Cargo Arm Position",
+              "_title": "/SmartDashboard/Cargo Arm Position"
+            }
+          },
+          "5,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Cargo Arm I",
+              "_title": "/SmartDashboard/Cargo Arm I"
+            }
+          },
+          "6,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Cargo Arm D",
+              "_title": "/SmartDashboard/Cargo Arm D"
+            }
+          },
+          "4,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Cargo Arm Current",
+              "_title": "/SmartDashboard/Cargo Arm Current"
+            }
+          },
+          "4,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Cargo Arm State",
+              "_title": "/SmartDashboard/Cargo Arm State"
             }
           }
         }
@@ -280,9 +387,9 @@
     }
   ],
   "windowGeometry": {
-    "x": 0.0,
-    "y": 23.0,
-    "width": 1366.0,
-    "height": 745.0
+    "x": -7.333333492279053,
+    "y": -7.333333492279053,
+    "width": 1294.6666259765625,
+    "height": 694.6666870117188
   }
 }

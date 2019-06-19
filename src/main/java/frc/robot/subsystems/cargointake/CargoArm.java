@@ -24,14 +24,14 @@ import frc.robot.commands.cargointake.cargoarm.*;
 public class CargoArm extends Subsystem {
 
     // Constants
-    public static final double CARGO_ARM_PID_ROCKET = 11.0; // Target pos for rocket
+    public static final double CARGO_ARM_PID_ROCKET = 14.0; // Target pos for rocket
                                                             // (revolutions)
-    public static final double CARGO_ARM_PID_CARGO = 18.5; // Target pos for cargo ship
+    public static final double CARGO_ARM_PID_CARGO = 24; // Target pos for cargo ship
                                                            // (revolutions)
-    public static final double CARGO_ARM_PID_RAISED = 28.0; // Initial pos of arm (revolutions)
+    public static final double CARGO_ARM_PID_RAISED = 36; // Initial pos of arm (revolutions)
     public static double CARGO_ARM_MAX_SPEED = 0.5;
 
-    public static final double[] CARGO_ARM_PIDF = {0.1, 0.0, 0.0, 0.0};
+    public static final double[] CARGO_ARM_PIDF = {0.2, 0.0, 0.01, 0.0};
     public static final double CARGO_ARM_ARB_F = 0.0;
     public static final double CARGO_ARM_ANGLE_CONV_FACTOR = 90.0 / CARGO_ARM_PID_RAISED;
     public static final double CARGO_ARM_PID_TOLERANCE = 1.0; // revolutions
@@ -91,8 +91,9 @@ public class CargoArm extends Subsystem {
     private void reset() {
         cargoArmMotor.set(0);
 
-        currentPIDSetpoint = -1257;
-        resetEncoderTop();
+        currentPIDSetpoint = 0;
+        if (getLimitSwitch()) resetEncoder();
+        else resetEncoderTop();
 
         state = State.MANUAL;
     }
@@ -104,23 +105,23 @@ public class CargoArm extends Subsystem {
         switch (state) {
             case MANUAL:
                 cargoArmMotor.set(speed);
-                currentPIDSetpoint = -1257;
+                currentPIDSetpoint = 0;
                 break;
             case PID:
-                if (currentPIDSetpoint == -1257) {
+                if (currentPIDSetpoint == 0) {
                     state = State.MANUAL;
                 } else {
                     cargoArmPID.setReference(currentPIDSetpoint, ControlType.kPosition, 0,
                             CARGO_ARM_ARB_F * Math.cos(getArmAngle()));
 
                     double error = Math.abs(getEncoderPosition() - currentPIDSetpoint);
-                    if (error < CARGO_ARM_PID_TOLERANCE) {
-                        state = State.MANUAL;
-                    }
+                    // if (error < CARGO_ARM_PID_TOLERANCE) {
+                    //     state = State.MANUAL;
+                    // }
                 }
                 break;
             case FROZEN:
-                if (currentPIDSetpoint == -1257) {
+                if (currentPIDSetpoint == 0) {
                     state = State.MANUAL;
                 } else {
                     cargoArmPID.setReference(currentPIDSetpoint, ControlType.kPosition, 0,
@@ -131,7 +132,7 @@ public class CargoArm extends Subsystem {
 
         speed = 0;
 
-        if (getLimitSwitchPressed()) {
+        if (getLimitSwitchPressed() && state != State.PID) {
             resetEncoder();
         }
         lastLimit = getLimitSwitch();
