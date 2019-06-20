@@ -119,12 +119,6 @@ public class Drivetrain extends Subsystem {
             case PID_TURN:
                 drivetrain.arcadeDrive(0,
                         pidController.calculate(Gyro.getInstance().getRobotAngle(), deltaT));
-
-                double error =
-                        Math.abs(Gyro.getInstance().getRobotAngle() - pidController.getSetpoint());
-                if (error < DRIVE_TURN_PID_TOLERANCE) {
-                    state = State.DRIVER;
-                }
                 break;
         }
 

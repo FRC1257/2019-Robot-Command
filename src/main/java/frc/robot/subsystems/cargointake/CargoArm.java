@@ -9,8 +9,11 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.cargointake.cargoarm.*;
+import frc.robot.subsystems.Climb;
 
 /**
  * Subsystem to handle the arm controlling the cargo intake
@@ -27,11 +30,11 @@ public class CargoArm extends Subsystem {
     public static final double CARGO_ARM_PID_ROCKET = 14.0; // Target pos for rocket
                                                             // (revolutions)
     public static final double CARGO_ARM_PID_CARGO = 24; // Target pos for cargo ship
-                                                           // (revolutions)
+                                                         // (revolutions)
     public static final double CARGO_ARM_PID_RAISED = 36; // Initial pos of arm (revolutions)
     public static double CARGO_ARM_MAX_SPEED = 0.5;
 
-    public static final double[] CARGO_ARM_PIDF = {0.2, 0.0, 0.01, 0.0};
+    public static final double[] CARGO_ARM_PIDF = { 0.2, 0.0, 0.01, 0.0 };
     public static final double CARGO_ARM_ARB_F = 0.0;
     public static final double CARGO_ARM_ANGLE_CONV_FACTOR = 90.0 / CARGO_ARM_PID_RAISED;
     public static final double CARGO_ARM_PID_TOLERANCE = 1.0; // revolutions
@@ -92,8 +95,10 @@ public class CargoArm extends Subsystem {
         cargoArmMotor.set(0);
 
         currentPIDSetpoint = 0;
-        if (getLimitSwitch()) resetEncoder();
-        else resetEncoderTop();
+        if (getLimitSwitch())
+            resetEncoder();
+        else
+            resetEncoderTop();
 
         state = State.MANUAL;
     }
@@ -103,31 +108,26 @@ public class CargoArm extends Subsystem {
      */
     public void update() {
         switch (state) {
-            case MANUAL:
-                cargoArmMotor.set(speed);
-                currentPIDSetpoint = 0;
-                break;
-            case PID:
-                if (currentPIDSetpoint == 0) {
-                    state = State.MANUAL;
-                } else {
-                    cargoArmPID.setReference(currentPIDSetpoint, ControlType.kPosition, 0,
-                            CARGO_ARM_ARB_F * Math.cos(getArmAngle()));
-
-                    double error = Math.abs(getEncoderPosition() - currentPIDSetpoint);
-                    // if (error < CARGO_ARM_PID_TOLERANCE) {
-                    //     state = State.MANUAL;
-                    // }
-                }
-                break;
-            case FROZEN:
-                if (currentPIDSetpoint == 0) {
-                    state = State.MANUAL;
-                } else {
-                    cargoArmPID.setReference(currentPIDSetpoint, ControlType.kPosition, 0,
-                            CARGO_ARM_ARB_F * Math.cos(getArmAngle()));
-                }
-                break;
+        case MANUAL:
+            cargoArmMotor.set(speed);
+            currentPIDSetpoint = 0;
+            break;
+        case PID:
+            if (currentPIDSetpoint == 0) {
+                state = State.MANUAL;
+            } else {
+                cargoArmPID.setReference(currentPIDSetpoint, ControlType.kPosition, 0,
+                        CARGO_ARM_ARB_F * Math.cos(getArmAngle()));
+            }
+            break;
+        case FROZEN:
+            if (currentPIDSetpoint == 0) {
+                state = State.MANUAL;
+            } else {
+                cargoArmPID.setReference(currentPIDSetpoint, ControlType.kPosition, 0,
+                        CARGO_ARM_ARB_F * Math.cos(getArmAngle()));
+            }
+            break;
         }
 
         speed = 0;
@@ -150,12 +150,16 @@ public class CargoArm extends Subsystem {
     }
 
     /**
-     * Drive the arm with a specific value Scales the given value with a max speed
+     * Drive the arm with a specific value
+     * 
+     * Scales the given value with a max speed unless climbing
      *
      * @param value speed of the arm
      */
     public void setSpeed(double value) {
-        speed = value * CARGO_ARM_MAX_SPEED;
+        if (Robot.climb.getState() == Climb.State.GROUND) {
+            speed = value * CARGO_ARM_MAX_SPEED;
+        }
 
         // Safety to prevent arm from ripping itself apart
         if (speed < 0 && getLimitSwitch()) {
