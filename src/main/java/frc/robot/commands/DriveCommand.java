@@ -1,6 +1,6 @@
-package frc.robot.commands.drivetrain;
+package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.OI;
 import frc.robot.subsystems.Drivetrain;
@@ -11,7 +11,7 @@ import frc.robot.subsystems.Drivetrain;
  * Default command of the Drivetrain subsystem
  */
 
-public class DriveCommand extends Command {
+public class DriveCommand extends CommandBase {
 
     private Drivetrain drivetrain;
     private OI oi;
@@ -20,7 +20,7 @@ public class DriveCommand extends Command {
         drivetrain = Robot.drivetrain;
         oi = OI.getInstance();
 
-        requires(drivetrain);
+        addRequirements(drivetrain);
     }
 
     @Override
@@ -34,12 +34,7 @@ public class DriveCommand extends Command {
     }
 
     @Override
-    public void end() {
-
-    }
-
-    @Override
-    public void interrupted() {
-        end();
+    public void end(boolean interrupted) {
+        
     }
 }

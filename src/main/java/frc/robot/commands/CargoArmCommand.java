@@ -1,6 +1,6 @@
-package frc.robot.commands.cargointake.cargoarm;
+package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.OI;
 import frc.robot.subsystems.cargointake.CargoArm;
@@ -11,7 +11,7 @@ import frc.robot.subsystems.cargointake.CargoArm;
  * Default command of the CargoArm subsystem
  */
 
-public class CargoArmCommand extends Command {
+public class CargoArmCommand extends CommandBase {
 
     private CargoArm cargoArm;
     private OI oi;
@@ -20,7 +20,7 @@ public class CargoArmCommand extends Command {
         cargoArm = Robot.cargoArm;
         oi = OI.getInstance();
 
-        requires(cargoArm);
+        addRequirements(cargoArm);
     }
 
     @Override
@@ -34,12 +34,7 @@ public class CargoArmCommand extends Command {
     }
 
     @Override
-    public void end() {
-
-    }
-
-    @Override
-    public void interrupted() {
-        end();
+    public void end(boolean interrupted) {
+        
     }
 }

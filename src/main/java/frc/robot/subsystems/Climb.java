@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -21,7 +21,7 @@ import frc.robot.util.Gyro;
  * 
  * - Uses the gyro to correct for robot tilt during the climb
  */
-public class Climb extends Subsystem {
+public class Climb extends SubsystemBase {
 
     // Constants
     public static double CLIMB_DRIVE_MAX_SPEED = 1.0; // percentage
@@ -73,11 +73,6 @@ public class Climb extends Subsystem {
 
         setConstantTuning();
         reset();
-    }
-
-    @Override
-    public void initDefaultCommand() {
-        // No default command
     }
 
     public void reset() {

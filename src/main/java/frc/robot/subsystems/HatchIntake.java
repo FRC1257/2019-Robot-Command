@@ -1,11 +1,12 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.RobotMap;
-import frc.robot.commands.hatchintake.*;
+import frc.robot.commands.NeutralHatchCommand;
 
 /**
  * Subsystem to handle intaking and ejecting hatch panels
@@ -13,7 +14,7 @@ import frc.robot.commands.hatchintake.*;
  * - Utilizes a single motor attached to a rolling intake
  */
 
-public class HatchIntake extends Subsystem {
+public class HatchIntake extends SubsystemBase  {
 
     // Constants
     public static double HATCH_INTAKE_EJECT_SPEED = 1.0; // percentage
@@ -41,10 +42,7 @@ public class HatchIntake extends Subsystem {
 
         setConstantTuning();
         reset();
-    }
 
-    @Override
-    public void initDefaultCommand() {
         setDefaultCommand(new NeutralHatchCommand());
     }
 

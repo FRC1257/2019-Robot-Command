@@ -1,6 +1,6 @@
-package frc.robot.commands.hatchintake;
+package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.HatchIntake;
@@ -13,7 +13,7 @@ import frc.robot.subsystems.HatchIntake;
  * Default command of HatchIntake subsystem
  */
 
-public class NeutralHatchCommand extends Command {
+public class NeutralHatchCommand extends CommandBase {
 
     private HatchIntake hatchIntake;
     private OI oi;
@@ -22,7 +22,7 @@ public class NeutralHatchCommand extends Command {
         hatchIntake = Robot.hatchIntake;
         oi = OI.getInstance();
 
-        requires(hatchIntake);
+        addRequirements(hatchIntake);
     }
 
     @Override
@@ -49,12 +49,7 @@ public class NeutralHatchCommand extends Command {
     }
 
     @Override
-    public void end() {
+    public void end(boolean interrupted) {
 
-    }
-
-    @Override
-    public void interrupted() {
-        end();
     }
 }

@@ -1,6 +1,6 @@
 package frc.robot.subsystems.cargointake;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.CANSparkMax;
@@ -12,7 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.commands.cargointake.cargoarm.*;
+import frc.robot.commands.CargoArmCommand;
 import frc.robot.subsystems.Climb;
 
 /**
@@ -24,7 +24,7 @@ import frc.robot.subsystems.Climb;
  * 
  * - Uses PID to move the arm to specific setpoints
  */
-public class CargoArm extends Subsystem {
+public class CargoArm extends SubsystemBase {
 
     // Constants
     public static final double CARGO_ARM_PID_ROCKET = 14.0; // Target pos for rocket
@@ -84,10 +84,7 @@ public class CargoArm extends Subsystem {
 
         setConstantTuning();
         reset();
-    }
 
-    @Override
-    public void initDefaultCommand() {
         setDefaultCommand(new CargoArmCommand());
     }
 

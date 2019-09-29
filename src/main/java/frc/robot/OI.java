@@ -1,11 +1,9 @@
 package frc.robot;
 
-import frc.robot.commands.drivetrain.*;
-import frc.robot.commands.cargointake.cargoarm.*;
-import frc.robot.commands.cargointake.cargoroller.*;
-import frc.robot.commands.climb.*;
-import frc.robot.commands.hatchintake.*;
 import frc.robot.util.SnailController;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+
 import static frc.robot.util.SnailController.*;
 
 /**
@@ -33,49 +31,50 @@ public class OI {
         switch (controlScheme) {
             case ORIGINAL:
                 // Drive
-                driveController.yButton.whenPressed(new ReverseDriveCommand());
-                driveController.xButton.whenPressed(new TurnLeftCommand());
-                driveController.bButton.whenPressed(new TurnRightCommand());
+                driveController.yButton.whenPressed(new InstantCommand(() -> Robot.drivetrain.toggleReverse(), Robot.drivetrain));
+                driveController.xButton.whenPressed(new InstantCommand(() -> Robot.drivetrain.turnLeft(), Robot.drivetrain));
+                driveController.bButton.whenPressed(new InstantCommand(() -> Robot.drivetrain.turnRight(), Robot.drivetrain));
 
-                // Cargo Intake
-                operatorController.aButton.whileHeld(new EjectCargoCommand());
-                operatorController.bButton.whileHeld(new IntakeCargoCommand());
+                // Cargo Roller
+                operatorController.aButton.whileHeld(new RunCommand(() -> Robot.cargoRoller.eject(), Robot.cargoRoller));
+                operatorController.bButton.whileHeld(new RunCommand(() -> Robot.cargoRoller.intake(), Robot.cargoRoller));
 
                 // Climb
-                operatorController.startButton.whenPressed(new AdvanceClimbCommand());
-                operatorController.selectButton.whenPressed(new BackClimbCommand());
-                driveController.startButton.whenPressed(new ResetClimbCommand());
-                driveController.selectButton.whenPressed(new AdvanceSecondaryClimbCommand());
+                operatorController.startButton.whenPressed(new InstantCommand(() -> Robot.climb.advanceClimb(), Robot.climb));
+                operatorController.selectButton.whenPressed(new InstantCommand(() -> Robot.climb.backClimb(), Robot.climb));
+                driveController.startButton.whenPressed(new InstantCommand(() -> Robot.climb.reset(), Robot.climb));
+                driveController.selectButton.whenPressed(new InstantCommand(() -> Robot.climb.advanceSecondaryClimb(), Robot.climb));
 
                 // Cargo Arm
-                operatorController.leftBumper.whenPressed(new MoveCargoCommand());
-                operatorController.rightBumper.whenPressed(new MoveRocketCommand());
-                operatorController.rightStickButton.whenPressed(new FreezeArmCommand());
+                operatorController.leftBumper.whenPressed(new InstantCommand(() -> Robot.cargoArm.moveCargo(), Robot.cargoArm));
+                operatorController.rightBumper.whenPressed(new InstantCommand(() -> Robot.cargoArm.moveRocket(), Robot.cargoArm));
+                operatorController.rightStickButton.whenPressed(new InstantCommand(() -> Robot.cargoArm.freeze(), Robot.cargoArm));
 
                 // Hatch Intake
-                operatorController.xButton.whileHeld(new EjectHatchCommand());
-                operatorController.yButton.whileHeld(new IntakeHatchCommand());
+                operatorController.xButton.whileHeld(new RunCommand(() -> Robot.hatchIntake.intake(), Robot.hatchIntake));
+                operatorController.yButton.whileHeld(new RunCommand(() -> Robot.hatchIntake.eject(), Robot.hatchIntake));
                 break;
+
             case MODIFIED:
                 // Drive
-                driveController.yButton.whenPressed(new ReverseDriveCommand());
-                driveController.xButton.whenPressed(new TurnLeftCommand());
-                driveController.bButton.whenPressed(new TurnRightCommand());
+                driveController.yButton.whenPressed(new InstantCommand(() -> Robot.drivetrain.toggleReverse(), Robot.drivetrain));
+                driveController.xButton.whenPressed(new InstantCommand(() -> Robot.drivetrain.turnLeft(), Robot.drivetrain));
+                driveController.bButton.whenPressed(new InstantCommand(() -> Robot.drivetrain.turnRight(), Robot.drivetrain));
 
-                // Cargo Intake
-                operatorController.rightTrigger.whileActive(new EjectCargoCommand());
-                operatorController.leftTrigger.whileActive(new IntakeCargoCommand());
+                // Cargo Roller
+                operatorController.rightTrigger.whileActiveContinuous(new RunCommand(() -> Robot.cargoRoller.eject(), Robot.cargoRoller));
+                operatorController.leftTrigger.whileActiveContinuous(new RunCommand(() -> Robot.cargoRoller.intake(), Robot.cargoRoller));
 
                 // Climb
-                operatorController.startButton.whenPressed(new AdvanceClimbCommand());
-                operatorController.selectButton.whenPressed(new BackClimbCommand());
-                driveController.startButton.whenPressed(new ResetClimbCommand());
-                driveController.selectButton.whenPressed(new AdvanceSecondaryClimbCommand());
+                operatorController.startButton.whenPressed(new InstantCommand(() -> Robot.climb.advanceClimb(), Robot.climb));
+                operatorController.selectButton.whenPressed(new InstantCommand(() -> Robot.climb.backClimb(), Robot.climb));
+                driveController.startButton.whenPressed(new InstantCommand(() -> Robot.climb.reset(), Robot.climb));
+                driveController.selectButton.whenPressed(new InstantCommand(() -> Robot.climb.advanceSecondaryClimb(), Robot.climb));
 
                 // Cargo Arm
-                operatorController.aButton.whenPressed(new MoveCargoCommand());
-                operatorController.bButton.whenPressed(new MoveRocketCommand());
-                operatorController.leftStickButton.whenPressed(new FreezeArmCommand());
+                operatorController.aButton.whenPressed(new InstantCommand(() -> Robot.cargoArm.moveCargo(), Robot.cargoArm));
+                operatorController.bButton.whenPressed(new InstantCommand(() -> Robot.cargoArm.moveRocket(), Robot.cargoArm));
+                operatorController.leftStickButton.whenPressed(new InstantCommand(() -> Robot.cargoArm.freeze(), Robot.cargoArm));
                 break;
         }
     }

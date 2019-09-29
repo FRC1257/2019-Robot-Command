@@ -1,11 +1,11 @@
 package frc.robot.subsystems.cargointake;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.RobotMap;
-import frc.robot.commands.cargointake.cargoroller.*;
 
 /**
  * Subsystem to handle intaking and ejecting cargo balls
@@ -13,7 +13,7 @@ import frc.robot.commands.cargointake.cargoroller.*;
  * - Utilizes a single motor attached to a rolling intake
  */
 
-public class CargoRoller extends Subsystem {
+public class CargoRoller extends SubsystemBase {
 
     // Constants
     public static double CARGO_ROLLER_EJECT_SPEED = -0.8; // percentage
@@ -41,11 +41,8 @@ public class CargoRoller extends Subsystem {
 
         setConstantTuning();
         reset();
-    }
 
-    @Override
-    public void initDefaultCommand() {
-        setDefaultCommand(new NeutralCargoCommand());
+        setDefaultCommand(new RunCommand(() -> neutral(), this));
     }
 
     private void reset() {

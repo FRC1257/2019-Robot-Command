@@ -1,13 +1,13 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.RobotMap;
-import frc.robot.commands.drivetrain.*;
+import frc.robot.commands.DriveCommand;
 import frc.robot.util.Gyro;
 import frc.robot.util.SynchronousPIDF;
 
@@ -21,7 +21,7 @@ import frc.robot.util.SynchronousPIDF;
  * - Implements the ability to reverse the direction of the drive
  */
 
-public class Drivetrain extends Subsystem {
+public class Drivetrain extends SubsystemBase {
 
     // Constants
     public static final double DRIVE_FORWARD_MAX_SPEED = 1.0; // percentage
@@ -91,10 +91,7 @@ public class Drivetrain extends Subsystem {
 
         setConstantTuning();
         reset();
-    }
 
-    @Override
-    public void initDefaultCommand() {
         setDefaultCommand(new DriveCommand());
     }
 
