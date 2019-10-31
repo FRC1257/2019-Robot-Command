@@ -14,7 +14,7 @@ import static frc.robot.util.SnailController.*;
  */
 
 public class OI {
-
+    
     private static OI instance = null;
 
     private SnailController driveController;
@@ -24,7 +24,7 @@ public class OI {
         ORIGINAL, MODIFIED
     }
 
-    public ControlScheme controlScheme = ControlScheme.MODIFIED;
+    public ControlScheme controlScheme = ControlScheme.ORIGINAL;
 
     private OI() {
         driveController = new SnailController(RobotMap.CONTROLLER_DRIVE_PORT);

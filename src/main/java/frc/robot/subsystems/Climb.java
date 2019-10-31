@@ -304,7 +304,7 @@ public class Climb extends Subsystem {
      * @param speed speed of the sub-drivetrain
      */
     private void climbDrive(double speed) {
-        double adjustedSpeed = speed * CLIMB_DRIVE_MAX_SPEED;
+        double adjustedSpeed = -speed * CLIMB_DRIVE_MAX_SPEED;
 
         // Do not drive the motors if the robot is in the grounded state
         if (adjustedSpeed == 0.0 || state != State.GROUND) {

@@ -157,9 +157,7 @@ public class CargoArm extends Subsystem {
      * @param value speed of the arm
      */
     public void setSpeed(double value) {
-        if (Robot.climb.getState() == Climb.State.GROUND) {
-            speed = value * CARGO_ARM_MAX_SPEED;
-        }
+        speed = value * CARGO_ARM_MAX_SPEED;
 
         // Safety to prevent arm from ripping itself apart
         if (speed < 0 && getLimitSwitch()) {
