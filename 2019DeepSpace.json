@@ -236,8 +236,7 @@
               "_type": "Graph",
               "_source0": "network_table:///SmartDashboard/Drive BL Current",
               "_title": "SmartDashboard/Drive BL Current",
-              "Graph/Visible time": 30.0,
-              "Visible data/SmartDashboard/Drive BL Current": true
+              "Graph/Visible time": 30.0
             }
           },
           "3,2": {
@@ -249,8 +248,7 @@
               "_type": "Graph",
               "_source0": "network_table:///SmartDashboard/Drive BR Current",
               "_title": "SmartDashboard/Drive BR Current",
-              "Graph/Visible time": 30.0,
-              "Visible data/SmartDashboard/Drive BR Current": true
+              "Graph/Visible time": 30.0
             }
           },
           "5,0": {
@@ -262,8 +260,7 @@
               "_type": "Graph",
               "_source0": "network_table:///SmartDashboard/Drive FL Current",
               "_title": "SmartDashboard/Drive FL Current",
-              "Graph/Visible time": 30.0,
-              "Visible data/SmartDashboard/Drive FL Current": true
+              "Graph/Visible time": 30.0
             }
           },
           "5,2": {
@@ -275,8 +272,7 @@
               "_type": "Graph",
               "_source0": "network_table:///SmartDashboard/Drive FR Current",
               "_title": "SmartDashboard/Drive FR Current",
-              "Graph/Visible time": 30.0,
-              "Visible data/SmartDashboard/Drive FR Current": true
+              "Graph/Visible time": 30.0
             }
           }
         }

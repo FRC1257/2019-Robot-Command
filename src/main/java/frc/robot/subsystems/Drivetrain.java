@@ -181,6 +181,10 @@ public class Drivetrain extends Subsystem {
         reversed = !reversed;
     }
 
+    public boolean isReversed() {
+        return reversed;
+    }
+
     /**
      * Set up SmartDashboard/Shuffleboard for constant tuning
      */

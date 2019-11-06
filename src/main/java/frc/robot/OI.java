@@ -24,7 +24,7 @@ public class OI {
         ORIGINAL, MODIFIED
     }
 
-    public ControlScheme controlScheme = ControlScheme.ORIGINAL;
+    public ControlScheme controlScheme = ControlScheme.MODIFIED;
 
     private OI() {
         driveController = new SnailController(RobotMap.CONTROLLER_DRIVE_PORT);

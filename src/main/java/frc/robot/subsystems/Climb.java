@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.OI;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.util.Gyro;
 
@@ -304,7 +305,10 @@ public class Climb extends Subsystem {
      * @param speed speed of the sub-drivetrain
      */
     private void climbDrive(double speed) {
-        double adjustedSpeed = -speed * CLIMB_DRIVE_MAX_SPEED;
+        double adjustedSpeed = speed * CLIMB_DRIVE_MAX_SPEED;
+        if(Robot.drivetrain.isReversed()) {
+            adjustedSpeed *= -1;
+        }
 
         // Do not drive the motors if the robot is in the grounded state
         if (adjustedSpeed == 0.0 || state != State.GROUND) {
